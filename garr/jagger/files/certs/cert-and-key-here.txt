@@ -1,0 +1,4 @@
+Insert here your
+ 
+- metadata-${hostname}-signer.crt 
+- metadata-${hostname}-signer.key

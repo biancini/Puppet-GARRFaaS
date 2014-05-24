@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::iptables</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::iptables</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/shib2idp/manifests/classes/iptables_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/iptables.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: <a href="iptables.html">shib2idp::iptables</a></h2>
+<p>
+This class permits to configure a software firewall on the Puppet agent
+machine using <a href="iptables.html">iptables</a>. This class ensures that
+the <a href="iptables.html">iptables</a> package is installed on the system
+and then configures some rules to filter traffic.
+</p>
+<p>
+The configuration pushed on each Puppet agent is a configuration which
+closes all ports except for ICMP traffic, port 80, 443, 8080 and 8443 (used
+by Tomcat and so the IdP to work properly) and port 22 for ssh. Port 22, in
+particular, can be configured to be open only on certain networks,
+specified with the $iptables_enable_network param to this class.
+</p>
+<p>
+Parameters:
+</p>
+<table>
+<tr><td valign="top"><tt>iptables_enable_network</tt>:</td><td>The network on which ssh should be accessible. If set to
+&#8216;192.168.0.0/24&#8217;, for example, the ssh port will be accessible
+only by hosts with IP ranging from 192.168.0.1 to 192.168.0.254. If not set
+(or set to &#8217;&#8217;) ssh port will be accessible by every network and
+every host.
+
+</td></tr>
+</table>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage: To use this class to force <a
+href="iptables.html">iptables</a> rules on a client machine, specify:
+</p>
+<pre>
+  include shib2idp
+
+  class { 'shib2idp::iptables':
+    iptables_enable_network =&gt; '192.168.56.0/24',
+  }
+</pre>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000072">Iptables[&quot;rule 0: iptables_icmp&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000073">Iptables[&quot;rule 1: iptables_established&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000074">Iptables[&quot;rule 2: iptables_lo&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000075">Iptables[&quot;rule 3: iptables_tomcat&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000076">Iptables[&quot;rule 5: iptables_reject_input&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000077">Iptables[&quot;rule 6: iptables_reject_forward&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000071">Package[&quot;iptables&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000072" class="method-detail">
+        <a name="R000072"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 0: iptables_icmp&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">proto => "icmp"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "ACCEPT"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000073" class="method-detail">
+        <a name="R000073"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 1: iptables_established&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">state => ["ESTABLISHED", "RELATED"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "ACCEPT"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000074" class="method-detail">
+        <a name="R000074"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 2: iptables_lo&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">iniface => "lo"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "ACCEPT"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000075" class="method-detail">
+        <a name="R000075"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 3: iptables_tomcat&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">proto => "tcp"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">dport => ["80", "443", "8080", "8443"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "ACCEPT"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000076" class="method-detail">
+        <a name="R000076"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 5: iptables_reject_input&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">chain => "INPUT"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "REJECT"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">reject => "icmp-host-prohibited"</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Reject all other traffic
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000077" class="method-detail">
+        <a name="R000077"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Iptables[&quot;rule 6: iptables_reject_forward&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">chain => "FORWARD"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">jump => "REJECT"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">reject => "icmp-host-prohibited"</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Reject all other traffic
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000071" class="method-detail">
+        <a name="R000071"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;iptables&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Verify <a href="iptables.html">iptables</a> packet is installed
+</p>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

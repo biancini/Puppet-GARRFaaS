@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::java::package</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::java::package</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/etc/puppet/modules/shib2idp/manifests/classes/java/package_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/java/package.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: <a href="package.html">shib2idp::java::package</a></h2>
+<p>
+This module donwloads and installs Oracla Java Virtual Machine fro APT.
+</p>
+<p>
+Parameters: There are no default parameters for this class.
+</p>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage: This class file is not called directly.
+</p>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000186">Exec[&quot;agree-to-jdk-license&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000187">Exec[&quot;agree-to-jre-license&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000184">Exec[&quot;apt-get-update&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000183">File[&quot;nonfree.list&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000190">File_line[&quot;java_environment_rule_1&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000191">File_line[&quot;java_environment_rule_2&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000185">Package[&quot;debconf-utils&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000188">Package[&quot;sun-java6-jdk&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000189">Package[&quot;sun-java6-jre&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000186" class="method-detail">
+        <a name="R000186"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;agree-to-jdk-license&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/bin/echo -e sun-java6-jdk shared/accepted-sun-dlj-v1-1 select true | debconf-set-selections"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">unless => "debconf-get-selections | grep 'sun-java6-jdk.*shared/accepted-sun-dlj-v1-1.*true'"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => ["/bin", "/usr/bin"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["debconf-utils"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000187" class="method-detail">
+        <a name="R000187"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;agree-to-jre-license&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/bin/echo -e sun-java6-jre shared/accepted-sun-dlj-v1-1 select true | debconf-set-selections"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">unless => "debconf-get-selections | grep 'sun-java6-jre.*shared/accepted-sun-dlj-v1-1.*true'"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => ["/bin", "/usr/bin"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["debconf-utils"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000184" class="method-detail">
+        <a name="R000184"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apt-get-update&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/usr/bin/apt-get update"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000183" class="method-detail">
+        <a name="R000183"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[&quot;nonfree.list&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/apt/sources.list.d/nonfree.list"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => file</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">content => deb http://ftp.pl.debian.org/debian/ $release non-free\ndeb-src http://ftp.pl.debian.org/debian/ $release non-free\n</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apt-get-update"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000190" class="method-detail">
+        <a name="R000190"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;java_environment_rule_1&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => "JAVA_HOME=/usr/lib/jvm/java-6-sun"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000191" class="method-detail">
+        <a name="R000191"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;java_environment_rule_2&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => "JAVA_OPTS=\"-Djava.awt.headless=true -Xmx512M -XX:MaxPermSize=128m\""</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000185" class="method-detail">
+        <a name="R000185"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;debconf-utils&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000188" class="method-detail">
+        <a name="R000188"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;sun-java6-jdk&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => latest</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [File["nonfree.list"], Exec["agree-to-jdk-license"], Exec["apt-get-update"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000189" class="method-detail">
+        <a name="R000189"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;sun-java6-jre&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => latest</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [File["nonfree.list"], Exec["agree-to-jre-license"], Exec["apt-get-update"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

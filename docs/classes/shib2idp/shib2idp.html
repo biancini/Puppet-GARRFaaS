@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::shib2idp</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::shib2idp</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/shib2idp/manifests/init_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/init.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: shib2idp::init</h2>
+<p>
+This module installs a Shibboleth 2 Identity Provider (IdP)
+</p>
+<p>
+Parameters: There are no default parameters for this class.
+</p>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage:
+</p>
+<p>
+In order for the <a href="shib2idp.html">shib2idp</a> module to work
+properly, you must ensure that the agent is configured with:
+</p>
+<ul>
+<li>pluginsync=true in /etc/puppet/puppet.conf
+
+</li>
+<li>FACTERLIB=/var/lib/puppet/lib/facter in /etc/default/puppet
+
+</li>
+</ul>
+<p>
+To install Shibboleth IdP on a node the following example configuration
+should be put into the site.pp file on the Puppet Master:
+</p>
+<pre>
+  include shib2idp
+
+  node agenthostname {
+    class { 'shib2idp::iptables':
+      iptables_enable_network =&gt; '192.168.56.0/24',
+    }
+
+    shib2idp::instance { '${hostname}-idp':
+      configure_admin =&gt; true,
+      tomcat_admin_password =&gt; 'adminpassword',
+      tomcat_manager_password =&gt; 'managerpassword',
+      shibbolethversion =&gt; '2.3.3',
+      install_uapprove =&gt; true,
+      idpfqdn =&gt; 'idp.example.org',
+      keystorepassword =&gt; 'puppetpassword',
+      mailto =&gt; 'support@garr.it',
+      install_ldap =&gt; true,
+      domain_name =&gt; 'example.com',
+      basedn =&gt; 'dc=example,dc=com',
+      rootdn =&gt; 'cn=admin',
+      rootpw =&gt; 'ldappassword',
+      ldap_host =&gt; undef,
+      ldap_use_ssl =&gt; undef,
+      ldap_use_tls =&gt; undef,
+    }
+  }
+</pre>
+<p>
+In each class of this Puppet module more information are provided for the
+configuration parameters and the module logic.
+</p>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

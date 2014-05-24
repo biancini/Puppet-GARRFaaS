@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: tomcat</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">tomcat</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/etc/puppet/modules/tomcat/manifests/definitions/instance_pp.html">
+                /etc/puppet/modules/tomcat/manifests/definitions/instance.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/definitions/concatfilepart_pp.html">
+                /etc/puppet/modules/tomcat/manifests/definitions/concatfilepart.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/definitions/targz_pp.html">
+                /etc/puppet/modules/tomcat/manifests/definitions/targz.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/definitions/ulimit_pp.html">
+                /etc/puppet/modules/tomcat/manifests/definitions/ulimit.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/classes/tomcat6_pp.html">
+                /etc/puppet/modules/tomcat/manifests/classes/tomcat6.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/classes/admin_pp.html">
+                /etc/puppet/modules/tomcat/manifests/classes/admin.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/tomcat/manifests/init_pp.html">
+                /etc/puppet/modules/tomcat/manifests/init.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+<!-- if childs -->
+
+    <div id="method-list">
+      <h3 class="section-bar">Defines</h3>
+
+      <div class="name-list">
+      <a href="#M000157">concatfilepart</a>&nbsp;&nbsp;
+      <a href="#M000156">instance</a>&nbsp;&nbsp;
+      <a href="#M000158">targz</a>&nbsp;&nbsp;
+      <a href="#M000159">ulimit</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="tomcat/admin.html" class="link">tomcat::admin</a><br />
+Class <a href="tomcat/tomcat.html" class="link">tomcat::tomcat</a><br />
+Class <a href="tomcat/tomcat6.html" class="link">tomcat::tomcat6</a><br />
+
+    </div>
+
+
+
+
+
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Defines</h3>
+
+      <div id="method-M000157" class="method-detail">
+        <a name="M000157"></a>
+
+        <div class="method-heading">
+          <span class="method-name">concatfilepart</span><span class="method-args">( $manage =&gt; 'false', $content =&gt; 'false', $file, $ensure =&gt; 'present', $source =&gt; 'false' )</span>
+        </div>
+
+        <div class="method-description">
+          <h2>Definition: tomcat::concatfilepart</h2>
+<p>
+Helper concatenate contento to a file. Inspired by David Schmitt&#8216;s
+concatenated_file.pp
+</p>
+<p>
+Parameters:
+</p>
+<ul>
+<li><tt>ensure</tt>:: parameter to be passed to the <tt>file</tt> resource
+
+</li>
+<li><tt>file</tt>:: filename for the file
+
+</li>
+<li><tt>content</tt>:: the contet to be added to the file
+
+</li>
+<li><tt>source</tt>:: the source to be used as a starting point for the file
+
+</li>
+<li><tt>manage</tt>:: tue or flase to specify parameters for the <tt>file</tt>
+resource
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000156" class="method-detail">
+        <a name="M000156"></a>
+
+        <div class="method-heading">
+          <span class="method-name">instance</span><span class="method-args">( $setenv =&gt; [], $group =&gt; 'adm', $sample =&gt; 'undef', $http_port =&gt; '8080', $ajp_port =&gt; '8009', $java_home =&gt; '', $ajp_address =&gt; 'false', $ensure =&gt; 'present', $http_address =&gt; 'false', $server_port =&gt; '8005', $conf_mode =&gt; '', $owner =&gt; 'tomcat' )</span>
+        </div>
+
+        <div class="method-description">
+          <h2>Definition: tomcat::instance</h2>
+<p>
+This definition will create:
+</p>
+<ul>
+<li>a CATALINA_BASE directory in /srv/tomcat/$name/, readable to <a
+href="tomcat.html">tomcat</a>, writeable to members of the <a
+href="tomcat/admin.html">admin</a> group.
+
+</li>
+<li>/srv/tomcat/$name/conf/{server,web}.xml which can be modified by members of
+the <a href="tomcat/admin.html">admin</a> group.
+
+</li>
+<li>a /srv/tomcat/$name/webapps/ directory where administrators can drop
+&quot;*.war&quot; files.
+
+</li>
+<li>an init script /etc/init.d/tomcat-$name.
+
+</li>
+<li>/srv/tomcat/$name/bin/setenv.sh, which is loaded by the init script.
+
+</li>
+<li>/srv/tomcat/$name/bin/setenv-local.sh, which is loaded by the setenv.sh,
+and can be edited by members of the <a href="tomcat/admin.html">admin</a>
+group.
+
+</li>
+<li>rotation of /srv/tomcat/$name/logs/catalina.out.
+
+</li>
+</ul>
+<p>
+Parameters:
+</p>
+<ul>
+<li><tt>name</tt>:: the name of the <a href="tomcat.html#M000156">instance</a>.
+
+</li>
+<li><tt>ensure</tt>:: defines if the state of the <a
+href="tomcat.html#M000156">instance</a>. Possible values:
+
+<ul>
+<li>present: <a href="tomcat.html">tomcat</a> <a
+href="tomcat.html#M000156">instance</a> will be running and enabled on
+boot. This is the default.
+
+</li>
+<li>running: an alias to &quot;ensure =&gt; present&quot;.
+
+</li>
+<li>stopped: <a href="tomcat.html">tomcat</a> <a
+href="tomcat.html#M000156">instance</a> will be forced to stop, and
+disabled from boot, but the files won&#8216;t be erased from the system.
+
+</li>
+<li>installed: <a href="tomcat.html">tomcat</a> <a
+href="tomcat.html#M000156">instance</a> will be disabled from boot, and
+puppet won&#8216;t care if it&#8216;s running or not. Useful if <a
+href="tomcat.html">tomcat</a> is managed by heartbeat.
+
+</li>
+<li>absent: <a href="tomcat.html">tomcat</a> <a
+href="tomcat.html#M000156">instance</a> will be stopped, disabled and
+completely removed from the system. Warning: /srv/tomcat/$name/ will be
+completely erased !
+
+</li>
+</ul>
+</li>
+<li><tt>owner</tt>:: the owner of $CATALINA_BASE/{conf,webapps}. Defaults to
+&quot;<a href="tomcat.html">tomcat</a>&quot;. Note that permissions will be
+different, as <a href="tomcat.html">tomcat</a> needs to read these
+directories in any case.
+
+</li>
+<li><tt>group</tt>:: the group which will be allowed to edit the <a
+href="tomcat.html#M000156">instance</a>&#8216;s configuration files and
+deploy webapps. Defaults to &quot;adm&quot;.
+
+</li>
+<li><tt>server_port</tt>:: <a href="tomcat.html">tomcat</a>&#8216;s server
+port, defaults to 8005.
+
+</li>
+<li><tt>http_port</tt>:: <a href="tomcat.html">tomcat</a>&#8216;s HTTP server
+port, defaults to 8080.
+
+</li>
+<li><tt>http_address</tt>:: define the IP address <a
+href="tomcat.html">tomcat</a>&#8216;s HTTP server must listen on. Defaults
+to all addresses.
+
+</li>
+<li><tt>ajp_port</tt>:: <a href="tomcat.html">tomcat</a>&#8216;s AJP port,
+defaults to 8009.
+
+</li>
+<li><tt>ajp_address</tt>:: define the IP address <a
+href="tomcat.html">tomcat</a>&#8216;s AJP server must listen on. Defaults
+to all addresses.
+
+</li>
+<li><tt>conf_mode</tt>:: can be used to change the permissions on
+/srv/tomcat/$name/conf/, because some webapps require the ability to write
+their own config files. Defaults to 2570 (writeable only by $group
+members).
+
+</li>
+<li><tt>java_home</tt>:: can be used to define an alternate $JAVA_HOME, if you
+want the <a href="tomcat.html#M000156">instance</a> to use another JVM.
+
+</li>
+<li><tt>sample</tt>:: set to &quot;true&quot; and a basic &quot;hello
+world&quot; webapp will be deployed on the <a
+href="tomcat.html#M000156">instance</a>. You can test it by loading this
+URL: <a href="http://localhost:8080/sample">localhost:8080/sample</a>
+(where 8080 is the port defined by the &quot;http_port&quot; parameter).
+
+</li>
+<li><tt>setenv</tt>:: optional array of environment variable definitions, which
+will be added to setenv.sh. It will still be possible to override these
+variables by editing setenv-local.sh.
+
+</li>
+</ul>
+<p>
+Requires:
+</p>
+<ul>
+<li>one of the <a href="tomcat.html">tomcat</a> classes which installs <a
+href="tomcat.html">tomcat</a> binaries.
+
+</li>
+<li>java to be previously installed.
+
+</li>
+<li>logrotate to be installed.
+
+</li>
+</ul>
+<p>
+Example usage:
+</p>
+<pre>
+  include tomcat::package::v6
+  include tomcat::administration
+
+  tomcat::instance { &quot;foo&quot;:
+    ensure =&gt; present,
+    group  =&gt; &quot;tomcat-admin&quot;,
+  }
+
+  tomcat::instance { &quot;bar&quot;:
+    ensure      =&gt; present,
+    server_port =&gt; 8006,
+    http_port   =&gt; 8081,
+    ajp_port    =&gt; 8010,
+    sample      =&gt; true,
+    setenv      =&gt; [
+      'JAVA_XMX=&quot;1200m&quot;',
+      'ADD_JAVA_OPTS=&quot;-Xms128m&quot;'
+    ],
+  }
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000158" class="method-detail">
+        <a name="M000158"></a>
+
+        <div class="method-heading">
+          <span class="method-name">targz</span><span class="method-args">( $target, $source )</span>
+        </div>
+
+        <div class="method-description">
+          <h2>Definition: tomcat::targz</h2>
+<p>
+Helper class that donwloads and extracts a tar.gz from the network.
+</p>
+<p>
+Parameters:
+</p>
+<ul>
+<li><tt>source</tt>: url of the tar.gz to be downloadaed.
+
+</li>
+<li><tt>target</tt>: target directory where to extract the downloaded tar.gz.
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000159" class="method-detail">
+        <a name="M000159"></a>
+
+        <div class="method-heading">
+          <span class="method-name">ulimit</span><span class="method-args">( $value )</span>
+        </div>
+
+        <div class="method-description">
+          <h2>Definition: tomcat::ulimit</h2>
+<p>
+Helper definition which helps allocate more/less resources to the <a
+href="tomcat.html">tomcat</a> user, using PAM. See limits.conf(5) and
+pam_limits(8) for more details.
+</p>
+<p>
+Parameters:
+</p>
+<ul>
+<li><tt>name</tt>: the name of the limit to change (<a
+href="tomcat.html#M000156">instance</a> name).
+
+</li>
+<li><tt>value</tt>: the value to set for this limit.
+
+</li>
+</ul>
+<p>
+Example usage:
+</p>
+<pre>
+  include tomcat::package::v6
+
+  tomcat::ulimit { &quot;nofile&quot;: value =&gt; 16384 }
+</pre>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <!-- if resource_list -->
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

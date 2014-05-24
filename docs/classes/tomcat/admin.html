@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: tomcat::admin</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">tomcat::admin</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/tomcat/manifests/classes/admin_pp.html">
+                /etc/puppet/modules/tomcat/manifests/classes/admin.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Definition: <a href="admin.html">tomcat::admin</a></h2>
+<p>
+Helper class to install Tomcat <a href="admin.html">admin</a> package.
+</p>
+<p>
+Parameters:
+</p>
+<table>
+<tr><td valign="top"><tt>tomcat_admin_password</tt>:</td><td>If the Tomcat administration interface is going to be installed this
+parameter permits to specify the password for the &#8216;<a
+href="admin.html">admin</a>&#8217; user used by <a
+href="../tomcat.html">tomcat</a> to access the administration interface.
+
+</td></tr>
+<tr><td valign="top"><tt>tomcat_manager_password</tt>:</td><td>If the Tomcat administration interface is going to be installed this
+parameter permits to specify the password for the &#8216;manager&#8217;
+user used by <a href="../tomcat.html">tomcat</a> to access the
+administration interface.
+
+</td></tr>
+</table>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000084">Augeas[&quot;tomcat_users_role_administrator&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000083">Augeas[&quot;tomcat_users_role_manager&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000085">Augeas[&quot;tomcat_users_user_admin&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000086">Augeas[&quot;tomcat_users_user_manager&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000082">Package[&quot;tomcat-admin&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000084" class="method-detail">
+        <a name="R000084"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Augeas[&quot;tomcat_users_role_administrator&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">context => "/files/etc/tomcat6/tomcat-users.xml"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">changes => ["set tomcat-users/role[last()+1] #empty", "set tomcat-users/role[last()]/#attribute/rolename administrator"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">onlyif => "get tomcat-users/role/#attribute/rolename[../rolename = 'administrator'] == ''"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["tomcat-admin"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000083" class="method-detail">
+        <a name="R000083"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Augeas[&quot;tomcat_users_role_manager&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">context => "/files/etc/tomcat6/tomcat-users.xml"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">changes => ["set tomcat-users/role[last()+1] #empty", "set tomcat-users/role[last()]/#attribute/rolename manager"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">onlyif => "get tomcat-users/role/#attribute/rolename[../rolename = 'manager'] == ''"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["tomcat-admin"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000085" class="method-detail">
+        <a name="R000085"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Augeas[&quot;tomcat_users_user_admin&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">context => "/files/etc/tomcat6/tomcat-users.xml"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">changes => ["set tomcat-users/user[last()+1] #empty", "set tomcat-users/user[last()]/#attribute/username Admin", set tomcat-users/user[last()]/#attribute/password $tomcat_admin_password, "set tomcat-users/user[last()]/#attribute/roles admin,manager"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">onlyif => "get tomcat-users/user/#attribute/username[../username = 'Admin'] == ''"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["tomcat-admin"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000086" class="method-detail">
+        <a name="R000086"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Augeas[&quot;tomcat_users_user_manager&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">context => "/files/etc/tomcat6/tomcat-users.xml"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">changes => ["set tomcat-users/user[last()+1] #empty", "set tomcat-users/user[last()]/#attribute/username Manager", set tomcat-users/user[last()]/#attribute/password $tomcat_manager_password, "set tomcat-users/user[last()]/#attribute/roles manager"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">onlyif => "get tomcat-users/user/#attribute/username[../username = 'Manager'] == ''"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["tomcat-admin"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000082" class="method-detail">
+        <a name="R000082"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;tomcat-admin&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">name => "tomcat6-admin"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Notify["tomcat_installed"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

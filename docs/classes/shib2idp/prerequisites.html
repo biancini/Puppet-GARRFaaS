@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::prerequisites</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::prerequisites</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/shib2idp/manifests/classes/prerequisites_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/prerequisites.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000127">Class[&quot;mysql::java&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000126">Class[&quot;mysql::server&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000128">Notify[&quot;idp_prerequisites_ok&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000125">Package[&quot;openssl&quot;, &quot;ntp&quot;, &quot;expat&quot;, &quot;ca-certificates&quot;, &quot;unzip&quot;, &quot;wget&quot;, &quot;expect&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Classes</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="augeas.html">shib2idp::augeas</a></span>
+        <span class="include-name"><a href="java/download.html">shib2idp::java::download</a></span>
+        <span class="include-name"><a href="../tomcat.html">tomcat</a></span>
+      </div>
+    </div>
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000127" class="method-detail">
+        <a name="R000127"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Class[&quot;mysql::java&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Class["mysql::server"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000126" class="method-detail">
+        <a name="R000126"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Class[&quot;mysql::server&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">config_hash => {"root_password" => $rootpw}</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000128" class="method-detail">
+        <a name="R000128"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Notify[&quot;idp_prerequisites_ok&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">message => "installed all required prerequisites"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [Notify["augeas_installed"], Notify["java_installed"], Package["openssl", "ntp", "expat", "ca-certificates", "unzip", "wget", "expect"], Notify["tomcat_installed"], Class["mysql::java"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000125" class="method-detail">
+        <a name="R000125"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;openssl&quot;, &quot;ntp&quot;, &quot;expat&quot;, &quot;ca-certificates&quot;, &quot;unzip&quot;, &quot;wget&quot;, &quot;expect&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Install requested packages
+</p>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

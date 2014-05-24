@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: mysql::server</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">mysql::server</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/mysql/manifests/server_pp.html">
+                /etc/puppet/modules/mysql/manifests/server.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="params.html">
+                mysql::params
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+<!-- if childs -->
+
+    <div id="method-list">
+      <h3 class="section-bar">Defines</h3>
+
+      <div class="name-list">
+      <a href="#M000002">config</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000070">Package[&quot;mysql-server&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="server/account_security.html" class="link">mysql::server::account_security</a><br />
+Class <a href="server/monitor.html" class="link">mysql::server::monitor</a><br />
+Class <a href="server/mysqltuner.html" class="link">mysql::server::mysqltuner</a><br />
+
+    </div>
+
+
+
+
+
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Defines</h3>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <span class="method-name">config</span><span class="method-args">( $notify_service =&gt; 'true', $settings )</span>
+        </div>
+
+        <div class="method-description">
+          <p>
+Creates a my.cnf like <a href="server.html#M000022">config</a> file in the
+conf.d/ directory.
+</p>
+<p>
+IMPORTANT: this should be used AFTER the inclusion of
+</p>
+<pre>
+           mysql::server because it needs some variables
+           out of the mysql::config class which will be
+           included!
+</pre>
+<h2>Parameters:</h2>
+<ul>
+<li>name: is the name of the file
+
+</li>
+<li>notify_service: whether to notify the <a href="../mysql.html">mysql</a>
+daemon or not (default: true)
+
+</li>
+<li>settings: either a string which should be the content of the file
+
+<pre>
+  or a hash with the following structure
+
+  section =&gt; {
+    &lt;key&gt; =&gt; &lt;value&gt;,
+    ...
+  },
+  ...
+</pre>
+<p>
+<tt>section</tt> means all these sections you can set in
+</p>
+<pre>
+          an configuration file like +mysqld+, +client+,
+          +mysqldump+ and so on
+</pre>
+<p>
+<tt>key</tt> has to be a valid property which you can set like
+</p>
+<pre>
+      +datadir+, +socket+ or even flags like +read-only+
+</pre>
+<p>
+<tt>value</tt> can be
+</p>
+<pre>
+  a) a string as the value
+  b) +true+ or +false+ to set a flag like 'read-only' or leave
+     it out (+false+ means, nothing will be done)
+  c) an array of values which can be of type a) and/or b)
+</pre>
+</li>
+</ul>
+<h2>Examples:</h2>
+<pre>
+  Easy one:
+
+  mysql::server::config { 'basic_config':
+    settings =&gt; &quot;[mysqld]\nskip-external-locking\n&quot;
+  }
+
+  This will create the file /etc/mysql/conf.d/basic_config.cnf with
+  the following content:
+
+  [mysqld]
+  skip-external-locking
+
+  More complex example:
+
+  mysql::server::config { 'basic_config':
+    settings =&gt; {
+      'mysqld' =&gt; {
+        'query_cache_limit'     =&gt; '5M',
+        'query_cache_size'      =&gt; '128M',
+        'port'                  =&gt; 3300,
+        'skip-external-locking' =&gt; true,
+        'replicate-ignore-db'   =&gt; [
+          'tmp_table',
+          'whateveryouwant'
+        ]
+      },
+
+      'client' =&gt; {
+        'port' =&gt; 3300
+      }
+    }
+  }
+
+  This will create the file /etc/mysql/conf.d/basic_config.cnf with
+  the following content:
+
+  [mysqld]
+  query_cache_limit = 5M
+  query_cache_size = 128M
+  port = 3300
+  skip-external-locking
+  replicate-ignore-db = tmp_table
+  replicate-ignore-db = whateveryouwant
+
+  [client]
+  port = 3300
+</pre>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000070" class="method-detail">
+        <a name="R000070"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;mysql-server&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => $package_ensure</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">name => $package_name</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

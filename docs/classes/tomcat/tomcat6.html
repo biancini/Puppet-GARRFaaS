@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: tomcat::tomcat6</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">tomcat::tomcat6</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/etc/puppet/modules/tomcat/manifests/classes/tomcat6_pp.html">
+                /etc/puppet/modules/tomcat/manifests/classes/tomcat6.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: <a href="tomcat6.html">tomcat::tomcat6</a></h2>
+<p>
+Base class from which others inherit. It shouldn&#8216;t be necessary to
+include it directly.
+</p>
+<p>
+Class variables:
+</p>
+<ul>
+<li>+$log4j_conffile+:: location of an alternate log4j.properties file. Default
+is puppet:///modules/tomcat/conf/log4j.rolling.properties
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000059">File[&quot;log4j.properties&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000060">File_line[&quot;tomcat6_environment_rule_1&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000061">File_line[&quot;tomcat6_environment_rule_2&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000062">File_line[&quot;tomcat6_environment_rule_3&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000063">File_line[&quot;tomcat6_environment_rule_4&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000064">Notify[&quot;tomcat_installed&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000056">Package[&quot;liblog4j1.2-java&quot;, &quot;libcommons-logging-java&quot;, &quot;libtomcat6-java&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000057">Package[&quot;tomcat6-common&quot;, &quot;tomcat6&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000058">Service[&quot;tomcat6&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000055">User[&quot;tomcat&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000059" class="method-detail">
+        <a name="R000059"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[&quot;log4j.properties&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => $catalina_home/conf/log4j.properties</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">source => $::log4j_conffile ? { default => $::log4j_conffile, "" => "puppet:///modules/tomcat/conf/log4j.rolling.properties" }</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["tomcat6"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000060" class="method-detail">
+        <a name="R000060"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;tomcat6_environment_rule_1&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => TOMCAT_HOME=$tomcat_home</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File["log4j.properties"]</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Verify that /etc/environment has the correct lines
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000061" class="method-detail">
+        <a name="R000061"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;tomcat6_environment_rule_2&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => CATALINA_OUT=$catalina_out</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File["log4j.properties"]</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Verify that /etc/environment has the correct lines
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000062" class="method-detail">
+        <a name="R000062"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;tomcat6_environment_rule_3&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => CATALINA_HOME=$catalina_home</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File["log4j.properties"]</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Verify that /etc/environment has the correct lines
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000063" class="method-detail">
+        <a name="R000063"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;tomcat6_environment_rule_4&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => "export TOMCAT_HOME CATALINA_OUT CATALINA_HOME"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [File_line["tomcat6_environment_rule_1"], File_line["tomcat6_environment_rule_2"], File_line["tomcat6_environment_rule_3"]]</span><br />
+        </div>
+
+        <div class="method-description">
+          <p>
+Verify that /etc/environment has the correct lines
+</p>
+        </div>
+      </div>
+
+      <div id="method-R000064" class="method-detail">
+        <a name="R000064"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Notify[&quot;tomcat_installed&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">message => "installed tomcat"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File_line["tomcat6_environment_rule_4"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000056" class="method-detail">
+        <a name="R000056"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;liblog4j1.2-java&quot;, &quot;libcommons-logging-java&quot;, &quot;libtomcat6-java&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000057" class="method-detail">
+        <a name="R000057"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;tomcat6-common&quot;, &quot;tomcat6&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["liblog4j1.2-java", "libcommons-logging-java", "libtomcat6-java"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000058" class="method-detail">
+        <a name="R000058"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Service[&quot;tomcat6&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => running</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">enable => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [Package["tomcat6"], Package["liblog4j1.2-java", "libcommons-logging-java"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000055" class="method-detail">
+        <a name="R000055"></a>
+
+        <div class="method-heading">
+          <span class="method-name">User[&quot;tomcat&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

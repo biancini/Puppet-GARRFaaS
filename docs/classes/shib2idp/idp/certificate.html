@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::idp::certificate</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::idp::certificate</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/etc/puppet/modules/shib2idp/manifests/classes/idp/certificate_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/certificate.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: <a href="certificate.html">shib2idp::idp::certificate</a></h2>
+<p>
+This class checks the server certificates for HTTPS and <a
+href="install.html">install</a> them on the Puppet agent machine. This
+class is also responsible to <a href="install.html">install</a> new
+certificates when they are available to substitute expired ones on the IdP
+machine.
+</p>
+<p>
+The files used as certificates for all the IdPs are in the files/certs
+directory in this module folders&#8217; tree. Each puppet agent has a
+couple of <a href="certificate.html">certificate</a> files available in
+that directory:
+</p>
+<ul>
+<li>{puppetagenthostname}-key-server.pem: the secret key of the client&#8216;s
+<a href="certificate.html">certificate</a>
+
+</li>
+<li>{puppetagenthostname}-cert-server.pem: the public key of the client&#8216;s
+<a href="certificate.html">certificate</a>
+
+</li>
+</ul>
+<p>
+This class also registers a set of actions to be executed every night.
+These instructions check the expiration date of the <a
+href="certificate.html">certificate</a> and if it is about to expire (less
+than 1 month from the current date) send an email to the address specified
+notifying the situation.
+</p>
+<p>
+Parameters:
+</p>
+<table>
+<tr><td valign="top"><tt>idpfqdn</tt>:</td><td>This parameters must contain the fully qualified domain name of the IdP.
+This name must be the exact name used by client users to access the machine
+over the Internet. This FQDN, in fact, will be used to determine the CN of
+the <a href="certificate.html">certificate</a> used for HTTPS. If the name
+is not identical with the server name specified by the client, the
+client&#8216;s browser will raise a <a href="security.html">security</a>
+exception.
+
+</td></tr>
+<tr><td valign="top"><tt>keystorepassword</tt>:</td><td>This parameter permits to specify the keystore password used to protect the
+keystore file on the IdP server.
+
+</td></tr>
+<tr><td valign="top"><tt>mailto</tt>:</td><td>The email address to be notified when the <a
+href="certificate.html">certificate</a> used for HTTPS is about to expire.
+If no email address is specified, no mail warning will be sent.
+
+</td></tr>
+</table>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage: This class file is not called directly.
+</p>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000153">Exec[&quot;apps_concatenate_cert&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000158">Exec[&quot;apps_deploymentfragment&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000155">Exec[&quot;apps_importcommand&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000156">Exec[&quot;apps_installkeystore&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000157">Exec[&quot;apps_rm_importcommand&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000154">Exec[&quot;apps_rm_terenacert&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000159">Exec[&quot;apps_tomcatrestart&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000152">Exec[&quot;apps_wget_cert&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000151">File[$cert_directory/cert-server.pem]</a>&nbsp;&nbsp;
+      <a href="#R000150">File[$cert_directory/key-server.pem]</a>&nbsp;&nbsp;
+      <a href="#R000149">File[$cert_directory]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000153" class="method-detail">
+        <a name="R000153"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_concatenate_cert&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => /bin/cat $cert_directory/cert-server.pem /tmp/Terena-chain.pem > $cert_directory/$idpfqdn.pem</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_rm_terenacert"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000158" class="method-detail">
+        <a name="R000158"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_deploymentfragment&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => /bin/echo '$deploymentfragment_file' > /etc/tomcat6/Catalina/localhost/idp.xml</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_tomcatrestart"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000155" class="method-detail">
+        <a name="R000155"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_importcommand&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => /bin/echo '$importkeystore_filecontent' > $cert_directory/import_keystore.sh</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_installkeystore"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000156" class="method-detail">
+        <a name="R000156"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_installkeystore&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => /bin/bash $cert_directory/import_keystore.sh</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">unless => /usr/bin/test -f $cert_directory/key-server.pem 2>/dev/null</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_rm_importcommand"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000157" class="method-detail">
+        <a name="R000157"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_rm_importcommand&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">cwd => $cert_directory</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => /bin/rm -f $cert_directory/import_keystore.sh</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_deploymentfragment"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000154" class="method-detail">
+        <a name="R000154"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_rm_terenacert&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">cwd => "/usr/local/src"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/bin/rm -f /tmp/Terena-chain.pem"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_importcommand"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000159" class="method-detail">
+        <a name="R000159"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_tomcatrestart&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/etc/init.d/tomcat6 restart"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">logoutput => "on_failure"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000152" class="method-detail">
+        <a name="R000152"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apps_wget_cert&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/usr/bin/wget https://ca.garr.it/mgt/Terena-chain.pem -O /tmp/Terena-chain.pem"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["wget"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_concatenate_cert"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000151" class="method-detail">
+        <a name="R000151"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[$cert_directory/cert-server.pem]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">mode => "0644"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">source => puppet:///modules/shib2idp/certs/$hostname-cert-server.pem</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File[$cert_directory]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apps_wget_cert"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000150" class="method-detail">
+        <a name="R000150"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[$cert_directory/key-server.pem]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">mode => "0644"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">source => puppet:///modules/shib2idp/certs/$hostname-key-server.pem</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File[$cert_directory]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000149" class="method-detail">
+        <a name="R000149"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[$cert_directory]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => directory</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">mode => "0600"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Notify["check_certs"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

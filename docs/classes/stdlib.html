@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: stdlib</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">stdlib</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/etc/puppet/modules/stdlib/lib/facter/util/puppet_settings_rb.html">
+                /etc/puppet/modules/stdlib/lib/facter/util/puppet_settings.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/facter/puppet_vardir_rb.html">
+                /etc/puppet/modules/stdlib/lib/facter/puppet_vardir.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/facter/pe_version_rb.html">
+                /etc/puppet/modules/stdlib/lib/facter/pe_version.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/facter/root_home_rb.html">
+                /etc/puppet/modules/stdlib/lib/facter/root_home.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/facter/facter_dot_d_rb.html">
+                /etc/puppet/modules/stdlib/lib/facter/facter_dot_d.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_array_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_array.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/defined_with_params_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/defined_with_params.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_string_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_string.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_interface_with_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_interface_with.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/size_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/size.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/merge_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/merge.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/type_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/type.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_mac_address_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_mac_address.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/parsejson_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/parsejson.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/str2bool_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/str2bool.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_slength_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_slength.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/min_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/min.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/strftime_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/strftime.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/fqdn_rotate_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/fqdn_rotate.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/swapcase_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/swapcase.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/prefix_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/prefix.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/shuffle_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/shuffle.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/flatten_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/flatten.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_array_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_array.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/empty_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/empty.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/zip_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/zip.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/lstrip_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/lstrip.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/grep_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/grep.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/hash_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/hash.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_integer_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_integer.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_hash_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_hash.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_numeric_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_numeric.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/num2bool_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/num2bool.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/loadyaml_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/loadyaml.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/abs_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/abs.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/keys_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/keys.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/sort_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/sort.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/capitalize_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/capitalize.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/getvar_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/getvar.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/ensure_resource_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/ensure_resource.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/get_module_path_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/get_module_path.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/to_bytes_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/to_bytes.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/member_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/member.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/chomp_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/chomp.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/bool2num_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/bool2num.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/values_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/values.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/uriescape_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/uriescape.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_key_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_key.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_string_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_string.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/delete_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/delete.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_ip_address_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_ip_address.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/ensure_packages_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/ensure_packages.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/range_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/range.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/downcase_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/downcase.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_hash_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_hash.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/reject_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/reject.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_domain_name_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_domain_name.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/pick_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/pick.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/delete_at_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/delete_at.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/parseyaml_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/parseyaml.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/join_keys_to_values_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/join_keys_to_values.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/time_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/time.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_ip_address_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_ip_address.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/max_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/max.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_re_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_re.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/reverse_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/reverse.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/values_at_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/values_at.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/rstrip_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/rstrip.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_bool_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_bool.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/chop_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/chop.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_float_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/is_float.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_ip_network_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/has_ip_network.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/unique_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/unique.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/join_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/join.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/strip_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/strip.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/squeeze_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/squeeze.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/upcase_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/upcase.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_absolute_path_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/validate_absolute_path.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/parser/functions/str2saltedsha512_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/parser/functions/str2saltedsha512.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/provider/file_line/ruby_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/provider/file_line/ruby.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/type/file_line_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/type/file_line.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/lib/puppet/type/anchor_rb.html">
+                /etc/puppet/modules/stdlib/lib/puppet/type/anchor.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/manifests/init_pp.html">
+                /etc/puppet/modules/stdlib/manifests/init.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/stdlib/manifests/stages_pp.html">
+                /etc/puppet/modules/stdlib/manifests/stages.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+<!-- if childs -->
+
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+    <div id="class-list">
+      <h3 class="section-bar">Custom Facts</h3>
+            <a href="../plugins/pe_version.html">pe_version</a>&nbsp;&nbsp;
+            <a href="../plugins/is_pe.html">is_pe</a>&nbsp;&nbsp;
+            <a href="../plugins/pe_major_version.html">pe_major_version</a>&nbsp;&nbsp;
+            <a href="../plugins/pe_minor_version.html">pe_minor_version</a>&nbsp;&nbsp;
+            <a href="../plugins/pe_patch_version.html">pe_patch_version</a>&nbsp;&nbsp;
+    </div>
+
+<!-- if plugins -->
+    <div id="class-list">
+      <h3 class="section-bar">Plugins</h3>
+<a href="../plugins/file_line.html">file_line</a>&nbsp;&nbsp;
+<a href="../plugins/anchor.html">anchor</a>&nbsp;&nbsp;
+    </div>
+
+<!-- if nodes -->
+
+<!-- if class -->
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="stdlib/stages.html" class="link">stdlib::stages</a><br />
+Class <a href="stdlib/stdlib.html" class="link">stdlib::stdlib</a><br />
+
+    </div>
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

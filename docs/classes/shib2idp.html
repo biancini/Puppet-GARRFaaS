@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: shib2idp</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">shib2idp</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/etc/puppet/modules/shib2idp/lib/facter/test_date_rb.html">
+                /etc/puppet/modules/shib2idp/lib/facter/test_date.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/lib/facter/shib2idp_javasecurity_rb.html">
+                /etc/puppet/modules/shib2idp/lib/facter/shib2idp_javasecurity.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/lib/facter/shib2idp_status_rb.html">
+                /etc/puppet/modules/shib2idp/lib/facter/shib2idp_status.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/lib/puppet/type/iptables_rb.html">
+                /etc/puppet/modules/shib2idp/lib/puppet/type/iptables.rb
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/definitions/instance_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/definitions/instance.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/accessories/filedit_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/accessories/filedit.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/security_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/security.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/certificate_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/certificate.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/idp_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/idp.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/configure_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/configure.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/install_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/install.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/finalize_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/finalize.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/idp/unpack_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/idp/unpack.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/prerequisites_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/prerequisites.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/java/download_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/java/download.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/java/package_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/java/package.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/iptables_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/iptables.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/classes/augeas_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/augeas.pp
+                </a>
+        <br />
+                <a href="../files/etc/puppet/modules/shib2idp/manifests/init_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/init.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+<!-- if childs -->
+
+    <div id="method-list">
+      <h3 class="section-bar">Defines</h3>
+
+      <div class="name-list">
+      <a href="#M000025">delete_lines</a>&nbsp;&nbsp;
+      <a href="#M000023">instance</a>&nbsp;&nbsp;
+      <a href="#M000024">replace_lines</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="shib2idp/augeas.html" class="link">shib2idp::augeas</a><br />
+Class <a href="shib2idp/idp.html" class="link">shib2idp::idp</a><br />
+Class <a href="shib2idp/iptables.html" class="link">shib2idp::iptables</a><br />
+Class <a href="shib2idp/java.html" class="link">shib2idp::java</a><br />
+Class <a href="shib2idp/prerequisites.html" class="link">shib2idp::prerequisites</a><br />
+Class <a href="shib2idp/shib2idp.html" class="link">shib2idp::shib2idp</a><br />
+
+    </div>
+
+
+
+
+
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Defines</h3>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <span class="method-name">delete_lines</span><span class="method-args">( $pattern, $file )</span>
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <span class="method-name">instance</span><span class="method-args">( $rootpw =&gt; 'undef', $tomcat_manager_password =&gt; 'undef', $install_ldap =&gt; 'undef', $configure_admin =&gt; 'undef', $rootdn =&gt; 'undef', $idpfqdn =&gt; 'undef', $ldap_use_tls =&gt; 'undef', $ldap_host =&gt; 'undef', $shibbolethversion =&gt; 'undef', $basedn =&gt; 'undef', $domain_name =&gt; 'undef', $install_uapprove =&gt; 'undef', $mailto =&gt; 'undef', $keystorepassword =&gt; 'undef', $ldap_use_ssl =&gt; 'undef', $tomcat_admin_password =&gt; 'undef' )</span>
+        </div>
+
+        <div class="method-description">
+          <h2>Define: shib2idp::instance</h2>
+<p>
+This define installs and configures the Shibboleth IdP on the Puppet agent
+machine. At first it installs the <a
+href="shib2idp/prerequisites.html">prerequisites</a> needed to the IdP to
+be installed. Then downloads and installs the IdP Package from Internet2
+Shibboleth repositories.
+</p>
+<p>
+Parameters:
+</p>
+<table>
+<tr><td valign="top"><tt>configure_admin</tt>:</td><td>This param permits to specify if the Tomcat administration interface has to
+be installed on the Tomcat <a href="shib2idp.html#M000023">instance</a> or
+not. If set to true the administration interface is installed and will be
+accessible on the port 8080 of the Puppet agent machine.
+
+</td></tr>
+<tr><td valign="top"><tt>tomcat_admin_password</tt>:</td><td>If the Tomcat administration interface is going to be installed this
+parameter permits to specify the password for the &#8216;admin&#8217; user
+used by <a href="tomcat.html">tomcat</a> to access the administration
+interface.
+
+</td></tr>
+<tr><td valign="top"><tt>tomcat_manager_password</tt>:</td><td>If the Tomcat administration interface is going to be installed this
+parameter permits to specify the password for the &#8216;manager&#8217;
+user used by <a href="tomcat.html">tomcat</a> to access the administration
+interface.
+
+</td></tr>
+<tr><td valign="top"><tt>shibbolethversion</tt>:</td><td>This parameter permits to specify the version of Shibboleth IdP to be
+downloaded from the Internet2 repositories. By default the 2.3.3 version
+will be downloaded.
+
+</td></tr>
+<tr><td valign="top"><tt>install_uapprove</tt>:</td><td>This parameter permits to specify if uApprove has to be installed on this
+IdP
+
+</td></tr>
+<tr><td valign="top"><tt>idpfqdn</tt>:</td><td>This parameters must contain the fully qualified domain name of the IdP.
+This name must be the exact name used by client users to access the machine
+over the Internet. This FQDN, in fact, will be used to determine the CN of
+the certificate used for HTTPS. If the name is not identical with the
+server name specified by the client, the client&#8216;s browser will raise
+a security exception.
+
+</td></tr>
+<tr><td valign="top"><tt>keystorepassword</tt>:</td><td>This parameter permits to specify the keystore password used to protect the
+keystore file on the IdP server.
+
+</td></tr>
+<tr><td valign="top"><tt>mailto</tt>:</td><td>The email address to be notified when the certificate used for HTTPS is
+about to expire. if no email address is specified, no mail warning will be
+sent.
+
+</td></tr>
+<tr><td valign="top"><tt>install_ldap</tt>:</td><td>This parameter permits to specify if an OpenLDAP server must be installed
+on the IdP machine or not.
+
+</td></tr>
+<tr><td valign="top"><tt>domain_name</tt>:</td><td>This parameter permits to specify the domain name for the LDAP user
+database.
+
+</td></tr>
+<tr><td valign="top"><tt>basedn</tt>:</td><td>This parameters must contain the base DN of the LDAP server.
+
+</td></tr>
+<tr><td valign="top"><tt>rootdn</tt>:</td><td>This parameters must contain the CN for the user with root access to the
+LDAP server.
+
+</td></tr>
+<tr><td valign="top"><tt>rootpw</tt>:</td><td>This parameters must contain the password of the user with root access to
+the LDAP server.
+
+</td></tr>
+<tr><td valign="top"><tt>ldap_host</tt>:</td><td>This parameter must contain the LDAP host the IdP will connect to (may be
+left undef if install_ldap is set to true).
+
+</td></tr>
+<tr><td valign="top"><tt>ldap_use_ssl</tt>:</td><td>This parameter must contain true of the LDAP connection must use SSL (may
+be left undef if install_ldap is set to true).
+
+</td></tr>
+<tr><td valign="top"><tt>ldap_use_tls</tt>:</td><td>This parameter must contain true of the LDAP connection must use TLS (may
+be left undef if install_ldap is set to true).
+
+</td></tr>
+</table>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage: To install Shibboleth IdP on a node the following example
+configuration should be put into the site.pp file on the Puppet Master:
+</p>
+<pre>
+  include shib2idp
+
+  node agenthostname {
+    class { 'shib2idp::iptables':
+      iptables_enable_network =&gt; '192.168.56.0/24',
+    }
+
+    shib2idp::instance { '${hostname}-idp':
+      configure_admin =&gt; true,
+      tomcat_admin_password =&gt; 'adminpassword',
+      tomcat_manager_password =&gt; 'managerpassword',
+      shibbolethversion =&gt; '2.3.3',
+      install_uapprove =&gt; true,
+      idpfqdn =&gt; 'idp.example.org',
+      keystorepassword =&gt; 'puppetpassword',
+      mailto =&gt; 'support@garr.it',
+      install_ldap =&gt; true,
+      domain_name =&gt; 'example.com',
+      basedn =&gt; 'dc=example,dc=com',
+      rootdn =&gt; 'cn=admin',
+      rootpw =&gt; 'ldappassword',
+      ldap_host =&gt; undef,
+      ldap_use_ssl =&gt; undef,
+      ldap_use_tls =&gt; undef,
+    }
+  }
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <span class="method-name">replace_lines</span><span class="method-args">( $replace, $pattern, $file )</span>
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <!-- if resource_list -->
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

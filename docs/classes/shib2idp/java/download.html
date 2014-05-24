@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: shib2idp::java::download</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">shib2idp::java::download</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/etc/puppet/modules/shib2idp/manifests/classes/java/download_pp.html">
+                /etc/puppet/modules/shib2idp/manifests/classes/java/download.pp
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Class: <a href="download.html">shib2idp::java::download</a></h2>
+<p>
+This module donwloads and installs Oracla Java Virtual Machine and SDK.
+</p>
+<p>
+Parameters: There are no default parameters for this class.
+</p>
+<p>
+Actions:
+</p>
+<p>
+Requires:
+</p>
+<p>
+Sample Usage: This class file is not called directly.
+</p>
+
+    </div>
+
+
+   </div>
+
+<!-- if childs -->
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Resources</h3>
+
+      <div class="name-list">
+      <a href="#R000104">Exec[&quot;agree-to-java-license&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000105">Exec[&quot;agree-to-jdk-license&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000102">Exec[&quot;apt-get-update&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000101">Exec[&quot;apt-key&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000100">File[&quot;/tmp/C2518248EEA14886.key&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000099">File[&quot;java.list&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000108">File_line[&quot;java_environment_rule_1&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000109">File_line[&quot;java_environment_rule_2&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000110">Notify[&quot;java_installed&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000103">Package[&quot;debconf-utils&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000106">Package[&quot;oracle-java7-installer&quot;]</a>&nbsp;&nbsp;
+      <a href="#R000107">Package[&quot;oracle-jdk7-installer&quot;]</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <!-- if requires -->
+
+    <!-- if realizes -->
+
+    <div id="section">
+
+<!-- if facts -->
+
+<!-- if plugins -->
+
+<!-- if nodes -->
+
+<!-- if class -->
+
+
+
+
+
+
+
+    <!-- if method_list -->
+
+
+    <!-- if resource_list -->
+    <div id="resources">
+    <h3 class="section-bar">Resources</h3>
+
+      <div id="method-R000104" class="method-detail">
+        <a name="R000104"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;agree-to-java-license&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/bin/echo -e 'oracle-java7-installer shared/accepted-oracle-license-v1-1 select true\noracle-java7-installer shared/accepted-oracle-license-v1-1 boolean true' | debconf-set-selections"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => ["/bin", "/usr/bin"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["debconf-utils"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000105" class="method-detail">
+        <a name="R000105"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;agree-to-jdk-license&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/bin/echo -e 'oracle-jdk7-installer shared/accepted-oracle-license-v1-1 select true\noracle-jdk7-installer shared/accepted-oracle-license-v1-1 boolean true' | debconf-set-selections"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => ["/bin", "/usr/bin"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Package["debconf-utils"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000102" class="method-detail">
+        <a name="R000102"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apt-get-update&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/usr/bin/apt-get update"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">refreshonly => true</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000101" class="method-detail">
+        <a name="R000101"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Exec[&quot;apt-key&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">command => "/usr/bin/apt-key add /tmp/C2518248EEA14886.key"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">unless => "/usr/bin/apt-key list | /bin/grep EEA14886"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File["/tmp/C2518248EEA14886.key"]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">notify => Exec["apt-get-update"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000100" class="method-detail">
+        <a name="R000100"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[&quot;/tmp/C2518248EEA14886.key&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">mode => "0600"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">source => "puppet:///modules/shib2idp/C2518248EEA14886.key"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File["java.list"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000099" class="method-detail">
+        <a name="R000099"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File[&quot;java.list&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/apt/sources.list.d/java.list"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => file</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">owner => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">group => "root"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">content => "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main\ndeb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main\n"</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000108" class="method-detail">
+        <a name="R000108"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;java_environment_rule_1&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => JAVA_HOME=$java_home</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [Package["oracle-java7-installer"], Package["oracle-jdk7-installer"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000109" class="method-detail">
+        <a name="R000109"></a>
+
+        <div class="method-heading">
+          <span class="method-name">File_line[&quot;java_environment_rule_2&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => present</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">path => "/etc/environment"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">line => "JAVA_OPTS=\"-Djava.awt.headless=true -Xmx512M -XX:MaxPermSize=128m\""</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File_line["java_environment_rule_1"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000110" class="method-detail">
+        <a name="R000110"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Notify[&quot;java_installed&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">message => "installed java"</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => File_line["java_environment_rule_2"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000103" class="method-detail">
+        <a name="R000103"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;debconf-utils&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => Exec["apt-key"]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000106" class="method-detail">
+        <a name="R000106"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;oracle-java7-installer&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [Package["debconf-utils"], Exec["agree-to-java-license"], Exec["apt-get-update"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-R000107" class="method-detail">
+        <a name="R000107"></a>
+
+        <div class="method-heading">
+          <span class="method-name">Package[&quot;oracle-jdk7-installer&quot;]</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">ensure => installed</span><br />
+          &nbsp;&nbsp;&nbsp;<span class="method-args">require => [Package["debconf-utils"], Package["oracle-java7-installer"], Exec["agree-to-jdk-license"], Exec["apt-get-update"]]</span><br />
+        </div>
+
+        <div class="method-description">
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
