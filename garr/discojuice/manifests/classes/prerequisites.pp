@@ -22,7 +22,7 @@ class discojuice::prerequisites(
                        '        Order allow,deny',
                        '        allow from all',
                        '</Directory>'], "\n"),
-      require => [Class['apache::mod::ssl'], Apache::Mod['proxy_ajp']],
+      require => Class['apache'],
       notify  => Service['httpd'];
 
     "/etc/apache2/sites-enabled/discojuice.conf":

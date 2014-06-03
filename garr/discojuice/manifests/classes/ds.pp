@@ -13,49 +13,45 @@ class discojuice::ds(
       ensure  => directory,
       require => Class['apache'];
       
-    '/var/www/disco/css':
+    ['css', 'js', 'flags', 'images']:
+      path    => "/var/www/disco/${name}",
       ensure  => directory,
       require => File['/var/www/disco'];
       
-    '/var/www/disco/js':
-      ensure  => directory,
-      require => File['/var/www/disco'];
-      
-    '/var/www/disco/css/discojuice.css':
+    ['discojuice.css']:
+      path    => "/var/www/disco/css/${name}",
       ensure  => present,
-      source  => 'puppet:///modules/discojuice/css/discojuice.css',
+      source  => "puppet:///modules/discojuice/css/${name}",
       require => File['/var/www/disco/css'],
       notify  => Service['httpd'];
       
-    '/var/www/disco/js/discojuice-stable.min.js':
+    ['discojuice-stable.min.js', 'idpdiscovery.js', 'jquery.min.js', 'jquery.min.map']:
+      path    => "/var/www/disco/js/${name}",
       ensure  => present,
-      source  => 'puppet:///modules/discojuice/js/discojuice-stable.min.js',
+      source  => "puppet:///modules/discojuice/js/${name}",
       require => File['/var/www/disco/js'],
       notify  => Service['httpd'];
-      
-    '/var/www/disco/js/idpdiscovery.js':
-      ensure  => present,
-      source  => 'puppet:///modules/discojuice/js/idpdiscovery.js',
-      require => File['/var/www/disco/js'],
-      notify  => Service['httpd'];
-      
-    '/var/www/disco/js/jquery.min.js':
-      ensure  => present,
-      source  => 'puppet:///modules/discojuice/js/jquery.min.js',
-      require => File['/var/www/disco/js'],
-      notify  => Service['httpd'];
-      
-    '/var/www/disco/js/jquery.min.map':
-      ensure  => present,
-      source  => 'puppet:///modules/discojuice/js/jquery.min.map',
-      require => File['/var/www/disco/js'],
-      notify  => Service['httpd'];
-      
-    '/var/www/disco/index.php':
+            
+    ['index.php']:
+      path    => "/var/www/disco/${name}",
 	    ensure  => present,
-	    content => template("discojuice/disco.erb"),
+	    content => template("discojuice/${name}.erb"),
 	    require => File['/var/www/disco'],
 	    notify  => Service['httpd'];
+	    
+	  ['it.png']:
+	    path    => "/var/www/disco/flags/${name}",
+      ensure  => present,
+      source  => "puppet:///modules/discojuice/flags/${name}",
+      require => File['/var/www/disco/flags'],
+      notify  => Service['httpd'];
+    
+    ['error.png', 'info.png', 'spinning.gif']:
+      path    => "/var/www/disco/images/${name}",
+      ensure  => present,
+      source  => "puppet:///modules/discojuice/images/${name}",
+      require => File['/var/www/disco/images'],
+      notify  => Service['httpd'];
   }
   
 }

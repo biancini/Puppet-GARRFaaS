@@ -258,7 +258,7 @@ node 'registry.mib.garr.it' {
 
   discojuice::instance { "${hostname}-disco":
     federation_name    => $federation_name,
-    discofeed_url      => 'https://localhost/Shibboleth.sso/DiscoFeed',
+    discofeed_url      => 'https://registry.mib.garr.it/Shibboleth.sso/DiscoFeed',
     technicalEmail     => 'andrea@mib.garr.it',
     technicalGivenName => 'Andrea',
     technicalSurName   => 'Biancini',

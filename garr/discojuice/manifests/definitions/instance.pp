@@ -15,11 +15,11 @@ define discojuice::instance (
 
   # Install and configure Discojuice DS
   class { 'discojuice::ds':
-    require                 => Class['shib2ds::prerequisites'],
     technicalEmail          => $technicalEmail,
     technicalGivenName      => $technicalGivenName,
     technicalSurName        => $technicalSurName,
     federation_name         => $federation_name,
+    require                 => Class['discojuice::prerequisites'],
     notify                  => Service['httpd'],
   }
   

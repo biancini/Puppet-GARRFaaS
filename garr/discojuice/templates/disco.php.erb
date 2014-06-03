@@ -20,23 +20,11 @@
                         }
 
                         var __instance = this; //make private __instance
+
+                        __instance.escapeString = function(value) {
+                                return value.replace("\/", "/");
+                        }
                         
-                        var urls = [discoFeedUrl];
-                        __instance.enabledIdpIds = enabledIdpIds;
-
-                        var deffereds = [];
-                        $.each(urls, function(index, url) {
-                                deffereds.push(
-                                    $.ajax({
-                                        url: url,
-                                        type: 'get',
-                                        dataType: 'json'
-                                    })
-                                );
-                        });
-
-                        $.when.apply(this, deffereds).then(__instance.callbackHandlerOnSuccessAjaxFeeds);
-
                         __instance.callbackHandlerOnSuccessAjaxFeeds = function() {
                                 var parser = document.createElement('a');
                                 parser.href = window.location;
@@ -60,32 +48,48 @@
                                         for(var j in idps) {
                                                 var idp = idps[j];
                                                 var escaped = __instance.escapeString(idp['entityID']);
-                                                    console.log(idp);
-                                                    var obj = {
-                                                            "country": "IT",
-                                                            "entityID": idp["entityID"]
-                                                    }
+                                                console.log(idp);
+                                                var obj = {
+                                                        "country": "IT",
+                                                        "entityID": idp["entityID"]
+                                                }
 
-                                                    if("DisplayNames" in idp) {
-                                                            for(var k in idp["DisplayNames"]) {
-                                                                    obj["title"] = idp["DisplayNames"][0]["value"];
+                                                if("DisplayNames" in idp) {
+                                                        for(var k in idp["DisplayNames"]) {
+                                                                obj["title"] = idp["DisplayNames"][0]["value"];
 
-                                                                    if(idp["DisplayNames"][k]["lang"] == "it") {
-                                                                            obj["title"] = idp["DisplayNames"][k]["value"];
-                                                                    }
-                                                            }
-                                                    }
-                                                    djc.inlinemetadata.push(obj);
+                                                                if(idp["DisplayNames"][k]["lang"] == "it") {
+                                                                        obj["title"] = idp["DisplayNames"][k]["value"];
+                                                                }
+                                                        }
+                                                }
+                                                djc.inlinemetadata.push(obj);
                                         }
                                 }
 
                                 djc.callback = IdPDiscovery.setup(djc, [parser.hostname]);
                                 $("body").DiscoJuice(djc);
                         }
+                        
+                        var urls = [discoFeedUrl];
+
+                        var deffereds = [];
+                        $.each(urls, function(index, url) {
+                                deffereds.push(
+                                    $.ajax({
+                                        url: url,
+                                        type: 'get',
+                                        dataType: 'json'
+                                    })
+                                );
+                        });
+
+                        $.when.apply(this, deffereds).then(__instance.callbackHandlerOnSuccessAjaxFeeds);
                 });
         </script>
 </head>
 <body style="background: #e8e8e8">
 </body>
 </html>
+
         
