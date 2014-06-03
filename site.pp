@@ -238,13 +238,15 @@ node 'registry.mib.garr.it' {
     apache_doc_root => '/opt',
   }
 
+  $federation_name = 'IDEM'
+
   jagger::instance { "${hostname}-rr":
     rootpw                 => 'ciaoidem',
     rr3password            => 'ciaorr3',
     gearmand_version       => undef,
     install_signer         => true,
     logo_url               => 'https://www.idem.garr.it/documenti/doc_download/66-logo-idem-120-x-70',
-    federation_name        => 'IDEM',
+    federation_name        => $federation_name,
     jagger_password        => 'i7ryztaqlechgehcs5t7m5iy1ym9xxd4',
     support_mailto         => 'andrea@mib.garr.it',
     registration_authority => 'http://www.idem.garr.it/',
@@ -252,5 +254,14 @@ node 'registry.mib.garr.it' {
     federation_longitude   => '12.4825199',
     telephone              => '+39 02 123456',
     app_environment        => undef,
+  }
+
+  discojuice::instance { "${hostname}-disco":
+    federation_name    => $federation_name,
+    discofeed_url      => 'https://localhost/Shibboleth.sso/DiscoFeed',
+    technicalEmail     => 'andrea@mib.garr.it',
+    technicalGivenName => 'Andrea',
+    technicalSurName   => 'Biancini',
+    dsfqdn             => $fqdn,
   }
 }

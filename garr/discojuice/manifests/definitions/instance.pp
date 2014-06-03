@@ -1,31 +1,26 @@
 define discojuice::instance (
-  $federation_name = undef,
-  $test_federation = undef,
-  $technicalEmail = undef,
+  $federation_name    = undef,
+  $discofeed_url      = undef,
+  $technicalEmail     = undef,
   $technicalGivenName = undef,
-  $technicalSurName = undef,
-  $dsfqdn = undef,
+  $technicalSurName   = undef,
+  $dsfqdn             = undef,
 ) {
   
   class { 'discojuice::prerequisites':
-    dsfqdn                  => $dsfqdn,
+    dsfqdn        => $dsfqdn,
+    mailto        => $technicalEmail,
+    discofeed_url => $discofeed_url,
   }
 
-  # Install and configure Shibboleth SP from Internet2
+  # Install and configure Discojuice DS
   class { 'discojuice::ds':
     require                 => Class['shib2ds::prerequisites'],
-    notify                  => Exec['shib2-apache-restart'],
     technicalEmail          => $technicalEmail,
     technicalGivenName      => $technicalGivenName,
     technicalSurName        => $technicalSurName,
+    federation_name         => $federation_name,
+    notify                  => Service['httpd'],
   }
   
-  # Install and configure Shibboleth SP from Internet2
-  class { 'discojuice::postinstall':
-    federation_name         => $federation_name,
-    test_federation         => $test_federation,
-    require                 => Class['discojuice::ds'],
-    notify                  => Exec['discojuice-apache-restart'],
-  }
- 
 }
