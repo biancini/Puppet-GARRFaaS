@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Select your login provider – <%= federation_name %></title>
+        
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/discojuice-stable.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/idpdiscovery.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/discojuice.css" />
+
+        <script type="text/javascript">
+                var discoFeedUrl = '<%= disco_feed_url %>';
+                $("document").ready(function() {
+                        // mute console log
+                        var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+                        for (var i = 0; i < methods.length; i++) {
+                                console[methods[i]] = function () { };
+                        }
+
+                        var __instance = this; //make private __instance
+                        
+                        var urls = [discoFeedUrl];
+                        __instance.enabledIdpIds = enabledIdpIds;
+
+                        var deffereds = [];
+                        $.each(urls, function(index, url) {
+                                deffereds.push(
+                                    $.ajax({
+                                        url: url,
+                                        type: 'get',
+                                        dataType: 'json'
+                                    })
+                                );
+                        });
+
+                        $.when.apply(this, deffereds).then(__instance.callbackHandlerOnSuccessAjaxFeeds);
+
+                        __instance.callbackHandlerOnSuccessAjaxFeeds = function() {
+                                var parser = document.createElement('a');
+                                parser.href = window.location;
+
+                                var options = {
+                                        "title": "<%= federation_name %>",
+                                        "feeds": []
+                                };
+
+                                var djc = DiscoJuice.Hosted.getConfig(options);
+                                djc.inlinemetadata = [];
+                                djc.discoPath = '';
+                                djc.location = false;
+                                djc.country = false;
+                                djc.countryAPI = false;
+                                djc.setCountry = "it_IT";
+                                djc.always = true;
+        
+                                if(arguments[1] == "success") {
+                                        var idps = arguments[0];
+                                        for(var j in idps) {
+                                                var idp = idps[j];
+                                                var escaped = __instance.escapeString(idp['entityID']);
+                                                    console.log(idp);
+                                                    var obj = {
+                                                            "country": "IT",
+                                                            "entityID": idp["entityID"]
+                                                    }
+
+                                                    if("DisplayNames" in idp) {
+                                                            for(var k in idp["DisplayNames"]) {
+                                                                    obj["title"] = idp["DisplayNames"][0]["value"];
+
+                                                                    if(idp["DisplayNames"][k]["lang"] == "it") {
+                                                                            obj["title"] = idp["DisplayNames"][k]["value"];
+                                                                    }
+                                                            }
+                                                    }
+                                                    djc.inlinemetadata.push(obj);
+                                        }
+                                }
+
+                                djc.callback = IdPDiscovery.setup(djc, [parser.hostname]);
+                                $("body").DiscoJuice(djc);
+                        }
+                });
+        </script>
+</head>
+<body style="background: #e8e8e8">
+</body>
+</html>
+        
