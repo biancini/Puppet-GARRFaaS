@@ -227,7 +227,7 @@ class jagger::prerequisites(
 	  ensure        => 'present',
 	  password_hash => mysql_password($rr3password),
     provider      => 'mysql',
-    require => Class['mysql::config'],
+    require       => Mysql_database['rr3'],
 	}
 	
 	mysql_grant { 'rr3user@localhost/rr3.*':
