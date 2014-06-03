@@ -219,11 +219,8 @@ class jagger::prerequisites(
       require => Exec['gitclone rr3'];
   }
   
-  mysql::db { 'rr3':
-    user     => 'root',
-    password => $rootpw,
-    host     => 'localhost',
-    grant    => ['ALL'],
+  mysql_database { 'rr3':
+    ensure  => 'present',
   }
 
 	mysql_user { 'rr3user@localhost':
