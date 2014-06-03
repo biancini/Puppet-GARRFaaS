@@ -7,6 +7,8 @@ class discojuice::ds(
   $test_federation     = true,
 ) {
   
+  $disco_feed_url = $discojuice::prerequisites::discofeed_url 
+  
   file {
     '/var/www/disco':
       ensure  => directory,
