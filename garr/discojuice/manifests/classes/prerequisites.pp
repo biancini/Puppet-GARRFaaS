@@ -1,6 +1,5 @@
 class discojuice::prerequisites(
   $dsfqdn        = 'exampleservername.com',
-  $mailto        = 'user@domain',
   $discofeed_url = undef,
 ) {
 
@@ -40,19 +39,10 @@ class discojuice::prerequisites(
   }
   else {
     $my_discofeed_url = "https://${dsfqdn}/Shibboleth.sso/DiscoFeed"
-    
-	  shib2common::instance { "${hostname}-common":
-	    install_apache          => true,
-	    install_tomcat          => false,
-	    configure_admin         => false,
-	    hostfqdn                => $dsfqdn,
-	    mailto                  => $mailto,
-	    nagiosserver            => undef,
-	  }
 	
 	  shib2sp::instance { "${hostname}-sp":
-	    metadata_information => { },
-	    session_initiator    => { },
+	    metadata_information => undef,
+	    session_initiator    => undef,
 	    apache_doc_root      => '/opt',
 	  }
   }

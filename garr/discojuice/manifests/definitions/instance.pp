@@ -9,7 +9,6 @@ define discojuice::instance (
   
   class { 'discojuice::prerequisites':
     dsfqdn        => $dsfqdn,
-    mailto        => $technicalEmail,
     discofeed_url => $discofeed_url,
   }
 
