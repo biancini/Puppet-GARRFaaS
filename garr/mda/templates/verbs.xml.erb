@@ -31,7 +31,6 @@
         </property>
     </bean>
 
-<!-- INIZIO INSERIMENTO AGGIUNTE MARCO -->
 	<!-- Definisco i file di destinazione dove verranno generati i nuovi metadati -->
     <bean id="serializeImportedProductionUnsigned" parent="SerializationStage"
         p:id="serializeImportedProductionUnsigned">
@@ -141,7 +140,6 @@
             </bean>
         </property>
     </bean>
-<!-- FINE INSERIMENTO -->
     
     <bean id="importProduction" parent="SimplePipeline"
         p:id="importProduction">
@@ -158,7 +156,6 @@
         </property>
     </bean>
 
-<!-- INIZIO INSERIMENTO AGGIUNTE MARCO -->
     <bean id="<%= fedid_downcase %>-prod-check" parent="SimplePipeline"
         p:id="<%= fedid_downcase %>-prod-check">
         <property name="stages">

@@ -15,6 +15,9 @@
     <!--
         Location of various resources.
     -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate_url" class="java.lang.String">
+        <constructor-arg value="<%= test_metadata["url"] %>"/>
+    </bean>
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate_url" class="java.lang.String">
         <constructor-arg value="<%= production_metadata["url"] %>"/>
     </bean>
@@ -22,8 +25,6 @@
         <constructor-arg value="<%= edugain_metadata["url"] %>"/>
     </bean>
 
-    <!-- INSERIMENTO AGGIUNTE DI MARCO -->
-   
     <!-- INPUT DIRECTORY -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" class="java.io.File">
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-prod"/>
@@ -96,7 +97,18 @@
         </property>
     </bean>
 
-    <!-- FINE INSERIMENTO DI MARCO -->
+    <!--
+        Fetch the test aggregate.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate" parent="DOMResourceSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate">
+        <property name="DOMResource">
+            <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+                <constructor-arg name="client" ref="httpClient"/>
+                <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate_url"/>
+            </bean>
+        </property>
+    </bean>
 
     <!--
         Fetch the production aggregate.
@@ -419,7 +431,6 @@
         </property>
     </bean>
 
-<!-- INIZIO INSERIMENTO DI MARCO -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities" parent="CompositeStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities">
         <property name="composedStages">
@@ -435,6 +446,30 @@
                 <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
                 <ref bean="errorTerminatingFilter"/>
 
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!--
+        Fetch the test entities as a collection by an URL.
+    -->
+    
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities_by_url" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities_by_url">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+                
                 <ref bean="disassemble"/>
             </list>
         </property>
@@ -459,6 +494,10 @@
             </list>
         </property>
     </bean>
+    
+    <!--
+        Fetch the eduGAIN export entities as a collection.
+    -->
 
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain" parent="CompositeStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain">
@@ -479,11 +518,7 @@
             </list>
         </property>
     </bean>
-<!-- FINE INSERIMENTO DI MARCO -->   
  
-    <!--
-        Fetch the eduGAIN export entities as a collection.
-    -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities" parent="CompositeStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities">
         <property name="composedStages">
