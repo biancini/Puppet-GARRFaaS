@@ -36,6 +36,7 @@ class mda::mda(
       require => Exec['gitclone ukf-meta'];
       
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}":
+      ensure  => 'directory',
       recurse => true,
       source  => 'puppet:///modules/mda/my-fed',
       require => Exec['gitclone ukf-meta'];
