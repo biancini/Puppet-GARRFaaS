@@ -49,12 +49,12 @@ class mda::mda(
       content => template('mda/verbs.xml.erb'),
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
     
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/removeIdemEntityFromEdugainMetadata.xsl":
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/remove${federation_id}EntityFromEdugainMetadata.xsl":
       ensure  => file,
       owner   => "root",
       group   => "root",
       mode    => "0644",
-      content => template('mda/removeIdemEntityFromEdugainMetadata.xsl.erb'),
+      content => template('mda/removeEntityFromEdugainMetadata.xsl.erb'),
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];  
   }
   
