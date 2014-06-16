@@ -107,7 +107,7 @@ class mda::mda(
       owner   => "root",
       group   => "root",
       mode    => "0644",
-      source  => 'puppet:///modules/mda/certs/${hostname}-cert.pem',
+      source  => "puppet:///modules/mda/certs/${hostname}-cert.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
       
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/${fedid_downcase}-selfSigned-key.pem":
@@ -115,7 +115,7 @@ class mda::mda(
       owner   => "root",
       group   => "root",
       mode    => "0400",
-      source  => 'puppet:///modules/mda/certs/${hostname}-key.pem',
+      source  => "puppet:///modules/mda/certs/${hostname}-key.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
   }
   
