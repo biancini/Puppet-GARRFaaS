@@ -1,9 +1,5 @@
 define mda::instance (
   $federation_name    = undef,
-  $technicalEmail     = undef,
-  $technicalGivenName = undef,
-  $technicalSurName   = undef,
-  $mdafqdn            = undef,
 ) {
   
   class { 'mda::prerequisites': }

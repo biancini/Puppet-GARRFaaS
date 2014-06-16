@@ -264,4 +264,8 @@ node 'registry.mib.garr.it' {
     technicalSurName   => 'Biancini',
     dsfqdn             => $fqdn,
   }
+
+  mda::instance { "${hostname}-mda":
+    federation_name    => $federation_name,
+  }
 }
