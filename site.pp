@@ -266,6 +266,7 @@ node 'registry.mib.garr.it' {
   }
 
   mda::instance { "${hostname}-mda":
-    federation_name    => $federation_name,
+    federation_id      => 'IDEM',
+    federation_country => 'IT',
   }
 }

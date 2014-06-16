@@ -1,5 +1,6 @@
 class mda::mda(
-  $federation_name     = 'Test Federation',
+  $federation_id       = 'TestFed',
+  $federation_country  = 'IT',
 ) {
   
   file {
@@ -8,7 +9,7 @@ class mda::mda(
       owner   => "root",
       group   => "root",
       mode    => "0644",
-      source  => "puppet:///modules/mda/${federation_name}-meta/build.xml",
+      content => template('mda/build.xml.erb'),
       require => Exec['gitclone ukf-meta'];
       
     '/opt/ukf-meta/mdx/clean-import.xsl':
@@ -16,12 +17,12 @@ class mda::mda(
       owner   => "root",
       group   => "root",
       mode    => "0644",
-      source  => "puppet:///modules/mda/${federation_name}-meta/mdx/clean-import.xsl",
+      source  => "puppet:///modules/mda/${federation_id}-meta/mdx/clean-import.xsl",
       require => Exec['gitclone ukf-meta'];
       
     '/opt/ukf-meta/mdx/it_idem':
       recurse => true,
-      source  => "puppet:///modules/mda/${federation_name}-meta/mdx/it_idem",
+      source  => "puppet:///modules/mda/${federation_id}-meta/mdx/it_idem",
       require => Exec['gitclone ukf-meta'];
   }
   
