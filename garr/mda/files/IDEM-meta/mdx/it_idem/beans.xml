@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Common beans for this channel.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    default-lazy-init="true"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    
+    <!--
+        Location of various resources.
+    -->
+    <bean id="it_idem_productionAggregate_url" class="java.lang.String">
+        <constructor-arg value="https://www.idem.garr.it/docs/conf/signed-metadata.xml"/>
+    </bean>
+    <bean id="it_idem_edugainAggregate_url" class="java.lang.String">
+        <constructor-arg value="https://www.idem.garr.it/docs/conf/signed-edugain.metadata.xml"/>
+    </bean>
+
+    <!-- INSERIMENTO AGGIUNTE DI MARCO -->
+   
+    <!-- INPUT DIRECTORY -->
+    <bean id="it_idem_prodMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/md-in/idem-prod"/>
+    </bean>
+
+    <bean id="it_idem_testMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/md-in/idem-test"/>
+    </bean>
+
+    <bean id="it_idem_edugainMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/md-in/idem-edugain"/>
+    </bean>
+
+    <!-- XSL Stylesheet for Metadata: IDEM & EduGAIN -->
+    <bean id="it_idem_metadataXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/xsl/IDEM.xsl" />
+    </bean>
+
+    <bean id="it_idem_edugainXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/xsl/removeIdemEntityFromEdugainMetadata.xsl" />
+    </bean>
+
+    <!-- XSL Stylesheet to change the ID and Reference URI on EntitiesDescriptor of IDEM Test & Prod Federation -->
+    <bean id="xslTransformationAddRootIDAttribute" class="java.lang.String">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/xsl/add-root-id-attribute.xsl" />
+    </bean>
+
+    <bean id="RootIDEM-ProdPrefix" class="java.lang.String">
+      <constructor-arg value="IDEM"/>
+    </bean>
+
+    <bean id="RootIDEM-TestPrefix" class="java.lang.String">
+      <constructor-arg value="IDEM-TEST"/>
+    </bean>    
+
+    <bean id="RootIDEM-EDUGAINPrefix" class="java.lang.String">
+      <constructor-arg value="IDEM-EDUGAIN"/>
+    </bean>
+
+    <!-- X509Certificate inside the Signature -->
+    <bean id="it_idem_signingKeyFile" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/credentials/idem-signer.key"/>
+    </bean>
+
+    <bean id="it_idem_signingCertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/credentials/signer-bundle.pem"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="it_idem_GarrCAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/credentials/GARR-CA-cert.pem"/>
+            </bean>
+        </property>
+    </bean>
+    <!-- End list of X509Certificate inside the Signature -->
+
+    <!-- Certificato e Chiave self signed con cui firmare i metadati in SHA256 -->
+    <bean id="it_idem_selfSigningKeyFile" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/credentials/idem-selfSigned-key.pem"/>
+    </bean>
+
+    <bean id="it_idem_selfSigningCertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/credentials/idem-selfSigned-cert.pem"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- FINE INSERIMENTO DI MARCO -->
+
+    <!--
+        Fetch the production aggregate.
+    -->
+    <bean id="it_idem_productionAggregate" parent="DOMResourceSourceStage"
+        p:id="it_idem_productionAggregate">
+        <property name="DOMResource">
+            <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+                <constructor-arg name="client" ref="httpClient"/>
+                <constructor-arg name="url"    ref="it_idem_productionAggregate_url"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <!--
+        Fetch the eduGAIN export aggregate.
+    -->
+    <bean id="it_idem_edugainAggregate" parent="DOMResourceSourceStage"
+        p:id="it_idem_edugainAggregate">
+        <property name="DOMResource">
+            <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+                <constructor-arg name="client" ref="httpClient"/>
+                <constructor-arg name="url"    ref="it_idem_edugainAggregate_url"/>
+            </bean>
+        </property>
+    </bean>
+
+<!-- INIZIO INSERIMENTO DI MARCO -->
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "it_idem_prodMetadataDirectory" -->
+    <bean id="it_idem_readDirProdMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="it_idem_readDirProdMetadata" p:parserPool-ref="parserPool" p:source-ref="it_idem_prodMetadataDirectory"/>
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "it_idem_testMetadataDirectory" -->
+    <bean id="it_idem_readDirTestMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="it_idem_readDirTestMetadata" p:parserPool-ref="parserPool" p:source-ref="it_idem_testMetadataDirectory"/>
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "it_idem_edugainMetadataDirectory" -->
+    <bean id="it_idem_readDirEdugainMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="it_idem_readDirEdugainMetadata" p:parserPool-ref="parserPool" p:source-ref="it_idem_edugainMetadataDirectory"/>
+
+    <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "it_idem_signingKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "it_idem_signingCertificate" e "it_idem_GarrCAcertificate" -->
+    <bean id="it_idem_signSHA1EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="it_idem_signSHA1EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="it_idem_signingKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="it_idem_signingCertificate" />
+            <ref bean="it_idem_GarrCAcertificate"/>
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA1"/>
+        </property>
+    </bean>
+
+    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "it_idem_signingKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "it_idem_signingCertificate" e "it_idem_GarrCAcertificate" -->
+    <bean id="it_idem_signSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="it_idem_signSHA256EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="it_idem_signingKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="it_idem_signingCertificate" />
+            <ref bean="it_idem_GarrCAcertificate"/>
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
+        </property>
+    </bean>
+
+    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "it_idem_selfSigningKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "it_idem_selfSigningCertificate" -->
+    <bean id="it_idem_selfSignSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="it_idem_selfSignSHA256EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="it_idem_selfSigningKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="it_idem_selfSigningCertificate" />
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
+        </property>
+    </bean>
+   
+
+    <!-- Stage utilizzato per formattare l'XML dei metadati con lo stylesheet XSL "IDEM.xsl" indicato dal bean "it_idem_metadataXSL" -->
+    <bean id="it_idem_formatMetadata" class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
+        p:id="it_idem_formatMetadata">
+        <property name="XSLResource" ref="it_idem_metadataXSL"/>  
+    </bean>
+
+	<!-- Stage che rimuove le entità di IDEM che sono già in eduGain per evitare i doppioni -->
+    <bean id="it_idem_extractOnlyEdugainEntity" parent="stage_parent" 
+        class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
+        p:id="it_idem_extractOnlyEdugainEntity">
+        <property name="XSLResource" ref="it_idem_edugainXSL"/>
+    </bean>
+
+
+    <!--
+      Pipeline which adds an 'ID' attribute to the root EntitiesDescriptor element.
+      The attribute has the form "Interfederation-yymmddhhiiss" where the timestamp
+      is the time when the metadata was aggregated and signed.
+    -->
+    <!-- Aggiungo l'ID=IDEM-YYMMDDHHIISS ai metadati di IDEM Production Federation -->
+    <bean id="it_idem_addIDAttributeToProd" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="it_idem_addIDAttributeToProd">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="RootIDEM-ProdPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+    <!-- Aggiungo l'ID=IDEM-TEST-YYMMDDHHIISS ai metadati di IDEM Test Federation -->
+    <bean id="it_idem_addIDAttributeToTest" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="it_idem_addIDAttributeToTest">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="RootIDEM-TestPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+    <!-- Aggiungo l'ID=IDEM-EDUGAIN-YYMMDDHHIISS ai metadati di IDEM EduGain Interfederation -->
+    <bean id="it_idem_addIDAttributeToIdemEdugain" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="it_idem_addIDAttributeToIdemEdugain">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="RootIDEM-EDUGAINPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+
+    <!--
+        it_idem_trustRootsDocument
+        
+        Questo Bean contiene i certificati aggiuntivi da porre nei metadati della federazione.
+    -->
+    <bean id="it_idem_trustRootsDocument" class="net.shibboleth.ext.spring.factory.DomDocumentFactoryBean">
+        <property name="parserPool" ref="parserPool"/>
+        <property name="documentResource">
+            <bean parent="FilesystemResource">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/it_idem/trust-roots.xml"/>
+            </bean>
+        </property>
+    </bean>    
+    
+    
+    <!--
+        it_idem_addTrustRoots
+        
+        Questo stage aggiunge i certificati contenuti in it_idem_trustRootsDocument ai metadati
+    -->
+    <bean id="it_idem_addTrustRoots" parent="XSLTransformationStage"
+        p:id="it_idem_addTrustRoots">
+        <property name="XSLResource">
+            <bean parent="ClasspathResource">
+                <constructor-arg value="it_idem/trust-roots.xsl"/>
+            </bean>
+        </property>
+        <property name="transformParameters">
+            <map>
+                <entry key="trustRootsDocument" value-ref="it_idem_trustRootsDocument"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Assemblo l'EntitiesDescriptor e gli attribuisco il Name="urn:mace:garr:it:idem" perchè è quello della Produzione -->
+    <bean id="it_idem_productionAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="it_idem_productionAssemble">
+        <property name="descriptorName" value="urn:mace:garr:it:idem"/>
+    </bean>
+
+    <!-- Assemblo l'EntitiesDescriptor e gli attribuisco il Name="urn:mace:garr:it:idem-test" perchè è quello di Test -->
+    <bean id="it_idem_testAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="it_idem_testAssemble">
+        <property name="descriptorName" value="urn:mace:garr:it:idem-test"/>
+    </bean>
+
+    <!-- Assemblo l'EntitiesDescriptor e gli attribuisco il Name="urn:mace:garr:it:idem-edugain" perchè è quello di eduGAIN -->
+    <bean id="it_idem_edugainAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="it_idem_edugainAssemble">
+        <property name="descriptorName" value="urn:mace:garr:it:idem-edugain"/>
+    </bean>
+
+    <!-- IDEM Prod Federation - Aggiungo il validUntil valido per 7 giorni -->
+    <bean id="it_idem_addValidUntilToProd" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="it_idem_addValidUntilToProd" p:validityDuration="#{1000L * 60 * 60 * 24 * 7}"/>
+
+    <!-- IDEM Test Federation - Aggiungo un validUntil valido per 30 anni -->
+    <bean id="it_idem_addValidUntilToTest" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="it_idem_addValidUntilToTest" p:validityDuration="#{1000L * 60 * 60 * 24 * 365 * 30}"/>
+
+    <bean id="it_idem_addValidUntilToIdemEdugain" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="it_idem_addValidUntilToTest" p:validityDuration="#{1000L * 60 * 60 * 24 * 7}"/>
+
+    <!--
+        it_idemImportProduction
+        
+        Questo Stage prepara il documento per la serializzazione/output:
+        1) Filtra via le entità affette da errori
+        2) Assembla le entità rimaste in 1 solo <EntitiesDescriptor>
+        3) Aggiunge l' "ID" correttamente aggiornato all'<EntitiesDescriptor>
+        4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
+        5) Normalizza i Namespace XML.
+    -->
+    <bean id="it_idem_importProduction" parent="CompositeStage"
+        p:id="it_idem_importProduction">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="it_idem_productionAssemble"/>
+                <ref bean="it_idem_addIDAttributeToProd"/>
+                <ref bean="it_idem_addValidUntilToProd"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="it_idem_importTest" parent="CompositeStage"
+        p:id="it_idem_importTest">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="it_idem_testAssemble"/>
+                <ref bean="it_idem_addIDAttributeToTest"/>
+                <ref bean="it_idem_addValidUntilToTest"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="it_idem_importEdugain" parent="CompositeStage"
+        p:id="it_idem_importEdugain">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="it_idem_edugainAssemble"/>
+                <ref bean="it_idem_addIDAttributeToIdemEdugain"/>
+                <ref bean="it_idem_addValidUntilToIdemEdugain"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+<!-- FINE INSERIMENTO -->
+    
+    <!--
+        Check signing signature.
+    -->
+    <bean id="it_idem_checkSignature" parent="XMLSignatureValidationStage"
+        p:id="it_idem_checkSignature">
+        <property name="verificationCertificate" ref="it_idem_signingCertificate"/>
+        <property name="permittingEmptyReferences" value="true"/>
+    </bean>
+    
+    <!--
+        Fetch the production entities as a collection by an URL.
+    -->
+    <bean id="it_idem_productionEntities_by_url" parent="CompositeStage"
+        p:id="it_idem_productionEntities_by_url">
+        <property name="composedStages">
+            <list>
+                <ref bean="it_idem_productionAggregate"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="it_idem_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+                
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+<!-- INIZIO INSERIMENTO DI MARCO -->
+    <bean id="it_idem_productionEntities" parent="CompositeStage"
+        p:id="it_idem_productionEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="it_idem_readDirProdMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="it_idem_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="it_idem_testEntities" parent="CompositeStage"
+        p:id="it_idem_testEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="it_idem_readDirTestMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="it_idem_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="it_idem_productionEntitiesForEdugain" parent="CompositeStage"
+        p:id="it_idem_productionEntitiesForEdugain">
+        <property name="composedStages">
+            <list>
+                <ref bean="it_idem_readDirProdMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <!-- <ref bean="it_idem_checkSignature"/> -->
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+<!-- FINE INSERIMENTO DI MARCO -->   
+ 
+    <!--
+        Fetch the eduGAIN export entities as a collection.
+    -->
+    <bean id="it_idem_edugainEntities" parent="CompositeStage"
+        p:id="it_idem_edugainEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="it_idem_edugainAggregate"/>
+                <!-- <ref bean="it_idem_readDirEdugainMetadata"/> -->
+                <ref bean="it_idem_extractOnlyEdugainEntity"/> 
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <!-- <ref bean="it_idem_checkSignature"/> -->
+                <ref bean="errorTerminatingFilter"/>
+                
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!--
+        Select primary export aggregate.
+    -->
+    <alias alias="it_idem_exportedAggregate" name="it_idem_edugainAggregate"/>
+    <alias alias="it_idem_exportedEntities"  name="it_idem_edugainEntities"/>
+</beans>

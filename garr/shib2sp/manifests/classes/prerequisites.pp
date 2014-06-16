@@ -1,6 +1,6 @@
 class shib2sp::prerequisites(
-  $mailto          = 'support@${fqdn}',
-  $apache_doc_root = '/var/www',
+  $mailto          = "support@${fqdn}",
+  $apache_doc_root = "/var/www",
 ) {
 
   # Install requested packages
@@ -25,8 +25,8 @@ class shib2sp::prerequisites(
   }
 
   apache::mod { 'shib':
-    lib => 'mod_shib_22.so',
-    id  => 'mod_shib',
+    lib    => 'mod_shib_22.so',
+    module => 'mod_shib',
   }
   
   apache::vhost { 'default-ssl-443':
