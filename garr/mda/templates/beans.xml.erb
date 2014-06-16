@@ -74,10 +74,10 @@
         </property>
     </bean>
 
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
         <property name="certificateFile">
             <bean class="java.io.File">
-                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/GARR-CA-cert.pem"/>
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/CA-cert.pem"/>
             </bean>
         </property>
     </bean>
@@ -139,7 +139,7 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory"/>
 
     <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" -->
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor">
         <property name="privateKey">
@@ -152,7 +152,7 @@
         <property name="certificates">
           <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
           </list>
         </property>
         <property name="shaVariant">
@@ -161,7 +161,7 @@
     </bean>
 
     <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" -->
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor">
         <property name="privateKey">
@@ -174,7 +174,7 @@
         <property name="certificates">
           <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
           </list>
         </property>
         <property name="shaVariant">
@@ -314,7 +314,6 @@
         <property name="descriptorName" value="<%= test_metadata["url"] %>"/>
     </bean>
 
-    <!-- Assemblo l'EntitiesDescriptor e gli attribuisco il Name="urn:mace:garr:it:<%= fedid_downcase %>-edugain" perchè è quello di eduGAIN -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble" parent="stage_parent"
         class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble">
