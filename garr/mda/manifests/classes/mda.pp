@@ -3,6 +3,9 @@ class mda::mda(
   $federation_country  = 'IT',
 ) {
   
+  $fedcountry_downcase = downcase(federation_country)
+  $fedid_downcase = downcase(federation_id)
+  
   file {
     '/opt/ukf-meta/build.xml':
       ensure  => file,
@@ -20,7 +23,7 @@ class mda::mda(
       source  => "puppet:///modules/mda/${federation_id}-meta/mdx/clean-import.xsl",
       require => Exec['gitclone ukf-meta'];
       
-    "/opt/ukf-meta/mdx/${downcase(federation_country)}_${downcase(federation_id)}":
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}":
       ensure  => folder,
       owner   => "root",
       group   => "root",
