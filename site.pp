@@ -268,7 +268,7 @@ node 'registry.mib.garr.it' {
   mda::instance { "${hostname}-mda":
     federation_id           => 'IDEM',
     federation_country      => 'IT',
-    test_metadata     = {
+    test_metadata           => {
       'url' => 'https://www.idem.garr.it/docs/conf/signed-test-metadata.xml',
       'urn' => 'urn:mace:garr:it:idem',
     },
