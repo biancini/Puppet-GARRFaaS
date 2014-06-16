@@ -879,39 +879,39 @@
     </target>
     
     <!-- FLOW PER <%= federation_id %> TEST -->
-    <target name="<%= federation_id.downcase %>-test-all">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-test-unsigned"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-test-sha1"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-test-sha256"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-test-selfSigned-sha256"/>
+    <target name="<%= fedid_downcase %>-test-all">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-unsigned"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-selfSigned-sha256"/>
     </target>
 
-    <target name="<%= federation_id.downcase %>-test-check">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-test-check"/>
+    <target name="<%= fedid_downcase %>-test-check">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-check"/>
     </target>
 
     <!-- FLOW PER <%= federation_id %> PROD-->
-    <target name="<%= federation_id.downcase %>-prod-all">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-prod-unsigned"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-prod-sha1"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-prod-sha256"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-prod-selfSigned-sha256"/>
+    <target name="<%= fedid_downcase %>-prod-all">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-unsigned"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-selfSigned-sha256"/>
     </target>
 
-    <target name="<%= federation_id.downcase %>-prod-check">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-prod-check"/>
+    <target name="<%= fedid_downcase %>-prod-check">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-check"/>
     </target>
 
     <!-- FLOW PER <%= federation_id %> EDUGAIN-->
-    <target name="<%= federation_id.downcase %>-edugain-all">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-edugain-unsigned"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-edugain-sha1"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-edugain-sha256"/>
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-edugain-selfSigned-sha256"/>
+    <target name="<%= fedid_downcase %>-edugain-all">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-unsigned"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-selfSigned-sha256"/>
     </target>
 
-    <target name="<%= federation_id.downcase %>-edugain-check">
-         <CHANNEL.do channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>" verb="<%= federation_id.downcase %>-edugain-check"/>
+    <target name="<%= fedid_downcase %>-edugain-check">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-check"/>
     </target>
 
 	<!--
@@ -962,7 +962,7 @@
         Exception: int_testshib, which is too large and anarchic to be worthwhile.
     -->
     <target name="flow.importProduction.all">
-    	<CHANNEL.do verb="importProduction" channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>"/>
+    	<CHANNEL.do verb="importProduction" channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>"/>
     </target>
     
     <!--
@@ -971,7 +971,7 @@
         Run the importEdugain flow on each channel that has one.
     -->
     <target name="flow.importEdugain.all">
-    	<CHANNEL.do verb="importEdugain" channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>"/>
+    	<CHANNEL.do verb="importEdugain" channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>"/>
     </target>
 
     <!--
@@ -980,7 +980,7 @@
         Run the importEdugainRaw flow on each channel that has one.
     -->
     <target name="flow.importEdugainRaw.all">
-        <CHANNEL.do verb="importEdugainRaw" channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>"/>
+        <CHANNEL.do verb="importEdugainRaw" channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>"/>
     </target>
     
     <!--
@@ -1029,7 +1029,7 @@
 	    Run the importRaw command for each channel in turn.
 	-->
 	<target name="flow.importRaw.all">
-        <CHANNEL.do verb="importRaw" channel="<%= federation_country.downcase %>_<%= federation_id.downcase %>"/>
+        <CHANNEL.do verb="importRaw" channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>"/>
 	</target>
     
     <!--

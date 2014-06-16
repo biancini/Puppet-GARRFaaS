@@ -3,7 +3,7 @@
 
 	trust-roots.xsl
 	
-	XSL stylesheet that adds the IT IDEM federation's trust roots in to an
+	XSL stylesheet that adds the federation's trust roots in to an
 	EntitiesDescriptor aggregate.
 	
 -->

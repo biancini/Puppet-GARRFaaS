@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Common beans for this channel.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    default-lazy-init="true"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    
+    <!--
+        Location of various resources.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate_url" class="java.lang.String">
+        <constructor-arg value="<%= production_metadata["url"] %>"/>
+    </bean>
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url" class="java.lang.String">
+        <constructor-arg value="<%= edugain_metadata["url"] %>"/>
+    </bean>
+
+    <!-- INSERIMENTO AGGIUNTE DI MARCO -->
+   
+    <!-- INPUT DIRECTORY -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-prod"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-test"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-edugain"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/my-fed.xsl" />
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/remove<%= federation_id %>EntityFromEdugainMetadata.xsl" />
+    </bean>
+
+    <bean id="xslTransformationAddRootIDAttribute" class="java.lang.String">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/add-root-id-attribute.xsl" />
+    </bean>
+
+    <bean id="Root<%= federation_id %>-ProdPrefix" class="java.lang.String">
+      <constructor-arg value="<%= federation_id %>"/>
+    </bean>
+
+    <bean id="Root<%= federation_id %>-TestPrefix" class="java.lang.String">
+      <constructor-arg value="<%= federation_id %>-TEST"/>
+    </bean>    
+
+    <bean id="Root<%= federation_id %>-EDUGAINPrefix" class="java.lang.String">
+      <constructor-arg value="<%= federation_id %>-EDUGAIN"/>
+    </bean>
+
+    <!-- X509Certificate inside the Signature -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/<%= fedid_downcase %>-signer.key"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/signer-bundle.pem"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/GARR-CA-cert.pem"/>
+            </bean>
+        </property>
+    </bean>
+    <!-- End list of X509Certificate inside the Signature -->
+
+    <!-- Certificato e Chiave self signed con cui firmare i metadati in SHA256 -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" class="java.io.File">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/<%= fedid_downcase %>-selfSigned-key.pem"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+        <property name="certificateFile">
+            <bean class="java.io.File">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/<%= fedid_downcase %>-selfSigned-cert.pem"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- FINE INSERIMENTO DI MARCO -->
+
+    <!--
+        Fetch the production aggregate.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate" parent="DOMResourceSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate">
+        <property name="DOMResource">
+            <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+                <constructor-arg name="client" ref="httpClient"/>
+                <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate_url"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <!--
+        Fetch the eduGAIN export aggregate.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate" parent="DOMResourceSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate">
+        <property name="DOMResource">
+            <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+                <constructor-arg name="client" ref="httpClient"/>
+                <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url"/>
+            </bean>
+        </property>
+    </bean>
+
+<!-- INIZIO INSERIMENTO DI MARCO -->
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory"/>
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_testMetadataDirectory" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirTestMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirTestMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testMetadataDirectory"/>
+
+    <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory"/>
+
+    <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate"/>
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA1"/>
+        </property>
+    </bean>
+
+    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_GarrCAcertificate"/>
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
+        </property>
+    </bean>
+
+    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" 
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor">
+        <property name="privateKey">
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" />
+        </property>
+        <property name="c14nWithComments" value="true" />
+        <property name="includeX509Certificates" value="true" />
+
+        <property name="certificates">
+          <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" />
+          </list>
+        </property>
+        <property name="shaVariant">
+            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
+        </property>
+    </bean>
+   
+
+    <!-- Stage utilizzato per formattare l'XML dei metadati con lo stylesheet XSL "my-fed.xsl" indicato dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata" class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata">
+        <property name="XSLResource" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL"/>  
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_extractOnlyEdugainEntity" parent="stage_parent" 
+        class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_extractOnlyEdugainEntity">
+        <property name="XSLResource" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainXSL"/>
+    </bean>
+
+
+    <!--
+      Pipeline which adds an 'ID' attribute to the root EntitiesDescriptor element.
+      The attribute has the form "Interfederation-yymmddhhiiss" where the timestamp
+      is the time when the metadata was aggregated and signed.
+    -->
+    <!-- Aggiungo l'ID=<%= federation_id %>-YYMMDDHHIISS ai metadati di <%= federation_id %> Production Federation -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="Root<%= federation_id %>-ProdPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+    <!-- Aggiungo l'ID=<%= federation_id %>-TEST-YYMMDDHHIISS ai metadati di <%= federation_id %> Test Federation -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="Root<%= federation_id %>-TestPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+    <!-- Aggiungo l'ID=<%= federation_id %>-EDUGAIN-YYMMDDHHIISS ai metadati di <%= federation_id %> EduGain Interfederation -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain" parent="stage_parent" 
+          class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain">
+       <property name="XSLResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+                <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+          </bean>
+       </property>
+       <property name="transformParameters">
+          <map>
+               <entry key="prefix" value-ref="Root<%= federation_id %>-EDUGAINPrefix"/>
+          </map>
+       </property>
+    </bean>
+
+
+    <!--
+        <%= fedcountry_downcase %>_<%= fedid_downcase %>_trustRootsDocument
+        
+        Questo Bean contiene i certificati aggiuntivi da porre nei metadati della federazione.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_trustRootsDocument" class="net.shibboleth.ext.spring.factory.DomDocumentFactoryBean">
+        <property name="parserPool" ref="parserPool"/>
+        <property name="documentResource">
+            <bean parent="FilesystemResource">
+                <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/trust-roots.xml"/>
+            </bean>
+        </property>
+    </bean>    
+    
+    
+    <!--
+        <%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots
+        
+        Questo stage aggiunge i certificati contenuti in <%= fedcountry_downcase %>_<%= fedid_downcase %>_trustRootsDocument ai metadati
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots" parent="XSLTransformationStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots">
+        <property name="XSLResource">
+            <bean parent="ClasspathResource">
+                <constructor-arg value="<%= fedcountry_downcase %>_<%= fedid_downcase %>/trust-roots.xsl"/>
+            </bean>
+        </property>
+        <property name="transformParameters">
+            <map>
+                <entry key="trustRootsDocument" value-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_trustRootsDocument"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAssemble">
+        <property name="descriptorName" value="<%= production_metadata["urn"] %>"/>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble">
+        <property name="descriptorName" value="<%= test_metadata["url"] %>"/>
+    </bean>
+
+    <!-- Assemblo l'EntitiesDescriptor e gli attribuisco il Name="urn:mace:garr:it:<%= fedid_downcase %>-edugain" perchè è quello di eduGAIN -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble">
+        <property name="descriptorName" value="<%= edugain_metadata["url"] %>"/>
+    </bean>
+
+    <!-- <%= federation_id %> Prod Federation - Aggiungo il validUntil valido per 7 giorni -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd" p:validityDuration="#{1000L * 60 * 60 * 24 * 7}"/>
+
+    <!-- <%= federation_id %> Test Federation - Aggiungo un validUntil valido per 30 anni -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest" p:validityDuration="#{1000L * 60 * 60 * 24 * 365 * 30}"/>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilTo<%= federation_id %>Edugain" parent="stage_parent"
+        class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest" p:validityDuration="#{1000L * 60 * 60 * 24 * 7}"/>
+
+    <!--
+        <%= fedcountry_downcase %>_<%= fedid_downcase %>ImportProduction
+        
+        Questo Stage prepara il documento per la serializzazione/output:
+        1) Filtra via le entità affette da errori
+        2) Assembla le entità rimaste in 1 solo <EntitiesDescriptor>
+        3) Aggiunge l' "ID" correttamente aggiornato all'<EntitiesDescriptor>
+        4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
+        5) Normalizza i Namespace XML.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProduction" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProduction">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAssemble"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importEdugain" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importEdugain">
+        <property name="composedStages">
+            <list>
+                <!-- announce and remove any entities with errors -->
+                <ref bean="errorAnnouncingFilter"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilTo<%= federation_id %>Edugain"/>
+                <ref bean="normaliseNamespaces"/>
+            </list>
+        </property>
+    </bean>
+<!-- FINE INSERIMENTO -->
+    
+    <!--
+        Check signing signature.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature" parent="XMLSignatureValidationStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature">
+        <property name="verificationCertificate" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate"/>
+        <property name="permittingEmptyReferences" value="true"/>
+    </bean>
+    
+    <!--
+        Fetch the production entities as a collection by an URL.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities_by_url" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities_by_url">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionAggregate"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+                
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+<!-- INIZIO INSERIMENTO DI MARCO -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirTestMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
+
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <!-- <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/> -->
+                <ref bean="errorTerminatingFilter"/>
+
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+<!-- FINE INSERIMENTO DI MARCO -->   
+ 
+    <!--
+        Fetch the eduGAIN export entities as a collection.
+    -->
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities" parent="CompositeStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities">
+        <property name="composedStages">
+            <list>
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
+                <!-- <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata"/> -->
+                <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_extractOnlyEdugainEntity"/> 
+                <!--
+                    Check for fatal errors at the aggregate level:
+                        missing or expired validUntil attribute
+                        invalid signature
+                -->
+                <ref bean="check_validUntil"/>
+                <!-- <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/> -->
+                <ref bean="errorTerminatingFilter"/>
+                
+                <ref bean="disassemble"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!--
+        Select primary export aggregate.
+    -->
+    <alias alias="<%= fedcountry_downcase %>_<%= fedid_downcase %>_exportedAggregate" name="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
+    <alias alias="<%= fedcountry_downcase %>_<%= fedid_downcase %>_exportedEntities"  name="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
+</beans>
