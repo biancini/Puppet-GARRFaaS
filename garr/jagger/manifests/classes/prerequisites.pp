@@ -16,7 +16,7 @@ class jagger::prerequisites(
   
   # Install requested packages
   package { [
-    'git', 'php5', 'php-apc', 'php5-cli', 'php5-dev', 'php-pear', 'php5-curl',
+    'php5', 'php-apc', 'php5-cli', 'php5-dev', 'php-pear', 'php5-curl',
     'php5-mysql', 'php5-mcrypt', 'php5-memcached', 'build-essential',
     'gearman-job-server', 'memcached', 'libboost-all-dev', 'gperf',
     'libevent-dev', 'uuid-dev', 'libcloog-ppl-dev']:

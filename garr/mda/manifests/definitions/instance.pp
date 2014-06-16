@@ -10,8 +10,8 @@ define mda::instance (
     mdafqdn       => $mdafqdn,
   }
 
-  # Install and configure Discojuice DS
-  class { 'mda::ds':
+  # Install and configure Shibboleth Metadata Aggregator
+  class { 'mda::mda':
     technicalEmail          => $technicalEmail,
     technicalGivenName      => $technicalGivenName,
     technicalSurName        => $technicalSurName,
