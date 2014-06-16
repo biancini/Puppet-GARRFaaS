@@ -6,18 +6,12 @@ define mda::instance (
   $mdafqdn            = undef,
 ) {
   
-  class { 'mda::prerequisites':
-    mdafqdn       => $mdafqdn,
-  }
+  class { 'mda::prerequisites': }
 
   # Install and configure Shibboleth Metadata Aggregator
   class { 'mda::mda':
-    technicalEmail          => $technicalEmail,
-    technicalGivenName      => $technicalGivenName,
-    technicalSurName        => $technicalSurName,
     federation_name         => $federation_name,
     require                 => Class['mda::prerequisites'],
-    notify                  => Service['httpd'],
   }
   
 }

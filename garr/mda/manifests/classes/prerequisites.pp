@@ -1,6 +1,4 @@
-class mda::prerequisites(
-  $mdafqdn = 'exampleservername.com',
-) {
+class mda::prerequisites() {
 
   file { '/opt/mda':
     ensure  => directory;
@@ -10,7 +8,7 @@ class mda::prerequisites(
 	  'gitclone ukf-meta':
 	      command => 'git clone https://github.com/ukf/ukf-meta.git',
 	      cwd     => '/opt/mda',
-	      require => Package['git'],
+	      require => [Package['git'], File['/opt/mda']],
 	      path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 	      creates => ['/opt/mda/ukf-meta'];
   }
