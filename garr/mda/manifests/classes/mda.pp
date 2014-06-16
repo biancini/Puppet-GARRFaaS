@@ -21,7 +21,7 @@ class mda::mda(
       
     '/opt/mda/ukf-meta/mdx/it_idem':
       recurse => true,
-      source  => "puppet://mda/${federation_name}-meta/it_idem",
+      source  => "puppet://mda/${federation_name}-meta/mdx/it_idem",
       require => Exec['gitclone ukf-meta'];
   }
   
