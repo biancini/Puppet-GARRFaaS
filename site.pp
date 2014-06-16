@@ -269,7 +269,6 @@ node 'registry.mib.garr.it' {
     federation_id           => 'IDEM',
     federation_country      => 'IT',
     ca_cert                 => 'https://ca.garr.it/mgt/CAcert.pem',
-    edugain_metadata_url    => 'https://www.idem.garr.it/docs/conf/signed-edugain.metadata.xml',
     signer_bundle           => 'https://www.idem.garr.it/index.php/it/documenti/doc_download/45-signerbundle',
     test_metadata           => {
       'url' => 'https://www.idem.garr.it/docs/conf/signed-test-metadata.xml',
