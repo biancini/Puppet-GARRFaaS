@@ -19,10 +19,10 @@ class mda::mda(
       source  => "puppet://mda/${federation_name}-meta/mdx/clean-import.xsl",
       require => Exec['gitclone ukf-meta'];
       
-    '/opt/mda/ukf-meta/mdx/it_idem':
-      recurse => true,
-      source  => "puppet://mda/${federation_name}-meta/mdx/it_idem",
-      require => Exec['gitclone ukf-meta'];
+    #'/opt/mda/ukf-meta/mdx/it_idem':
+    #  recurse => true,
+    #  source  => "puppet://mda/${federation_name}-meta/mdx/it_idem",
+    #  require => Exec['gitclone ukf-meta'];
   }
   
 }
