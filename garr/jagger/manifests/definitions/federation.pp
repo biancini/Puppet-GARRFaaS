@@ -11,7 +11,7 @@ define jagger::federation (
     user              => 'root',
     password          => $rootpw,
     dbname            => 'rr3',
-    query_check_empty => 'SELECT * FROM staticpage WHERE pcode = \'front_page\'',
+    query_check_empty => "SELECT * FROM federation WHERE name = '${federation_name}'",
     sql => [join(['START TRANSACTION;',
                   '',
                   'INSERT INTO federation (name, urn, publisher, description, is_active, is_protected, is_public, is_lexport, is_local, attrreq_inmeta, tou, owner)',
