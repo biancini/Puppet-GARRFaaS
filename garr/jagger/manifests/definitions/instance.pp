@@ -19,7 +19,7 @@ define jagger::instance (
 ) {
   
   # A Jagger Federation can be registered only AFTER the registry has been installed correctly
-  Jagger::Registry <| |> -> Jagger::Federation <| |>
+  Class['jagger::registry'] -> Jagger::Federation <| |>
   
   # Install prerequisites
   class { 'jagger::prerequisites':
