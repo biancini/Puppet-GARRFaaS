@@ -117,15 +117,15 @@ node 'registry.mib.garr.it' {
     ca_cert                 => 'https://ca.garr.it/mgt/CAcert.pem',
     signer_bundle           => 'https://www.idem.garr.it/index.php/it/documenti/doc_download/45-signerbundle',
     test_metadata           => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_test_b64}/metadata.xml',
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_test_b64}/metadata.xml",
       'urn' => 'urn:mace:garr:it:idem',
     },
     production_metadata     => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_prod_b64}/metadata.xml',
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_prod_b64}/metadata.xml",
       'urn' => 'urn:mace:garr:it:idem',
     },
     edugain_metadata        => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_edugain_b64}/metadata.xml',
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_edugain_b64}/metadata.xml",
       'urn' => 'urn:mace:garr:it:idem-edugain',
     },
   }
