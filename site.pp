@@ -80,7 +80,7 @@ node 'registry.mib.garr.it' {
 
   $rootpw          = 'ciaoidem'
   $federation_id   = 'IDEM'
-  $federation_name = 'Federatione IDEM'
+  $federation_name = 'Federazione IDEM'
 
   jagger::instance { "${hostname}-rr":
     rootpw                 => $rootpw,
