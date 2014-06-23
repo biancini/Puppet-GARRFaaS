@@ -107,9 +107,9 @@ node 'registry.mib.garr.it' {
     dsfqdn             => $fqdn,
   }
 
-  $federation_test_b64 = regsubst(base64('encode', "${federation_name} di test"), '=', '~')
-  $federation_prod_b64 = regsubst(base64('encode', "${federation_name} di produzione"), '=', '~')
-  $federation_edugain_b64 = regsubst(base64('encode', "${federation_name} per eduGAIN"), '=', '~')
+  $federation_test_b64 = chomp(regsubst(base64('encode', "${federation_name} di test"), '=', '~', 'G'))
+  $federation_prod_b64 = chomp(regsubst(base64('encode', "${federation_name} di produzione"), '=', '~', 'G'))
+  $federation_edugain_b64 = chomp(regsubst(base64('encode', "${federation_name} per eduGAIN"), '=', '~', 'G'))
 
   mda::instance { "${hostname}-mda":
     federation_id           => $federation_id,
