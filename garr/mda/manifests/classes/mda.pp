@@ -50,6 +50,14 @@ class mda::mda(
       mode    => "0644",
       content => template('mda/verbs.xml.erb'),
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
+      
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/beans.xml":
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0644",
+      content => template('mda/beans.xml.erb'),
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
     
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/remove${federation_id}EntityFromEdugainMetadata.xsl":
       ensure  => file,
