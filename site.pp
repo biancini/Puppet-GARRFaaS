@@ -146,7 +146,7 @@ node 'registry.mib.garr.it' {
     'federation-edugain':
       rootpw                 => $rootpw,
       federation_id          => "${federation_id}-EDUGAIN",
-      federation_name        => "${federation_name} di per eduGAIN",
+      federation_name        => "${federation_name} per eduGAIN",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
