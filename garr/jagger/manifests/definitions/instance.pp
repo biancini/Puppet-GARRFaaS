@@ -18,6 +18,9 @@ define jagger::instance (
   $app_environment        = undef,
 ) {
   
+  # A Jagger Federation can be registered only AFTER the registry has been installed correctly
+  Jagger::Registry <| |> -> Jagger::Federation <| |>
+  
   # Install prerequisites
   class { 'jagger::prerequisites':
     rootpw           => $rootpw,
