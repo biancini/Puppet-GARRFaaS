@@ -107,7 +107,7 @@ BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
       notify  => Exec['shib2-shibd-restart'],
       require => File['/var/www/secure'];
     
-    '/etc/apache2/sites-available/secure':
+    '/etc/apache2/sites-available/secure.conf':
       ensure  => present,
       owner   => 'root',
       group   => 'root',
@@ -121,13 +121,13 @@ BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
       require => Apache::Mod['shib'],
       notify  => Exec['shib2-apache-restart'];
 
-    '/etc/apache2/sites-enabled/secure':
+    '/etc/apache2/sites-enabled/secure.conf':
       ensure  => link,
-      target  => '/etc/apache2/sites-available/secure',
+      target  => '/etc/apache2/sites-available/secure.conf',
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      require => File['/etc/apache2/sites-available/secure'],
+      require => File['/etc/apache2/sites-available/secure.conf'],
       notify  => Exec['shib2-apache-restart'];
       
   }
