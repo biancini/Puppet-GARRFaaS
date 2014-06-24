@@ -148,7 +148,7 @@ class jagger::prerequisites(
       mode    => "0755",
       require => Exec['gitclone rr3'];
       
-    '/etc/apache2/sites-available/registry-ssl':
+    '/etc/apache2/sites-available/registry-ssl.conf':
       ensure  => present,
       owner   => 'root',
       group   => 'root',
@@ -185,13 +185,13 @@ class jagger::prerequisites(
       require => Apache::Mod['shib'],
       notify  => Exec['shib2-apache-restart'];
 
-    '/etc/apache2/sites-enabled/registry-ssl':
+    '/etc/apache2/sites-enabled/registry-ssl.conf':
       ensure  => link,
-      target  => '/etc/apache2/sites-available/registry-ssl',
+      target  => '/etc/apache2/sites-available/registry-ssl.conf',
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      require => File['/etc/apache2/sites-available/registry-ssl'],
+      require => File['/etc/apache2/sites-available/registry-ssl.conf'],
       notify  => Exec['shib2-apache-restart'];
       
     '/etc/apache2/conf.d/registry.conf':
