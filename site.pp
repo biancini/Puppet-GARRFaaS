@@ -75,7 +75,6 @@ node 'registry.mib.garr.it' {
       'location'  => '/DS',
       'url'       => "https://${fqdn}/rr3/eds",
     },
-    apache_doc_root => '/opt/rr3',
   }
 
   $rootpw          = 'ciaoidem'
