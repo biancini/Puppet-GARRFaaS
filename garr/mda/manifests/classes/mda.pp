@@ -74,9 +74,9 @@ class mda::mda(
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
       
     [
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedcountry_downcase}-edugain",
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedcountry_downcase}-prod",
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedcountry_downcase}-test",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedid_downcase}-edugain",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedid_downcase}-prod",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-in/${fedid_downcase}-test",
     ]:
       ensure  => directory,
       owner   => "root",
@@ -92,9 +92,9 @@ class mda::mda(
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
       
     [
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedcountry_downcase}-edugain",
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedcountry_downcase}-prod",
-      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedcountry_downcase}-test",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedid_downcase}-edugain",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedid_downcase}-prod",
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/md-out/${fedid_downcase}-test",
     ]:
       ensure  => directory,
       owner   => "root",
