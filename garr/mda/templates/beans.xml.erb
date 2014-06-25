@@ -38,11 +38,11 @@
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-edugain"/>
     </bean>
 
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" class="net.shibboleth.utilities.java.support.resource.FileSystemResource">
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/my-fed.xsl" />
     </bean>
 
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainXSL" class="net.shibboleth.utilities.java.support.resource.FileSystemResource">
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/remove<%= federation_id %>EntityFromEdugainMetadata.xsl" />
     </bean>
 
@@ -243,7 +243,7 @@
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd" parent="stage_parent" 
           class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd">
        <property name="XSLResource">
-          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FileSystemResource">
                 <constructor-arg ref="xslTransformationAddRootIDAttribute" />
           </bean>
        </property>
@@ -258,7 +258,7 @@
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest" parent="stage_parent" 
           class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest">
        <property name="XSLResource">
-          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FileSystemResource">
                 <constructor-arg ref="xslTransformationAddRootIDAttribute" />
           </bean>
        </property>
@@ -273,7 +273,7 @@
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain" parent="stage_parent" 
           class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain">
        <property name="XSLResource">
-          <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+          <bean class="net.shibboleth.utilities.java.support.resource.FileSystemResource">
                 <constructor-arg ref="xslTransformationAddRootIDAttribute" />
           </bean>
        </property>
@@ -293,7 +293,7 @@
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_trustRootsDocument" class="net.shibboleth.ext.spring.factory.DomDocumentFactoryBean">
         <property name="parserPool" ref="parserPool"/>
         <property name="documentResource">
-            <bean parent="FilesystemResource">
+            <bean parent="FileSystemResource">
                 <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/trust-roots.xml"/>
             </bean>
         </property>
