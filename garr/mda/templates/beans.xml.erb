@@ -138,8 +138,6 @@
         </property>
     </bean>
 
-<!-- INIZIO INSERIMENTO DI MARCO -->
-
     <!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory"/>
@@ -224,7 +222,6 @@
         </property>
     </bean>
    
-
     <!-- Stage utilizzato per formattare l'XML dei metadati con lo stylesheet XSL "my-fed.xsl" indicato dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata" class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata">
@@ -236,7 +233,6 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_extractOnlyEdugainEntity">
         <property name="XSLResource" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainXSL"/>
     </bean>
-
 
     <!--
       Pipeline which adds an 'ID' attribute to the root EntitiesDescriptor element.
@@ -406,7 +402,6 @@
             </list>
         </property>
     </bean>
-<!-- FINE INSERIMENTO -->
     
     <!--
         Check signing signature.
@@ -488,6 +483,7 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities">
         <property name="composedStages">
             <list>
+            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate_url"/>
                 <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirTestMetadata"/>
 
                 <!--
@@ -512,6 +508,7 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain">
         <property name="composedStages">
             <list>
+            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate_url"/>
                 <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
 
                 <!--
