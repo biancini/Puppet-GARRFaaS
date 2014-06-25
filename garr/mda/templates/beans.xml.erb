@@ -483,7 +483,7 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities">
         <property name="composedStages">
             <list>
-            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate_url"/>
+            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAggregate"/>
                 <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirTestMetadata"/>
 
                 <!--
@@ -508,7 +508,7 @@
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_productionEntitiesForEdugain">
         <property name="composedStages">
             <list>
-            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate_url"/>
+            	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
                 <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
 
                 <!--
