@@ -1,5 +1,9 @@
 class mda::prerequisites() {
 
+  package { "ant":
+    ensure => installed,  
+  }
+
   exec { 'gitclone ukf-meta':
     command => 'git clone https://github.com/ukf/ukf-meta.git',
     cwd     => '/opt',
