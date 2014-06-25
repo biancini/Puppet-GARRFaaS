@@ -133,7 +133,7 @@ class mda::mda(
       source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-key.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
       
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/signer_bundle.pem":
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/signer-bundle.pem":
       ensure  => file,
       owner   => "root",
       group   => "root",
