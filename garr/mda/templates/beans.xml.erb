@@ -308,7 +308,7 @@
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots" parent="XSLTransformationStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots">
         <property name="XSLResource">
-            <bean parent="ClasspathResource">
+            <bean parent="ClassPathResource">
                 <constructor-arg value="<%= fedcountry_downcase %>_<%= fedid_downcase %>/trust-roots.xsl"/>
             </bean>
         </property>
