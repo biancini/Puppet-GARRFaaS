@@ -1,8 +1,6 @@
 class mda::mda(
   $federation_id           = 'TestFed',
   $federation_country      = 'IT',
-  $ca_cert                 = 'https://example.com/ca-cert.pem',
-  $signer_bundle           = 'https://example.com/signer-bundle.pem',
   $test_metadata           = {
     'url' => 'https://example.com/registry/test-metadata.xml',
     'urn' => 'urn:mace:garr:it:idem',
@@ -125,15 +123,29 @@ class mda::mda(
       mode    => "0400",
       source  => "puppet:///modules/mda/certs/${hostname}-key.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
-  }
-  
-  download_file {
+      
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/${fedid_downcase}-signer.key":
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0400",
+      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-key.pem",
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
+      
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/signer_bundle.pem":
-      url     => $signer_bundle,
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0400",
+      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-cert.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
       
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/CA-cert.pem":
-      url     => $ca_cert,
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0400",
+      source  => "puppet:///modules/mda/certs/${fedid_downcase}-ca.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
   }
   
