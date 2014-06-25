@@ -1,6 +1,7 @@
 class mda::mda(
   $federation_id           = 'TestFed',
   $federation_country      = 'IT',
+  $use_ca                  = false,
   $test_metadata           = {
     'url' => 'https://example.com/registry/test-metadata.xml',
     'urn' => 'urn:mace:garr:it:idem',
@@ -139,14 +140,17 @@ class mda::mda(
       mode    => "0400",
       source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-cert.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
-      
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/CA-cert.pem":
+  }
+  
+  if ($use_ca) {
+    file { "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/CA-cert.pem":
       ensure  => file,
       owner   => "root",
       group   => "root",
       mode    => "0400",
       source  => "puppet:///modules/mda/certs/${fedid_downcase}-ca.pem",
-      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"],
+    }
   }
   
 }

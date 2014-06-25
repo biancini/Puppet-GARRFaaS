@@ -75,6 +75,7 @@
         </property>
     </bean>
 
+	<%- if use_ca -%>
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
         <property name="certificateFile">
             <bean class="java.io.File">
@@ -82,6 +83,7 @@
             </bean>
         </property>
     </bean>
+    <%- end -%>
     <!-- End list of X509Certificate inside the Signature -->
 
     <!-- Certificato e Chiave self signed con cui firmare i metadati in SHA256 -->
@@ -164,7 +166,9 @@
         <property name="certificates">
           <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
+            <%- if use_ca -%>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
+            <%- end -%>
           </list>
         </property>
         <property name="shaVariant">
@@ -186,7 +190,9 @@
         <property name="certificates">
           <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
+            <%- if use_ca -%>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
+            <%- end -%>
           </list>
         </property>
         <property name="shaVariant">
@@ -195,7 +201,7 @@
     </bean>
 
     <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" -->
+         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor">
         <property name="privateKey">
@@ -208,6 +214,9 @@
         <property name="certificates">
           <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" />
+            <%- if use_ca -%>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
+            <%- end -%>
           </list>
         </property>
         <property name="shaVariant">

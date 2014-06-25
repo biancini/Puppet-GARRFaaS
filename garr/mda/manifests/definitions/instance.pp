@@ -1,6 +1,7 @@
 define mda::instance (
   $federation_id       = undef,
   $federation_country  = undef,
+  $use_ca              = undef,
   $test_metadata       = undef,
   $production_metadata = undef,
   $edugain_metadata    = undef,
@@ -12,6 +13,7 @@ define mda::instance (
   class { 'mda::mda':
     federation_id       => $federation_id,
     federation_country  => $federation_country,
+    use_ca              => $use_ca,
     test_metadata       => $test_metadata,
     production_metadata => $production_metadata,
     edugain_metadata    => $edugain_metadata,
