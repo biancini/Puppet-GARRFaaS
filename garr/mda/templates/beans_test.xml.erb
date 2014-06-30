@@ -45,7 +45,7 @@
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble" parent="stage_parent"
     class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble">
-    <property name="descriptorName" value="<%= test_metadata["url"] %>"/>
+    <property name="descriptorName" value="<%= test_metadata["urn"] %>"/>
 </bean>
 
 <!-- <%= federation_id %> Test Federation - Aggiungo un validUntil valido per 30 anni -->
@@ -63,12 +63,12 @@
     4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
     5) Normalizza i Namespace XML.
 -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest" parent="CompositeStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest">
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTestTail" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTestTail">
     <property name="composedStages">
         <list>
             <!-- announce and remove any entities with errors -->
-            <ref bean="errorAnnouncingFilter"/>
+            <!--<ref bean="errorAnnouncingFilter"/>-->
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testAssemble"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToTest"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest"/>

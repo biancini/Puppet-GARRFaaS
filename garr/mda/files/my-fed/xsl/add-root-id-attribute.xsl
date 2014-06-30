@@ -2,7 +2,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
     xmlns:date="http://exslt.org/dates-and-times"
-    extension-element-prefixes="date">
+    xmlns:mdxDates="xalan://uk.ac.sdss.xalan.md.Dates"
+    extension-element-prefixes="date mdxDates">
+
+   <xsl:variable name="now" select="date:date-time()"/>
+   <xsl:variable name="normalisedNow" select="mdxDates:dateAdd($now, 0)"/>
 <!--
     Add attribute 'ID' to root element (EntitiesDescriptor).
     The value of this attribute has the form ID="SWITCHaai-yyyymmddhhiiss"
@@ -15,8 +19,9 @@
     that the signature explicitly references an identifier attribute in the element
     being signed, in this case the document element.
 -->
-<xsl:param name="prefix">interfederation</xsl:param>
-<xsl:variable name="documentID" select="concat($prefix, '-', translate(substring-before(date:date-time(),'+'),'-T:',''))"/>
+
+   <xsl:param name="prefix">interfederation</xsl:param>
+   <xsl:variable name="documentID" select="concat($prefix, '-', translate($normalisedNow, ':-', ''))"/>
     <!-- Add the attribute 'ID' -->
     <xsl:template match="/md:EntitiesDescriptor">
         <xsl:copy>

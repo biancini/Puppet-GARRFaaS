@@ -879,15 +879,15 @@
     </target>
     
     <!-- FLOW PER <%= federation_id %> TEST -->
-    <target name="<%= fedid_downcase %>-test-all">
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-unsigned"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-sha256"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-selfSigned-sha256"/>
-    </target>
-
     <target name="<%= fedid_downcase %>-test-check">
          <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-check"/>
+    </target>
+
+    <target name="<%= fedid_downcase %>-test-all">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-check"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha256"/>
     </target>
 
     <!-- FLOW PER <%= federation_id %> PROD-->
