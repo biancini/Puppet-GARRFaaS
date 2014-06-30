@@ -1,0 +1,122 @@
+<!-- Location of various resources. -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate_url" class="java.lang.String">
+    <constructor-arg value="<%= prod_metadata["url"] %>"/>
+</bean>
+
+<!-- INPUT DIRECTORY -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" class="java.io.File">
+    <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-prod"/>
+</bean>
+
+<bean id="Root<%= federation_id %>-ProdPrefix" class="java.lang.String">
+    <constructor-arg value="<%= federation_id %>-TEST"/>
+</bean>    
+
+<!-- Fetch the prod aggregate. -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate" parent="DOMResourceSourceStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate">
+    <property name="DOMResource">
+        <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+            <constructor-arg name="client" ref="httpClient"/>
+            <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate_url"/>
+        </bean>
+    </property>
+</bean>
+
+<!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory" -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory"/>
+    
+<!-- Aggiungo l'ID=<%= federation_id %>-TEST-YYMMDDHHIISS ai metadati di <%= federation_id %> Prod Federation -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd" parent="stage_parent" 
+      class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd">
+   <property name="XSLResource">
+      <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+            <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+      </bean>
+   </property>
+   <property name="transformParameters">
+      <map>
+           <entry key="prefix" value-ref="Root<%= federation_id %>-ProdPrefix"/>
+      </map>
+   </property>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble" parent="stage_parent"
+    class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble">
+    <property name="descriptorName" value="<%= prod_metadata["url"] %>"/>
+</bean>
+
+<!-- <%= federation_id %> Prod Federation - Aggiungo un validUntil valido per 30 anni -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd" parent="stage_parent"
+    class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd" p:validityDuration="#{1000L * 60 * 60 * 24 * 365 * 30}"/>
+    
+<!--
+    <%= fedcountry_downcase %>_<%= fedid_downcase %>ImportProduction
+    
+    Questo Stage prepara il documento per la serializzazione/output:
+    1) Filtra via le entità affette da errori
+    2) Assembla le entità rimaste in 1 solo <EntitiesDescriptor>
+    3) Aggiunge l' "ID" correttamente aggiornato all'<EntitiesDescriptor>
+    4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
+    5) Normalizza i Namespace XML.
+-->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd">
+    <property name="composedStages">
+        <list>
+            <!-- announce and remove any entities with errors -->
+            <ref bean="errorAnnouncingFilter"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd"/>
+            <ref bean="normaliseNamespaces"/>
+        </list>
+    </property>
+</bean>
+
+<!--
+    Fetch the prod entities as a collection by an URL.
+-->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities_by_url" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities_by_url">
+    <property name="composedStages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
+
+            <!--
+                Check for fatal errors at the aggregate level:
+                    missing or expired validUntil attribute
+                    invalid signature
+            -->
+            <ref bean="check_validUntil"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+            <ref bean="errorTerminatingFilter"/>
+            
+            <ref bean="disassemble"/>
+        </list>
+    </property>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities">
+    <property name="composedStages">
+        <list>
+        	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
+
+            <!--
+                Check for fatal errors at the aggregate level:
+                    missing or expired validUntil attribute
+                    invalid signature
+            -->
+            <ref bean="check_validUntil"/>
+            <!--ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/-->
+            <ref bean="errorTerminatingFilter"/>
+
+            <ref bean="disassemble"/>
+        </list>
+    </property>
+</bean>
