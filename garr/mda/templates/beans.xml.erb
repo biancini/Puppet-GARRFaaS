@@ -30,6 +30,7 @@
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/add-root-id-attribute.xsl" />
     </bean>
 
+<%- if use_ca -%>
     <!-- X509Certificate inside the Signature -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" class="java.io.File">
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/<%= fedid_downcase %>-signer.key"/>
@@ -43,7 +44,6 @@
         </property>
     </bean>
 
-	<%- if use_ca -%>
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
         <property name="certificateFile">
             <bean class="java.io.File">
@@ -51,7 +51,7 @@
             </bean>
         </property>
     </bean>
-    <%- end -%>
+<%- else -%>
     <!-- End list of X509Certificate inside the Signature -->
 
     <!-- Certificato e Chiave self signed con cui firmare i metadati in SHA256 -->
@@ -66,24 +66,31 @@
             </bean>
         </property>
     </bean>
+<%- end -%>
 
-    <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
+    <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %><%- if use_ca-%>_signingKeyFile<%- else -%>_selfSigningKeyFile<%- end -%><%- if use_ca -%> e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"<%- else -%><%- end -%> -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1">
         <property name="privateKey">
+<%- if use_ca -%>
             <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
                   p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />
+<%- else -%>
+            <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
+                  p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" />
+<%- end -%>
         </property>
         <property name="c14nWithComments" value="true" />
         <property name="includeX509Certificates" value="true" />
 
         <property name="certificates">
           <list>
+<%- if use_ca -%>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
-            <%- if use_ca -%>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
-            <%- end -%>
+<%- else -%>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" />
+<%- end -%>
           </list>
         </property>
         <property name="shaVariant">
@@ -91,54 +98,36 @@
         </property>
     </bean>
 
-    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
+    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %><%- if use_ca-%>_signingKeyFile<%- else -%>_selfSigningKeyFile<%- end -%><%- if use_ca -%> e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"<%- else -%><%- end -%> -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256">
         <property name="privateKey">
+<%- if use_ca -%>
             <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
                   p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />
-        </property>
-        <property name="c14nWithComments" value="true" />
-        <property name="includeX509Certificates" value="true" />
-
-        <property name="certificates">
-          <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
-            <%- if use_ca -%>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
-            <%- end -%>
-          </list>
-        </property>
-        <property name="shaVariant">
-            <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
-        </property>
-    </bean>
-
-    <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" 
-         e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
-        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSignSHA256EntitiesDescriptor">
-        <property name="privateKey">
+<%- else -%>
             <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
                   p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningKeyFile" />
+<%- end -%>
         </property>
         <property name="c14nWithComments" value="true" />
         <property name="includeX509Certificates" value="true" />
 
         <property name="certificates">
           <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" />
-            <%- if use_ca -%>
+<%- if use_ca -%>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" />
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate"/>
-            <%- end -%>
+<%- else -%>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_selfSigningCertificate" />
+<%- end -%>
           </list>
         </property>
         <property name="shaVariant">
             <util:constant static-field="net.shibboleth.metadata.dom.XMLSignatureSigningStage.ShaVariant.SHA256"/>
         </property>
     </bean>
-   
+
     <!-- Stage utilizzato per formattare l'XML dei metadati con lo stylesheet XSL "my-fed.xsl" indicato dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" -->
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata" class="net.shibboleth.metadata.dom.MultiOutputXSLTransformationStage"
         p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata">
