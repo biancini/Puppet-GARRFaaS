@@ -69,8 +69,8 @@
 
     <!-- Questo Stage firma i metadati in SHA1 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
          e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
-        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor">
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1">
         <property name="privateKey">
             <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
                   p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />
@@ -93,8 +93,8 @@
 
     <!-- Questo Stage firma i metadati in SHA256 con la chiave indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" 
          e vi aggiunge i certificati indicati dai beans "<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingCertificate" e "<%= fedcountry_downcase %>_<%= fedid_downcase %>_CAcertificate" -->
-    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
-        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor">
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256" class="net.shibboleth.metadata.dom.XMLSignatureSigningStage"
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256">
         <property name="privateKey">
             <bean class="net.shibboleth.ext.spring.factory.PrivateKeyFactoryBean" 
                   p:privateKeyFile-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signingKeyFile" />

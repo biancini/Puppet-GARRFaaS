@@ -45,7 +45,7 @@
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble" parent="stage_parent"
     class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble">
-    <property name="descriptorName" value="<%= production_metadata["url"] %>"/>
+    <property name="descriptorName" value="<%= production_metadata["urn"] %>"/>
 </bean>
 
 <!-- <%= federation_id %> Prod Federation - Aggiungo un validUntil valido per 30 anni -->

@@ -45,7 +45,7 @@
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble" parent="stage_parent"
     class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble">
-    <property name="descriptorName" value="<%= edugain_metadata["url"] %>"/>
+    <property name="descriptorName" value="<%= edugain_metadata["urn"] %>"/>
 </bean>
 
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilTo<%= federation_id %>Edugain" parent="stage_parent"
