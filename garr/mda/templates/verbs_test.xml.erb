@@ -1,0 +1,105 @@
+<bean id="serializeImportedTestUnsigned" parent="SerializationStage"
+    p:id="serializeImportedTestUnsigned">
+    <property name="outputFile">
+        <bean class="java.io.File">
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-metadata.xml"/>
+        </bean>
+    </property>
+</bean>
+
+<bean id="serializeImportedTestSHA1Signed" parent="SerializationStage"
+    p:id="serializeImportedTestSHA1Signed">
+    <property name="outputFile">
+        <bean class="java.io.File">
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-signed-sha1-metadata.xml"/>
+        </bean>
+    </property>
+</bean>
+
+<bean id="serializeImportedTestSHA256Signed" parent="SerializationStage"
+    p:id="serializeImportedTestSHA256Signed">
+    <property name="outputFile">
+        <bean class="java.io.File">
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-signed-sha256-metadata.xml"/>
+        </bean>
+    </property>
+</bean>
+
+<bean id="serializeImportedTestSHA256selfSigned" parent="SerializationStage"
+    p:id="serializeImportedTestSHA256selfSigned">
+    <property name="outputFile">
+        <bean class="java.io.File">
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-selfSigned-sha256-metadata.xml"/>
+        </bean>
+    </property>
+</bean>
+
+<bean id="<%= fedid_downcase %>-test-check" parent="SimplePipeline"
+    p:id="<%= fedid_downcase %>-test-check">
+    <property name="stages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities"/>
+            <ref bean="standardImportActions"/>
+            <ref bean="errorAnnouncer"/>
+        </list>
+    </property>
+</bean>
+
+<bean id="<%= fedid_downcase %>-test-unsigned" parent="SimplePipeline"
+    p:id="<%= fedid_downcase %>-test-unsigned">
+    <property name="stages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities"/>
+            <ref bean="standardImportActions"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="serializeImportedTestUnsigned"/>
+        </list>
+    </property>
+</bean>
+
+<bean id="<%= fedid_downcase %>-test-sha1" parent="SimplePipeline"
+    p:id="<%= fedid_downcase %>-test-sha1">
+    <property name="stages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities"/>
+            <ref bean="standardImportActions"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor" />
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="serializeImportedTestSHA1Signed"/>
+        </list>
+    </property>
+</bean>
+
+<bean id="<%= fedid_downcase %>-test-sha256" parent="SimplePipeline"
+    p:id="<%= fedid_downcase %>-test-sha256">
+    <property name="stages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities"/>
+            <ref bean="standardImportActions"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" />
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="serializeImportedTestSHA256Signed"/>
+        </list>
+    </property>
+</bean>
+
+<bean id="<%= fedid_downcase %>-test-selfSigned-sha256" parent="SimplePipeline"
+    p:id="<%= fedid_downcase %>-test-selfSigned-sha256">
+    <property name="stages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_testEntities"/>
+            <ref bean="standardImportActions"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importTest"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" />
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="serializeImportedTestSHA256selfSigned"/>
+        </list>
+    </property>
+</bean>
