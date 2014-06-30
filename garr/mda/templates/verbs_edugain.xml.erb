@@ -1,5 +1,4 @@
-<bean id="serializeImported<%= federation_id %>EdugainUnsigned" parent="SerializationStage"
-    p:id="serializeImported<%= federation_id %>EdugainUnsigned">
+<bean id="serializeImported<%= federation_id %>EdugainUnsigned" parent="SerializationStage" p:id="serializeImported<%= federation_id %>EdugainUnsigned">
     <property name="outputFile">
         <bean class="java.io.File">
             <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-edugain-metadata.xml"/>
@@ -7,8 +6,7 @@
     </property>
 </bean>
 
-<bean id="serializeImported<%= federation_id %>EdugainSHA1Signed" parent="SerializationStage"
-    p:id="serializeImportedEduGainSHA1Signed">
+<bean id="serializeImported<%= federation_id %>EdugainSHA1Signed" parent="SerializationStage" p:id="serializeImportedEduGainSHA1Signed">
     <property name="outputFile">
         <bean class="java.io.File">
             <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-edugain-signed-sha1-metadata.xml"/>
@@ -16,8 +14,7 @@
     </property>
 </bean>
 
-<bean id="serializeImported<%= federation_id %>EdugainSHA256Signed" parent="SerializationStage"
-    p:id="serializeImportedEduGainSHA256Signed">
+<bean id="serializeImported<%= federation_id %>EdugainSHA256Signed" parent="SerializationStage" p:id="serializeImportedEduGainSHA256Signed">
     <property name="outputFile">
         <bean class="java.io.File">
             <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-edugain-signed-sha256-metadata.xml"/>
@@ -25,8 +22,7 @@
     </property>
 </bean>
 
-<bean id="serializeImported<%= federation_id %>EdugainSHA256selfSigned" parent="SerializationStage"
-    p:id="serializeImportedEduGainSHA256selfSigned">
+<bean id="serializeImported<%= federation_id %>EdugainSHA256selfSigned" parent="SerializationStage" p:id="serializeImportedEduGainSHA256selfSigned">
     <property name="outputFile">
         <bean class="java.io.File">
             <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-edugain-selfSigned-sha256-metadata.xml"/>
@@ -34,8 +30,7 @@
     </property>
 </bean>
 
-<bean id="importEdugain" parent="SimplePipeline"
-    p:id="importEdugain">
+<bean id="importEdugain" parent="SimplePipeline" p:id="importEdugain">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
@@ -46,8 +41,7 @@
     </property>
 </bean>
 
-<bean id="importEdugainRaw" parent="SimplePipeline"
-    p:id="importEdugainRaw">
+<bean id="importEdugainRaw" parent="SimplePipeline" p:id="importEdugainRaw">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
@@ -56,8 +50,7 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-edugain-check" parent="SimplePipeline"
-    p:id="<%= fedid_downcase %>-edugain-check">
+<bean id="<%= fedid_downcase %>-edugain-check" parent="SimplePipeline" p:id="<%= fedid_downcase %>-edugain-check">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
@@ -68,8 +61,7 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-edugain-unsigned" parent="SimplePipeline"
-    p:id="<%= fedid_downcase %>-edugain-unsigned">
+<bean id="<%= fedid_downcase %>-edugain-unsigned" parent="SimplePipeline" p:id="<%= fedid_downcase %>-edugain-unsigned">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
@@ -83,8 +75,7 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-edugain-sha1" parent="SimplePipeline"
-    p:id="<%= fedid_downcase %>-edugain-sha1">
+<bean id="<%= fedid_downcase %>-edugain-sha1" parent="SimplePipeline" p:id="<%= fedid_downcase %>-edugain-sha1">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
@@ -100,8 +91,7 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-edugain-sha256" parent="SimplePipeline"
-    p:id="<%= fedid_downcase %>-edugain-sha256">
+<bean id="<%= fedid_downcase %>-edugain-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-edugain-sha256">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
@@ -117,8 +107,7 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-edugain-selfSigned-sha256" parent="SimplePipeline"
-    p:id="<%= fedid_downcase %>-edugain-selfSigned-sha256">
+<bean id="<%= fedid_downcase %>-edugain-selfSigned-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-edugain-selfSigned-sha256">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
