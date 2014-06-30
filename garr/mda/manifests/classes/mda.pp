@@ -116,32 +116,33 @@ class mda::mda(
       mode    => "0400",
       source  => "puppet:///modules/mda/certs/${hostname}-key.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
-      
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/${fedid_downcase}-signer.key":
-      ensure  => file,
-      owner   => "root",
-      group   => "root",
-      mode    => "0400",
-      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-key.pem",
-      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
-      
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/signer-bundle.pem":
-      ensure  => file,
-      owner   => "root",
-      group   => "root",
-      mode    => "0400",
-      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-cert.pem",
-      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
   }
   
   if ($use_ca) {
-    file { "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/CA-cert.pem":
-      ensure  => file,
-      owner   => "root",
-      group   => "root",
-      mode    => "0400",
-      source  => "puppet:///modules/mda/certs/${fedid_downcase}-ca.pem",
-      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"],
+    file {
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/${fedid_downcase}-signer.key":
+	      ensure  => file,
+	      owner   => "root",
+	      group   => "root",
+	      mode    => "0400",
+	      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-key.pem",
+	      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
+	      
+	    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/signer-bundle.pem":
+	      ensure  => file,
+	      owner   => "root",
+	      group   => "root",
+	      mode    => "0400",
+	      source  => "puppet:///modules/mda/certs/${fedid_downcase}-signer-cert.pem",
+	      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
+      
+      "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials/CA-cert.pem":
+	      ensure  => file,
+	      owner   => "root",
+	      group   => "root",
+	      mode    => "0400",
+	      source  => "puppet:///modules/mda/certs/${fedid_downcase}-ca.pem",
+	      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"],
     }
   }
   
