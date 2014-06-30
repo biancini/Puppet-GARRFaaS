@@ -33,7 +33,7 @@
 <bean id="<%= fedid_downcase %>-prod-check" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-check">
     <property name="stages">
         <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_ProdEntities"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
             <ref bean="errorAnnouncer"/>
         </list>
@@ -43,7 +43,7 @@
 <bean id="<%= fedid_downcase %>-prod-unsigned" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-unsigned">
     <property name="stages">
         <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_ProdEntities"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
@@ -56,7 +56,7 @@
 <bean id="<%= fedid_downcase %>-prod-sha1" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-sha1">
     <property name="stages">
         <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_ProdEntities"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
@@ -70,7 +70,7 @@
 <bean id="<%= fedid_downcase %>-prod-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-sha256">
     <property name="stages">
         <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_ProdEntities"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
@@ -84,7 +84,7 @@
 <bean id="<%= fedid_downcase %>-prod-selfSigned-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-selfSigned-sha256">
     <property name="stages">
         <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_ProdEntities"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
