@@ -1,0 +1,122 @@
+<!-- Location of various resources. -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url" class="java.lang.String">
+    <constructor-arg value="<%= edugain_metadata["url"] %>"/>
+</bean>
+
+<!-- INPUT DIRECTORY -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" class="java.io.File">
+    <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-edugain"/>
+</bean>
+
+<bean id="Root<%= federation_id %>-EDUGAINPrefix" class="java.lang.String">
+    <constructor-arg value="<%= federation_id %>-EDUGAIN"/>
+</bean>
+
+<!-- Fetch the eduGAIN export aggregate. -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate" parent="DOMResourceSourceStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate">
+    <property name="DOMResource">
+        <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+            <constructor-arg name="client" ref="httpClient"/>
+            <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url"/>
+        </bean>
+    </property>
+</bean>
+
+<!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory"/>
+    
+<!-- Aggiungo l'ID=<%= federation_id %>-EDUGAIN-YYMMDDHHIISS ai metadati di <%= federation_id %> EduGain Interfederation -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain" parent="stage_parent" 
+      class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain">
+   <property name="XSLResource">
+      <bean class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+            <constructor-arg ref="xslTransformationAddRootIDAttribute" />
+      </bean>
+   </property>
+   <property name="transformParameters">
+      <map>
+           <entry key="prefix" value-ref="Root<%= federation_id %>-EDUGAINPrefix"/>
+      </map>
+   </property>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble" parent="stage_parent"
+    class="net.shibboleth.metadata.dom.saml.EntitiesDescriptorAssemblerStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble">
+    <property name="descriptorName" value="<%= edugain_metadata["url"] %>"/>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilTo<%= federation_id %>Edugain" parent="stage_parent"
+    class="net.shibboleth.metadata.dom.saml.SetValidUntilStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToTest" p:validityDuration="#{1000L * 60 * 60 * 24 * 7}"/>
+
+<!--
+    <%= fedcountry_downcase %>_<%= fedid_downcase %>ImportProduction
+    
+    Questo Stage prepara il documento per la serializzazione/output:
+    1) Filtra via le entità affette da errori
+    2) Assembla le entità rimaste in 1 solo <EntitiesDescriptor>
+    3) Aggiunge l' "ID" correttamente aggiornato all'<EntitiesDescriptor>
+    4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
+    5) Normalizza i Namespace XML.
+-->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importEdugain" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importEdugain">
+    <property name="composedStages">
+        <list>
+            <!-- announce and remove any entities with errors -->
+            <ref bean="errorAnnouncingFilter"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAssemble"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeTo<%= federation_id %>Edugain"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilTo<%= federation_id %>Edugain"/>
+            <ref bean="normaliseNamespaces"/>
+        </list>
+    </property>
+</bean>
+
+<!--
+    Fetch the eduGAIN export entities as a collection.
+-->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntitiesForEdugain" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntitiesForEdugain">
+    <property name="composedStages">
+        <list>
+        	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
+
+            <!--
+                Check for fatal errors at the aggregate level:
+                    missing or expired validUntil attribute
+                    invalid signature
+            -->
+            <ref bean="check_validUntil"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
+            <ref bean="errorTerminatingFilter"/>
+
+            <ref bean="disassemble"/>
+        </list>
+    </property>
+</bean>
+ 
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities">
+    <property name="composedStages">
+        <list>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
+            <!-- <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEdugainMetadata"/> -->
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_extractOnlyEdugainEntity"/> 
+            <!--
+                Check for fatal errors at the aggregate level:
+                    missing or expired validUntil attribute
+                    invalid signature
+            -->
+            <ref bean="check_validUntil"/>
+            <!-- <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/> -->
+            <ref bean="errorTerminatingFilter"/>
+            
+            <ref bean="disassemble"/>
+        </list>
+    </property>
+</bean>
