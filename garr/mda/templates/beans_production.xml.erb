@@ -9,7 +9,7 @@
 </bean>
 
 <bean id="Root<%= federation_id %>-ProdPrefix" class="java.lang.String">
-    <constructor-arg value="<%= federation_id %>-TEST"/>
+    <constructor-arg value="<%= federation_id %>-PROD"/>
 </bean>    
 
 <!-- Fetch the prod aggregate. -->
@@ -27,7 +27,7 @@
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodMetadataDirectory"/>
     
-<!-- Aggiungo l'ID=<%= federation_id %>-TEST-YYMMDDHHIISS ai metadati di <%= federation_id %> Prod Federation -->
+<!-- Aggiungo l'ID=<%= federation_id %>-PROD-YYMMDDHHIISS ai metadati di <%= federation_id %> Prod Federation -->
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd" parent="stage_parent" 
       class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd">
    <property name="XSLResource">
@@ -104,7 +104,7 @@
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities">
     <property name="composedStages">
         <list>
-        	   <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
+        	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
 
             <!--
