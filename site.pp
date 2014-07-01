@@ -113,7 +113,7 @@ node 'registry.mib.garr.it' {
   mda::instance { "${hostname}-mda":
     federation_id           => $federation_id,
     federation_country      => 'IT',
-    use_ca                  => true,
+    use_ca                  => false,
     test_metadata           => {
       'url' => "https://${fqdn}/rr3/metadata/federation/${federation_test_b64}/metadata.xml",
       'urn' => 'urn:mace:garr:it:idem',
