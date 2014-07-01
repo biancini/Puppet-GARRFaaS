@@ -1,7 +1,7 @@
 <bean id="serializeImportedProdUnsigned" parent="SerializationStage" p:id="serializeImportedProdUnsigned">
     <property name="outputFile">
         <bean class="java.io.File">
-            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-metadata.xml"/>
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata.xml"/>
         </bean>
     </property>
 </bean>
@@ -9,7 +9,7 @@
 <bean id="serializeImportedProdSHA1Signed" parent="SerializationStage" p:id="serializeImportedProdSHA1Signed">
     <property name="outputFile">
         <bean class="java.io.File">
-            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-signed-sha1-metadata.xml"/>
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata-sha1.xml"/>
         </bean>
     </property>
 </bean>
@@ -17,15 +17,7 @@
 <bean id="serializeImportedProdSHA256Signed" parent="SerializationStage" p:id="serializeImportedProdSHA256Signed">
     <property name="outputFile">
         <bean class="java.io.File">
-            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-signed-sha256-metadata.xml"/>
-        </bean>
-    </property>
-</bean>
-
-<bean id="serializeImportedProdSHA256selfSigned" parent="SerializationStage" p:id="serializeImportedProdSHA256selfSigned">
-    <property name="outputFile">
-        <bean class="java.io.File">
-            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-selfSigned-sha256-metadata.xml"/>
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata-sha256.xml"/>
         </bean>
     </property>
 </bean>
@@ -40,57 +32,49 @@
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-prod-unsigned" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-unsigned">
+<bean id="<%= fedid_downcase %>-prod-metadata" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-metadata">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProdTail"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
+            <ref bean="stripUkfedlabelNamespace"/>
+            <ref bean="stripWayfNamespace"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
             <ref bean="serializeImportedProdUnsigned"/>
         </list>
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-prod-sha1" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-sha1">
+<bean id="<%= fedid_downcase %>-prod-metadata-sha1" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-metadata-sha1">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProdTail"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1EntitiesDescriptor" />
+            <ref bean="stripUkfedlabelNamespace"/>
+            <ref bean="stripWayfNamespace"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA1" />
             <ref bean="serializeImportedProdSHA1Signed"/>
         </list>
     </property>
 </bean>
 
-<bean id="<%= fedid_downcase %>-prod-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-sha256">
+<bean id="<%= fedid_downcase %>-prod-metadata-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-metadata-sha256">
     <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
             <ref bean="standardImportActions"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProdTail"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" />
+            <ref bean="stripUkfedlabelNamespace"/>
+            <ref bean="stripWayfNamespace"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
+            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256" />
             <ref bean="serializeImportedProdSHA256Signed"/>
-        </list>
-    </property>
-</bean>
-
-<bean id="<%= fedid_downcase %>-prod-selfSigned-sha256" parent="SimplePipeline" p:id="<%= fedid_downcase %>-prod-selfSigned-sha256">
-    <property name="stages">
-        <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
-            <ref bean="standardImportActions"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addTrustRoots"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_signSHA256EntitiesDescriptor" />
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_formatMetadata"/>
-            <ref bean="serializeImportedProdSHA256selfSigned"/>
         </list>
     </property>
 </bean>

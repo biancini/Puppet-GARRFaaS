@@ -54,7 +54,7 @@
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd" p:validityDuration="#{1000L * 60 * 60 * 24 * 365 * 30}"/>
     
 <!--
-    <%= fedcountry_downcase %>_<%= fedid_downcase %>ImportProduction
+    <%= fedcountry_downcase %>_<%= fedid_downcase %>ImportProdTail
     
     Questo Stage prepara il documento per la serializzazione/output:
     1) Filtra via le entità affette da errori
@@ -63,12 +63,12 @@
     4) Aggiunge il giusto "validUntil" all'<EntitiesDescriptor>
     5) Normalizza i Namespace XML.
 -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd" parent="CompositeStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProd">
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProdTail" parent="CompositeStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_importProdTail">
     <property name="composedStages">
         <list>
             <!-- announce and remove any entities with errors -->
-            <ref bean="errorAnnouncingFilter"/>
+            <!--<ref bean="errorAnnouncingFilter"/>-->
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAssemble"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToProd"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addValidUntilToProd"/>
@@ -104,7 +104,7 @@
     p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities">
     <property name="composedStages">
         <list>
-        	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
+        	   <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodAggregate"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirProdMetadata"/>
 
             <!--
