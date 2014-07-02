@@ -23,6 +23,13 @@ class jagger::prerequisites(
     ensure => installed,
   }
   
+  augeas { "max_execution_time":
+    context => "/files/etc/php5/apache2/php.ini",
+    changes => 'set PHP/max_execution_time 600',
+    onlyif  => "get PHP/max_execution_time != 600",
+    require => Package['libapache2-mod-php5'];
+  }
+  
   # Install java (this operation also performs apt-get updated needed by further packages)
   include shib2common::java::package
   # include shib2common::java::download
