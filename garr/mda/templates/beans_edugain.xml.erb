@@ -1,32 +1,12 @@
-<!-- Location of various resources. -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url" class="java.lang.String">
-    <constructor-arg value="<%= edugain_metadata["url"] %>"/>
-</bean>
-
-<!-- INPUT DIRECTORY -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" class="java.io.File">
-    <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-in/<%= fedid_downcase %>-edugain"/>
-</bean>
+<!--
+   Import beans from other channels.
+-->
+<import resource="classpath:int_edugain/beans.xml"/>
 
 <bean id="Root<%= federation_id %>-EduGainPrefix" class="java.lang.String">
     <constructor-arg value="<%= federation_id %>-EDUGAIN"/>
 </bean>    
 
-<!-- Fetch the edugain aggregate. -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate" parent="DOMResourceSourceStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate">
-    <property name="DOMResource">
-        <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
-            <constructor-arg name="client" ref="httpClient"/>
-            <constructor-arg name="url"    ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate_url"/>
-        </bean>
-    </property>
-</bean>
-
-<!-- Questo Stage preleva i metadati dalla cartella indicata dal bean "<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory" -->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEduGainMetadata" parent="stage_parent" class="net.shibboleth.metadata.dom.DOMFilesystemSourceStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEduGainMetadata" p:parserPool-ref="parserPool" p:source-ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainMetadataDirectory"/>
-    
 <!-- Aggiungo l'ID=<%= federation_id %>-EDUGAIN-YYMMDDHHIISS ai metadati di <%= federation_id %> EduGain Federation -->
 <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToEduGain" parent="stage_parent" 
       class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addIDAttributeToEduGain">
@@ -77,46 +57,50 @@
     </property>
 </bean>
 
-<!--
-    Fetch the edugain entities as a collection by an URL.
--->
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities_by_url" parent="CompositeStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities_by_url">
-    <property name="composedStages">
-        <list>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
-
-            <!--
-                Check for fatal errors at the aggregate level:
-                    missing or expired validUntil attribute
-                    invalid signature
-            -->
-            <ref bean="check_validUntil"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/>
-            <ref bean="errorTerminatingFilter"/>
-            
-            <ref bean="disassemble"/>
-        </list>
+<!-- MM: Valido l'XML controllando col certificato indicato da it_idem_edugainCert -->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainCert" class="net.shibboleth.ext.spring.factory.X509CertificateFactoryBean">
+    <property name="certificateFile">
+        <bean class="java.io.File">
+            <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/credentials/edugain-cert.pem"/>
+        </bean>
     </property>
 </bean>
 
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities" parent="CompositeStage"
-    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities">
-    <property name="composedStages">
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignatureEduGain" parent="XMLSignatureValidationStage"
+    p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignatureEduGain">
+     <property name="verificationCertificate" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainCert"/>
+     <property name="permittingEmptyReferences" value="true"/>
+</bean>
+
+<!--
+  Prelevo le entità di EduGAIN, rimuovendo quelle già presenti nella Produzione, come una COLLEZIONE di item.
+-->
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugain2<%= fedid_downcase %>Entities" parent="PipelineMergeStage.deduplicate"
+      p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugain2<%= fedid_downcase %>Entities">
+      <property name="mergedPipelines">
         <list>
-        	<ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainAggregate"/>
-            <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_readDirEduGainMetadata"/>
-
-            <!--
-                Check for fatal errors at the aggregate level:
-                    missing or expired validUntil attribute
-                    invalid signature
-            -->
-            <ref bean="check_validUntil"/>
-            <!--ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkSignature"/-->
-            <ref bean="errorTerminatingFilter"/>
-
-            <ref bean="disassemble"/>
+          <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prod_importPipeline"/>
+          <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugain_importPipeline"/>
         </list>
-    </property>
+      </property>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prod_importPipeline" parent="SimplePipeline"
+      p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prod_importPipeline">
+      <property name="stages">
+        <list>
+          <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_prodEntities"/>
+          <ref bean="standardImportActions"/>
+        </list>
+      </property>
+</bean>
+
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugain_importPipeline" parent="SimplePipeline"
+      p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugain_importPipeline">
+      <property name="stages">
+        <list>
+          <ref bean="int_edugain_productionEntities"/>
+          <ref bean="standardImportActions"/>
+        </list>
+      </property>
 </bean>
