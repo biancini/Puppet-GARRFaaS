@@ -27,6 +27,14 @@ class mda::mda(
       mode    => "0644",
       content => template('mda/build.xml.erb'),
       require => Exec['gitclone ukf-meta'];
+
+    '/opt/ukf-meta/mdx/int_edugain/entity-blacklist.xml':
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0644",
+      content => template('mda/entity-blacklist.xml.erb'),
+      require => Exec['gitclone ukf-meta'];
       
     '/opt/ukf-meta/mdx/clean-import.xsl':
       ensure  => file,
