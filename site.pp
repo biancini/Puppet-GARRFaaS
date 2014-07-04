@@ -106,16 +106,13 @@ node 'registry.mib.garr.it' {
     dsfqdn             => $fqdn,
   }
 
-  $federation_test_name = "${federation_name} di test"
-  $federation_prod_name = "${federation_name} di produzione"
-  $federation_edugain_name = "${federation_name} per eduGAIN"
-  
-  $federation_test_b64 = chomp(regsubst(base64('encode', $federation_test_name), '=', '~', 'G'))
-  $federation_prod_b64 = chomp(regsubst(base64('encode', $federation_prod_name), '=', '~', 'G'))
-  $federation_edugain_b64 = chomp(regsubst(base64('encode', $federation_edugain_name), '=', '~', 'G'))
+  $federation_test_b64 = chomp(regsubst(base64('encode', "${federation_name} di test"), '=', '~', 'G'))
+  $federation_prod_b64 = chomp(regsubst(base64('encode', "${federation_name} di produzione"), '=', '~', 'G'))
+  $federation_edugain_b64 = chomp(regsubst(base64('encode', "${federation_name} per eduGAIN"), '=', '~', 'G'))
 
   mda::instance { "${hostname}-mda":
     federation_id           => $federation_id,
+    federation_uri
     federation_country      => 'IT',
     use_ca                  => false,
     test_metadata           => {
@@ -136,7 +133,7 @@ node 'registry.mib.garr.it' {
     'federation-production':
       rootpw                 => $rootpw,
       federation_id          => $federation_id,
-      federation_name        => $federation_prod_name,
+      federation_name        => "${federation_name} di produzione",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
@@ -144,7 +141,7 @@ node 'registry.mib.garr.it' {
     'federation-test':
       rootpw                 => $rootpw,
       federation_id          => "${federation_id}-TEST",
-      federation_name        => $federation_test_name,
+      federation_name        => "${federation_name} di test",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
@@ -152,7 +149,7 @@ node 'registry.mib.garr.it' {
     'federation-edugain':
       rootpw                 => $rootpw,
       federation_id          => "${federation_id}-EDUGAIN",
-      federation_name        => $federation_edugain_name,
+      federation_name        => "${federation_name} per eduGAIN",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
