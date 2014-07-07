@@ -52,7 +52,7 @@ class mda::mda(
       source  => 'puppet:///modules/mda/my-fed',
       require => Exec['gitclone ukf-meta'];
 
-    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/addPupInfo.xsl":
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/addPubInfo.xsl":
       ensure  => file,
       owner   => "root",
       group   => "root",

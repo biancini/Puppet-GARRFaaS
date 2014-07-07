@@ -176,8 +176,8 @@ Fetch the edugain entities as a collection by an URL.
   <constructor-arg value="<%= fed_publisher_uri %>"/>
 </bean>
 
-<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addPubInfo" parent="stage_parent" 
-      class="net.shibboleth.metadata.dom.XSLTransformationStage" p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addPubInfo">
+<bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addPubInfo" parent="XSLTransformationStage" 
+      p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_addPubInfo">
       <property name="XSLResource">
         <bean parent="ClassPathResource">
           <constructor-arg value="<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/addPubInfo.xsl"/>
