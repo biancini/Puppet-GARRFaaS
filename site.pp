@@ -24,7 +24,7 @@ node 'registry.mib.garr.it' {
         'communityDesc'          => 'GARR Research&amp;Development',
         'orgUrl'                 => 'http://www.garr.it/',
         'nameOrg'                => 'Consortium GARR',
-	'nameService'            => 'Jagger',
+	      'nameService'            => 'Jagger',
         'url_LogoOrg-32x32'      => 'https://registry.mib.garr.it/idp/images/logoEnte-32x32_en.png',
         'url_LogoOrg-160x120'    => 'https://registry.mib.garr.it/idp/images/logoEnte-160x120_en.png',
       },
@@ -34,7 +34,7 @@ node 'registry.mib.garr.it' {
         'orgUrl'                 => 'http://www.garr.it/',
         'privacyPage'            => 'http://www.garr.it/',
         'nameOrg'                => 'Consortium GARR',
-	'nameService'            => 'Jagger',
+	      'nameService'            => 'Jagger',
         'url_LogoOrg-32x32'      => 'https://registry.mib.garr.it/idp/images/logoEnte-32x32_it.png',
         'url_LogoOrg-160x120'    => 'https://registry.mib.garr.it/idp/images/logoEnte-160x120_it.png',
       },
@@ -73,13 +73,15 @@ node 'registry.mib.garr.it' {
     session_initiator           => {
       'id'        => 'DS',
       'location'  => '/DS',
-      'url'       => "https://${fqdn}/rr3/eds",
+      'url'       => "https://${fqdn}/disco",
     },
   }
 
-  $rootpw          = 'ciaoidem'
-  $federation_id   = 'IDEM'
-  $federation_name = 'Federazione IDEM'
+  $rootpw                = 'ciaoidem'
+  $federation_name       = 'IDEM'
+  $federation_prod_id    = 'idem'
+  $federation_test_id    = 'idem-test'
+  $federation_edugain_id = 'idem-edugain'
 
   jagger::instance { "${hostname}-rr":
     rootpw                 => $rootpw,
@@ -87,7 +89,7 @@ node 'registry.mib.garr.it' {
     gearmand_version       => undef,
     install_signer         => true,
     logo_url               => 'https://www.idem.garr.it/documenti/doc_download/66-logo-idem-120-x-70',
-    federation_name        => $federation_id,
+    federation_name        => $federation_name,
     jagger_password        => 'i7ryztaqlechgehcs5t7m5iy1ym9xxd4',
     support_mailto         => 'andrea@mib.garr.it',
     registration_authority => 'http://www.idem.garr.it/',
@@ -98,7 +100,7 @@ node 'registry.mib.garr.it' {
   }
 
   discojuice::instance { "${hostname}-disco":
-    federation_name    => $federation_id,
+    federation_name    => $federation_name,
     discofeed_url      => 'https://registry.mib.garr.it/Shibboleth.sso/DiscoFeed',
     technicalEmail     => 'andrea@mib.garr.it',
     technicalGivenName => 'Andrea',
@@ -106,25 +108,21 @@ node 'registry.mib.garr.it' {
     dsfqdn             => $fqdn,
   }
 
-  $federation_test_b64 = chomp(regsubst(base64('encode', "${federation_name} di test"), '=', '~', 'G'))
-  $federation_prod_b64 = chomp(regsubst(base64('encode', "${federation_name} di produzione"), '=', '~', 'G'))
-  $federation_edugain_b64 = chomp(regsubst(base64('encode', "${federation_name} per eduGAIN"), '=', '~', 'G'))
-
   mda::instance { "${hostname}-mda":
-    federation_id           => $federation_id,
-    federation_uri
-    federation_country      => 'IT',
-    use_ca                  => false,
+    federation_id      => $federation_name,
+    fed_publisher_uri  => 'https://idem.garr.it/',
+    federation_country => 'it',
+    use_ca             => false,
     test_metadata           => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_test_b64}/metadata.xml",
-      'urn' => 'urn:mace:garr.it:idem',
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_test_id}/metadata.xml",
+      'urn' => 'urn:mace:garr.it:idem-test',
     },
     production_metadata     => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_prod_b64}/metadata.xml",
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_prod_id}/metadata.xml",
       'urn' => 'urn:mace:garr.it:idem',
     },
     edugain_metadata        => {
-      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_edugain_b64}/metadata.xml",
+      'url' => "https://${fqdn}/rr3/metadata/federation/${federation_edugain_id}/metadata.xml",
       'urn' => 'urn:mace:garr.it:idem-edugain',
     },
   }
@@ -132,24 +130,24 @@ node 'registry.mib.garr.it' {
   jagger::federation {
     'federation-production':
       rootpw                 => $rootpw,
-      federation_id          => $federation_id,
-      federation_name        => "${federation_name} di produzione",
+      federation_id          => $federation_prod_id,
+      federation_name        => "Federazione ${federation_name} di produzione",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
 
     'federation-test':
       rootpw                 => $rootpw,
-      federation_id          => "${federation_id}-TEST",
-      federation_name        => "${federation_name} di test",
+      federation_id          => $federation_test_id,
+      federation_name        => "Federazione ${federation_name} di test",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
 
     'federation-edugain':
       rootpw                 => $rootpw,
-      federation_id          => "${federation_id}-EDUGAIN",
-      federation_name        => "${federation_name} per eduGAIN",
+      federation_id          => $federation_edugain_id,
+      federation_name        => "Federazione ${federation_name} per eduGAIN",
       federation_description => 'Federazione IDEM per la comunità italiana',
       federation_tou         => '',
       domain_name            => 'garr.it';
