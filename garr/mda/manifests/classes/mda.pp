@@ -52,13 +52,13 @@ class mda::mda(
       source  => 'puppet:///modules/mda/my-fed',
       require => Exec['gitclone ukf-meta'];
 
-    '/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/addPupInfo.xsl':
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/addPupInfo.xsl":
       ensure  => file,
       owner   => "root",
       group   => "root",
       mode    => "0644",
       content => template('mda/addPubInfo.xsl.erb'),
-      require => File['/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}'];      
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];      
 
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/verbs.xml":
       ensure  => file,

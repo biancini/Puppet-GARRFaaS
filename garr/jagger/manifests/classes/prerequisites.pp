@@ -88,7 +88,7 @@ class jagger::prerequisites(
       creates => ['/opt/rr3-addons'];
       
     'gitclone codeigniter':
-      command => 'git clone git://github.com/EllisLab/CodeIgniter.git /opt/codeigniter',
+      command => 'git clone https://github.com/EllisLab/CodeIgniter.git /opt/codeigniter',
       cwd     => "/opt",
       timeout => 1800,
       require => Package['git'],
@@ -274,7 +274,7 @@ class jagger::prerequisites(
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => "puppet:///modules/jagger/certs/metadata-${hostname}-signer.crt",
+        source  => "puppet:///modules/jagger/certs/${hostname}-metadata-signer.crt",
         require => File['/opt/md-signer'];
 
       '/opt/md-signer/metadata-signer.key':
@@ -282,7 +282,7 @@ class jagger::prerequisites(
         owner   => 'root',
         group   => 'root',
         mode    => '0400',
-        source  => "puppet:///modules/jagger/certs/metadata-${hostname}-signer.key",
+        source  => "puppet:///modules/jagger/certs/${hostname}-metadata-signer.key",
         require => File['/opt/md-signer'];
     }
     
