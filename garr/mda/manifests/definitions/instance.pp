@@ -1,5 +1,6 @@
 define mda::instance (
   $federation_id       = undef,
+  $fed_publisher_uri   = undef,
   $federation_country  = undef,
   $use_ca              = undef,
   $test_metadata       = undef,
@@ -12,6 +13,7 @@ define mda::instance (
   # Install and configure Shibboleth Metadata Aggregator
   class { 'mda::mda':
     federation_id       => $federation_id,
+    fed_publisher_uri   => $fed_publisher_uri,
     federation_country  => $federation_country,
     use_ca              => $use_ca,
     test_metadata       => $test_metadata,

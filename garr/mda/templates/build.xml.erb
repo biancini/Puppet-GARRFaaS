@@ -904,14 +904,22 @@
 
     <!-- FLOW PER <%= federation_id %> EDUGAIN-->
     <target name="<%= fedid_downcase %>-edugain-all">
-         <antcall target="<%= fedid_downcase %>-edugain-to" />
+         <antcall target="<%= fedid_downcase %>-to-edugain" />
+         <antcall target="<%= fedid_downcase %>-from-edugain" />
     </target>
     
-    <target name="<%= fedid_downcase %>-edugain-to">
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-check"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-metadata"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-metadata-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-edugain-metadata-sha256"/>
+    <target name="<%= fedid_downcase %>-to-edugain">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-check"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha256"/>
+    </target>
+
+    <target name="<%= fedid_downcase %>-from-edugain">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-check"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha1"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha256"/>
     </target>
 
     <target name="<%= fedid_downcase %>-edugain-check">

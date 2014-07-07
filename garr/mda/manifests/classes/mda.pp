@@ -1,23 +1,25 @@
 class mda::mda(
   $federation_id           = 'TestFed',
+  $fed_publisher_uri       = 'https://idem.garr.it/',
   $federation_country      = 'IT',
   $use_ca                  = false,
   $test_metadata           = {
     'url' => 'https://example.com/registry/test-metadata.xml',
-    'urn' => 'urn:mace:garr:it:idem',
+    'urn' => 'urn:mace:garr.it:idem',
   },
   $production_metadata     = {
     'url' => 'https://example.com/registry/production-metadata.xml',
-    'urn' => 'urn:mace:garr:it:idem',
+    'urn' => 'urn:mace:garr.it:idem',
   },
   $edugain_metadata     = {
     'url' => 'https://example.com/registry/edugain-metadata.xml',
-    'urn' => 'urn:mace:garr:it:idem-edugain',
+    'urn' => 'urn:mace:garr.it:idem-edugain',
   },
 ) {
   
   $fedcountry_downcase = downcase($federation_country)
   $fedid_downcase = downcase($federation_id)
+  $fedid_upcase = upcase($federation_id)
   
   file {
     '/opt/ukf-meta/build.xml':
@@ -49,7 +51,15 @@ class mda::mda(
       recurse => true,
       source  => 'puppet:///modules/mda/my-fed',
       require => Exec['gitclone ukf-meta'];
-      
+
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/addPupInfo.xsl":
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0644",
+      content => template('mda/addPubInfo.xsl.erb'),
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];      
+
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/verbs.xml":
       ensure  => file,
       owner   => "root",
