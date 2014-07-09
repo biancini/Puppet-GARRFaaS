@@ -30,6 +30,14 @@
             </bean>
         </property>
     </bean>
+    
+    <bean id="serializeOutput" parent="SerializationStage" p:id="serializeImportedTestUnsigned">
+	    <property name="outputFile">
+	        <bean class="java.io.File">
+	            <constructor-arg value="#{ systemProperties['basedir'] }/#{ systemProperties['outfilename'] }"/>
+	        </bean>
+	    </property>
+	</bean>
 
 	<%= scope.function_template(["mda/verbs_production.xml.erb"]) -%>
 	

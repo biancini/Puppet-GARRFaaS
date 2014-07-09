@@ -1,6 +1,6 @@
 class mda::prerequisites() {
 
-  package { "ant":
+  package { ['ant', 'libxml2-utils']:
     ensure => installed,  
   }
 
