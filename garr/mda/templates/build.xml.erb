@@ -420,6 +420,8 @@
     	<attribute name="config"/>
     	<!-- pipeline bean ID -->
     	<attribute name="pipeline"/>
+    	<!-- output filename -->
+        <attribute name="outfilename" default=""/>
         <sequential>
             <java classname="net.shibboleth.metadata.cli.SimpleCommandLine"
                 fork="true" failonerror="true" maxmemory="${java.max.memory}">
@@ -443,6 +445,7 @@
                 </classpath>
                 <jvmarg value="-Djava.endorsed.dirs=${tools.mda}/lib/endorsed"/>
             	<jvmarg value="-Dbasedir=${basedir}"/>
+            	<jvmarg value="-Doutfilename=@{outfilename}"/>
             	<jvmarg value="-Drulesdir=${rules.dir}"/>
             	<jvmarg value="-enableassertions"/>
             	<arg value="--quiet"/>
@@ -845,20 +848,39 @@
 	-->
     <macrodef name="CHANNEL.do">
         <attribute name="channel"/><!-- channel name -->
-    	<attribute name="verb"/><!-- verb to perform -->
+        <attribute name="verb"/><!-- verb to perform -->
+        <attribute name="format" default="false"/><!-- format output file -->
+        <attribute name="namefile" default=""/><!-- name of the output file to produce -->
         <sequential>
+            <property name="output.filename" value="@{namefile}"/>
             <echo>Running @{channel} @{verb} flow.</echo>
-        	<if>
-        		<available file="${mdx.dir}/@{channel}/@{verb}.xml"/>
-            	<then>
-            	    <MDA config="${mdx.dir}/@{channel}/@{verb}.xml"
-            	        pipeline="@{verb}"/>
-            	</then>
-            	<else>
+                <if>
+                        <available file="${mdx.dir}/@{channel}/@{verb}.xml"/>
+                <then>
+                    <MDA config="${mdx.dir}/@{channel}/@{verb}.xml"
+                        pipeline="@{verb}" outfilename="@{namefile}"/>
+                </then>
+                <else>
                     <MDA config="${mdx.dir}/@{channel}/verbs.xml"
-                        pipeline="@{verb}"/>
-            	</else>
-        	</if>
+                        pipeline="@{verb}" outfilename="@{namefile}"/>
+                </else>
+                </if>
+                <if>
+                        <and>
+                                <equals arg1="@{format}" arg2="true"/>
+                                <not>
+                                        <equals arg1="@{namefile}" arg2=""/>
+                                </not>
+                        </and>
+                <then>
+                        <exec executable="xmllint">
+                                <arg value="--format"/>
+                                <arg value="@{namefile}"/>
+                                <arg value="--output"/>
+                                <arg value="@{namefile}"/>
+                        </exec>
+                </then>
+                </if>
             <echo>Completed @{channel} @{verb} flow.</echo>
         </sequential>
     </macrodef>
@@ -885,9 +907,9 @@
 
     <target name="<%= fedid_downcase %>-test-all">
          <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-check"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-metadata.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha1" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-metadata-sha1.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-test-metadata-sha256" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-test/<%= fedid_downcase %>-test-metadata-sha256.xml"/>
     </target>
 
     <!-- FLOW PER <%= federation_id %> PROD-->
@@ -897,9 +919,9 @@
 
     <target name="<%= fedid_downcase %>-prod-all">
          <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-check"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata-sha1" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata-sha1.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-prod-metadata-sha256" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-prod/<%= fedid_downcase %>-prod-metadata-sha256.xml"/>
     </target>
 
     <!-- FLOW PER <%= federation_id %> EDUGAIN-->
