@@ -932,15 +932,15 @@
     
     <target name="<%= fedid_downcase %>-to-edugain">
          <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-check"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha1" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-to-edugain-metadata-sha1.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-to-edugain-metadata-sha256" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-to-edugain-metadata-sha256.xml"/>
     </target>
 
     <target name="<%= fedid_downcase %>-from-edugain">
          <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-check"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha1"/>
-         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha256"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-from-edugain-metadata.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha1" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-from-edugain-metadata-sha1.xml"/>
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="<%= fedid_downcase %>-from-edugain-metadata-sha256" format="true" namefile="mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/md-out/<%= fedid_downcase %>-edugain/<%= fedid_downcase %>-from-edugain-metadata-sha256.xml"/>
     </target>
 
     <target name="<%= fedid_downcase %>-edugain-check">
