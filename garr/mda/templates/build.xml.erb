@@ -10,7 +10,6 @@
 	  the remote site password.
 -->
 <project default="process">
-    
     <!--
         os.family
         
@@ -258,8 +257,7 @@
 			miscellaneous files such as UK federation statistics.
 		-->
 		<echo>Pushing non-metadata files.</echo>
-		<scp failonerror="true" password="${remote.pass}" remoteTodir="${remote.loc.sdss}"
-				knownhosts="${known.hosts}">
+		<scp failonerror="true" password="${remote.pass}" remoteTodir="${remote.loc.sdss}" knownhosts="${known.hosts}">
 			<fileset dir="${xml.dir}">
 				<include name="members.xml"/>
 				<include name="ukfederation-members.xsd"/>
@@ -271,8 +269,7 @@
 			Push metadata files for the UK Federation.
 		-->
 		<echo>Pushing UK Federation metadata files.</echo>
-		<scp failonerror="true" password="${remote.pass}" remoteTodir="${remote.loc.uk}"
-				knownhosts="${known.hosts}">
+		<scp failonerror="true" password="${remote.pass}" remoteTodir="${remote.loc.uk}" knownhosts="${known.hosts}">
 			<fileset dir="${xml.dir}">
 				<include name="${md.prod.signed}"/>
 				<include name="${md.wayf.signed}"/>
