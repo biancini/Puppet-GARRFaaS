@@ -17,6 +17,40 @@
     -->
     <import resource="classpath:common-beans.xml"/>
     
+    <bean id="entityArgv" class="java.lang.String">
+	    <constructor-arg value="#{ systemProperties['metadataUrl'] }"/>
+	</bean>
+	
+	<bean id="entityAggregate" parent="DOMResourceSourceStage"
+	    p:id="entityAggregate">
+	    <property name="DOMResource">
+	        <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
+	            <constructor-arg name="client" ref="httpClient"/>
+	            <constructor-arg name="url"    ref="entityArgv"/>
+	        </bean>
+	    </property>
+	</bean>
+	
+	<bean id="checkEntities" parent="CompositeStage"
+	    p:id="checkEntities">
+	    <property name="composedStages">
+	        <list>
+	            <ref bean="entityAggregate"/>
+	
+	            <!--
+	                Check for fatal errors at the aggregate level:
+	                    missing or expired validUntil attribute
+	                    invalid signature
+	            -->
+	            <ref bean="check_validUntil"/>
+	            <!--ref bean="it_idem_checkSignature"/-->
+	            <ref bean="errorTerminatingFilter"/>
+	
+	            <ref bean="disassemble"/>
+	        </list>
+	    </property>
+	</bean>
+	    
     <%= scope.function_template(["mda/beans_production.xml.erb"]) -%>
     
     <%= scope.function_template(["mda/beans_test.xml.erb"]) -%>

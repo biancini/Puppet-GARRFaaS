@@ -38,7 +38,17 @@
 	        </bean>
 	    </property>
 	</bean>
-
+	
+	<bean id="check-metadata" parent="SimplePipeline" p:id="check-metadata">
+	    <property name="stages">
+	        <list>
+	            <ref bean="checkEntities"/>
+	            <ref bean="standardImportActions"/>
+	            <ref bean="errorAnnouncer"/>
+	        </list>
+	    </property>
+	</bean>
+		
 	<%= scope.function_template(["mda/verbs_production.xml.erb"]) -%>
 	
 	<%= scope.function_template(["mda/verbs_test.xml.erb"]) -%>
