@@ -134,6 +134,14 @@ class mda::mda(
       mode    => "0400",
       source  => "puppet:///modules/mda/certs/${hostname}-key.pem",
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/credentials"];
+    
+    "/var/www/validation.php":
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0644",
+      source  => "puppet:///modules/mda/validation.php",
+      require => Class['apache'];
   }
   
   if ($use_ca) {
