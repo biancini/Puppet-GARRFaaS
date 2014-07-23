@@ -10,7 +10,7 @@ define jagger::federation (
   $t = generate('/bin/date', '+%Y-%m-%d %H:%M:%S')
   $timestamp = chomp("${t}")
   
-  $fed_validator_name = "${federation_id} validator"
+  $fed_validator_name = "${federation_id}"
   $fed_validator_description = "Metadata validator for the federation: ${federation_name}"
   
   execute_mysql {
