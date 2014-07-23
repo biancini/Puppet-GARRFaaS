@@ -897,6 +897,10 @@
         </input>
         <CHANNEL.do channel="${channel}" verb="${verb}"/>
     </target>
+
+    <target name="check-metadata">
+         <CHANNEL.do channel="<%= fedcountry_downcase %>_<%= fedid_downcase %>" verb="check-metadata"/>
+    </target>
     
     <!-- FLOW PER <%= federation_id %> TEST -->
     <target name="<%= fedid_downcase %>-test-check">
