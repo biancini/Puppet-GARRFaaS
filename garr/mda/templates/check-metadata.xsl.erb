@@ -1,0 +1,7 @@
+<%=
+  begin
+    scope.function_template(["mda/#{@hostname}-check-metadata.xsl.erb"])
+  rescue
+    scope.function_template(["mda/default-check-metadata.xsl.erb"])
+  end
+-%>
