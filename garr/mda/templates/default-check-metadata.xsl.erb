@@ -25,18 +25,18 @@
    <xsl:template match="md:EntityDescriptor">
       <!-- Check the existence of at least one md:Organization -->
       <xsl:if test="not(child::md:Organization)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">An Organization must be provided</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <!-- Check the existence of at least one technical md:ContactPerson -->
       <xsl:if test="not(child::md:ContactPerson[@contactType='technical'])">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">A Technical ContactPerson must be provided</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(md:ContactPerson[@contactType='technical']/md:EmailAddress)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">A technical ContactPerson must have an email, not personal, address</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
@@ -46,64 +46,64 @@
    <xsl:template match="md:SPSSODescriptor/md:Extensions | md:IDPSSODescriptor/md:Extensions">
       <!-- Check the existence of the mdui:UIInfo -->
       <xsl:if test="not(child::mdui:UIInfo)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">The UIInfo must not be empty</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
    </xsl:template>
 
    <xsl:template match="mdui:UIInfo">
-      <!-- Check the existence of mdui:DisplayName into EN and <%= federation_country %> Language -->
+      <!-- Check the existence of mdui:DisplayName into EN and language <%= fedcountry_upcase %> -->
       <xsl:if test="not(child::mdui:DisplayName[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:DisplayName must exists for EN Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:DisplayName must exists for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::mdui:DisplayName[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:DisplayName must exists for <%= federation_country %> Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:DisplayName must exists for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <!-- Check the existence of mdui:Description into EN and <%= federation_country %> Language -->
+      <!-- Check the existence of mdui:Description into EN and language <%= fedcountry_upcase %> -->
       <xsl:if test="not(child::mdui:Description[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:Description must exists for EN Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:Description must exists for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::mdui:Description[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:Description must exists for <%= federation_country %> Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:Description must exists for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <!-- Check the existence of mdui:InformationURL into EN and <%= federation_country %> Language -->
+      <!-- Check the existence of mdui:InformationURL into EN and language <%= fedcountry_upcase %> -->
       <xsl:if test="not(child::mdui:InformationURL[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:InformationURL must exists for EN Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:InformationURL must exists for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::mdui:InformationURL[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:InformationURL must exists for <%= federation_country %> Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:InformationURL must exists for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <!-- Check the existence of mdui:PrivacyStatementURL into EN and <%= federation_country %> Language -->
+      <!-- Check the existence of mdui:PrivacyStatementURL into EN and language <%= fedcountry_upcase %> -->
       <xsl:if test="not(child::mdui:PrivacyStatementURL[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:PrivacyStatementURL must exists for EN Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:PrivacyStatementURL must exists for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::mdui:PrivacyStatementURL[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">mdui:PrivacyStatementURL must exists for <%= federation_country %> Language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">mdui:PrivacyStatementURL must exists for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
       <!-- Check the existence of at least one mdui:Logo -->
       <xsl:if test="not(child::mdui:Logo)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">At least one mdui:Logo must be provided</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
@@ -112,44 +112,44 @@
    <xsl:template match="md:Organization">
       <!-- Check the existence of md:OrganizationName -->
       <xsl:if test="not(child::md:OrganizationName[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationName must exist for EN language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationName must exist for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::md:OrganizationName[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationName must exist for <%= federation_country %> language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationName must exist for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
       <!-- Check the existence of md:OrganizationDisplayName -->
       <xsl:if test="not(child::md:OrganizationDisplayName[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationDisplayName must exist for EN language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationDisplayName must exist for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::md:OrganizationDisplayName[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationDisplayName must exist for <%= federation_country %> language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationDisplayName must exist for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
       <!-- Check the existence of md:OrganizationURL -->
       <xsl:if test="not(child::md:OrganizationURL[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationURL must exist for EN language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationURL must exist for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(child::md:OrganizationURL[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">An md:OrganizationURL must exist for <%= federation_country %> language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">An md:OrganizationURL must exist for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
    </xsl:template>
 
    <xsl:template match="md:SPSSODescriptor">
       <xsl:if test="not(md:AttributeConsumingService)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">The md:AttributeConsumingService must exist</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
@@ -158,32 +158,32 @@
    <xsl:template match="md:AttributeConsumingService">
       <!-- Check the existence of md:ServiceName --> 
       <xsl:if test="not(md:ServiceName[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">A md:ServiceName must exist for EN language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">A md:ServiceName must exist for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(md:ServiceName[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">A md:ServiceName must exist for <%= federation_country %> language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">A md:ServiceName must exist for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
       <!-- Check the existence of md:ServiceDescription -->
       <xsl:if test="not(md:ServiceDescription[@xml:lang='en'])">
-         <xsl:call-template name="error">
-            <xsl:with-param name="m">A md:ServiceDescription must exist for EN language</xsl:with-param>
+         <xsl:call-template name="warning">
+            <xsl:with-param name="m">A md:ServiceDescription must exist for language EN</xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="not(md:ServiceDescription[@xml:lang='<%= fedcountry_downcase %>'])">
-         <xsl:call-template name="error">            
-            <xsl:with-param name="m">A md:ServiceDescription must exist for <%= federation_country %> language</xsl:with-param>
+         <xsl:call-template name="warning">            
+            <xsl:with-param name="m">A md:ServiceDescription must exist for language <%= fedcountry_upcase %></xsl:with-param>
          </xsl:call-template>
       </xsl:if>
    </xsl:template>
 
    <xsl:template match="md:SPSSODescriptor/md:Extensions">
       <xsl:if test="not(init:RequestInitiator)">
-         <xsl:call-template name="error">
+         <xsl:call-template name="warning">
             <xsl:with-param name="m">An init:RequestInitiator must be provided to be able to access to the service</xsl:with-param>
          </xsl:call-template>
       </xsl:if>

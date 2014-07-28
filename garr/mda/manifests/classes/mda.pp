@@ -18,6 +18,7 @@ class mda::mda(
 ) {
   
   $fedcountry_downcase = downcase($federation_country)
+  $fedcountry_upcase = upcase($federation_country)
   $fedid_downcase = downcase($federation_id)
   $fedid_upcase = upcase($federation_id)
   
