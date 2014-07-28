@@ -43,6 +43,7 @@
 	    <property name="stages">
 	        <list>
 	            <ref bean="checkEntities"/>
+               <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMetadata"/>
 	            <ref bean="standardImportActions"/>
 	            <ref bean="errorAnnouncer"/>
 	        </list>

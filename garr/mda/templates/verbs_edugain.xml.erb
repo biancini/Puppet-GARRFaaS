@@ -1,5 +1,5 @@
 <bean id="<%= fedid_downcase %>-to-edugain-metadata-check" parent="SimplePipeline" p:id="<%= fedid_downcase %>-to-edugain-metadata-check">
-    <property name="stages">
+   <property name="stages">
         <list>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_edugainEntities"/>
             <ref bean="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMetadata"/>
