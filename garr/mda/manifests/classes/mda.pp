@@ -60,6 +60,14 @@ class mda::mda(
       content => template('mda/addPubInfo.xsl.erb'),
       require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];      
 
+    "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/xsl/check-metadata.xsl":
+      ensure  => file,
+      owner   => "root",
+      group   => "root",
+      mode    => "0644",
+      content => template('mda/check-metadata.xsl.erb'),
+      require => File["/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}"];
+
     "/opt/ukf-meta/mdx/${fedcountry_downcase}_${fedid_downcase}/verbs.xml":
       ensure  => file,
       owner   => "root",

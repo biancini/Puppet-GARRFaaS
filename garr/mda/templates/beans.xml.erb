@@ -19,43 +19,52 @@
     
     <bean id="entityArgv" class="java.lang.String">
 	    <constructor-arg value="#{ systemProperties['metadataUrl'] }"/>
-	</bean>
+	  </bean>
 	
-	<bean id="entityAggregate" parent="DOMResourceSourceStage"
-	    p:id="entityAggregate">
-	    <property name="DOMResource">
+	  <bean id="entityAggregate" parent="DOMResourceSourceStage"
+	      p:id="entityAggregate">
+	      <property name="DOMResource">
 	        <bean class="net.shibboleth.utilities.java.support.httpclient.HttpResource">
-	            <constructor-arg name="client" ref="httpClient"/>
-	            <constructor-arg name="url"    ref="entityArgv"/>
+	          <constructor-arg name="client" ref="httpClient"/>
+	          <constructor-arg name="url"    ref="entityArgv"/>
 	        </bean>
-	    </property>
-	</bean>
+	      </property>
+	  </bean>
 	
-	<bean id="checkEntities" parent="CompositeStage"
+	  <bean id="checkEntities" parent="CompositeStage"
 	    p:id="checkEntities">
-	    <property name="composedStages">
+	      <property name="composedStages">
 	        <list>
-	            <ref bean="entityAggregate"/>
+	          <ref bean="entityAggregate"/>
+
+            <!--
+              Check for fatal errors at the aggregate level:
+	            missing or expired validUntil attribute
+	            invalid signature
+	          -->
+	          <ref bean="check_validUntil"/>
+	          <!--ref bean="it_idem_checkSignature"/-->
+	          <ref bean="errorTerminatingFilter"/>
 	
-	            <!--
-	                Check for fatal errors at the aggregate level:
-	                    missing or expired validUntil attribute
-	                    invalid signature
-	            -->
-	            <ref bean="check_validUntil"/>
-	            <!--ref bean="it_idem_checkSignature"/-->
-	            <ref bean="errorTerminatingFilter"/>
-	
-	            <ref bean="disassemble"/>
+	          <ref bean="disassemble"/>
 	        </list>
-	    </property>
-	</bean>
+	      </property>
+	  </bean>
 	    
     <%= scope.function_template(["mda/beans_production.xml.erb"]) -%>
     
     <%= scope.function_template(["mda/beans_test.xml.erb"]) -%>
     
     <%= scope.function_template(["mda/beans_edugain.xml.erb"]) -%>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMDxsl" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
+        <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/check-metadata.xsl" />
+    </bean>
+
+    <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMetadata" parent="XSLValidationStage" 
+        p:id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMetadata">
+        <property name="XSLResource" ref="<%= fedcountry_downcase %>_<%= fedid_downcase %>_checkMDxsl"/>
+    </bean>
 
     <bean id="<%= fedcountry_downcase %>_<%= fedid_downcase %>_metadataXSL" class="net.shibboleth.utilities.java.support.resource.FilesystemResource">
         <constructor-arg value="#{ systemProperties['basedir'] }/mdx/<%= fedcountry_downcase %>_<%= fedid_downcase %>/xsl/my-fed.xsl" />
