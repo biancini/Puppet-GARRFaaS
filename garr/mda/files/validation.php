@@ -27,11 +27,12 @@ if($returncode == 0) {
    echo "<validation>\n";
    echo "\t<returncode>$returncode</returncode>\n";
 
+   $header_row = "was marked with the following";
    foreach ($output as $output_line) {
-        if (strpos($output_line, 'ERROR') !== false) {
+        if (strpos($output_line, 'ERROR') !== false && strpos($output_line, $header_row) === false) {
                 echo "\t<error>".trim(substr($output_line, strpos($output_line, '-') + 1))."</error>\n";
         }
-        else if (strpos($output_line, 'WARN') !== false) {
+        else if (strpos($output_line, 'WARN') !== false && strpos($output_line, $header_row) === false) {
                 echo "\t<warning>".trim(substr($output_line, strpos($output_line, '-') + 1))."</warning>\n";
         }
    }
