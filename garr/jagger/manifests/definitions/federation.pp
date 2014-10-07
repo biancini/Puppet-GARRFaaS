@@ -31,7 +31,8 @@ define jagger::federation (
 	    query_check_empty => "SELECT * FROM fedvalidator WHERE name = '${fed_validator_name}'",
 	    sql => [join(['INSERT INTO fedvalidator (name, is_enabled, url, method, entityparam, optargs, argseparator, documenttype, description, returncodeelement, returncodevalue, messagecodeelement, created_at, updated_at, federation_id)',
 	                  " VALUES ('${fed_validator_name}', 1, 'https://${fqdn}/validation.php?', 'GET', 'meta', 'a:0:{}', '&', 'xml', '${fed_validator_description}', 'a:1:{i:0;s:10:\\\"returncode\\\";}', 'a:4:{s:7:\\\"success\\\";a:1:{i:0;s:1:\\\"0\\\";}s:5:\\\"error\\\";a:1:{i:0;s:1:\\\"2\\\";}s:7:\\\"warning\\\";a:1:{i:0;s:1:\\\"1\\\";}s:8:\\\"critical\\\";a:1:{i:0;s:1:\\\"3\\\";}}', 'a:3:{i:0;s:5:\\\"error\\\";i:1;s:7:\\\"warning\\\";i:2;s:4:\\\"info\\\";}',",
-	                  " '${timestamp}', '${timestamp}', (SELECT id FROM federation WHERE sysname = '${federation_id}'))"], ' ')];
+	                  " '${timestamp}', '${timestamp}', (SELECT id FROM federation WHERE sysname = '${federation_id}'))"], ' ')],
+	    require => Execute_mysql["create federation ${federation_name}"];
   }
 
 }
