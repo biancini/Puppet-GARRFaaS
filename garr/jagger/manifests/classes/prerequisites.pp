@@ -8,7 +8,9 @@ class jagger::prerequisites(
   
   # Install mysql-server and set the root's password to access it
   class { 'mysql::server':
-    root_password => $rootpw,
+    config_hash => {
+    	'root_password' => $rootpw
+    }
   }
   
   apache::mod { 'rewrite': }
