@@ -3,7 +3,8 @@
 	<name>garr-mda</name>
 	<comment></comment>
 	<projects>
-		<project>puppet-apache2</project>
+		<project>garr-shib2common</project>
+		<project>puppetlabs-stdlib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

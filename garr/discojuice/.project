@@ -3,7 +3,10 @@
 	<name>garr-discojuice</name>
 	<comment></comment>
 	<projects>
-		<project>puppet-apache2</project>
+		<project>garr-shib2common</project>
+		<project>garr-shib2sp</project>
+		<project>puppetlabs-apache</project>
+		<project>puppetlabs-stdlib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
