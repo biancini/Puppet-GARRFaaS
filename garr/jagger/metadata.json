@@ -1,20 +1,5 @@
 {
   "author": "Andrea Biancini \u003candrea.biancini@garr.it\u003e, Marco Malavolti \u003cmarco.malavolti@garr.it\u003e",
-  "checksums": {
-    "templates/email.php.erb": "7d8fb09d55e5efacec5933aefc1247f9",
-    "templates/rr3_database_script.sql.erb": "7ab6fbdab8a164bc60e570b39097243e",
-    "files/certs/cert-and-key-here.txt": "115fb4e74521fa31403b59c316c4a3d8",
-    "templates/config_rr.php.erb": "779b7b06322c0cae1cb981323f327f20",
-    "files/scripts/jaggermailer": "e1c91a4e6d6ec0b3837dac94d78efa2c",
-    "manifests/classes/prerequisites.pp": "3f54f430ab115d3215b78ccee42d7d9a",
-    "Modulefile": "b9f04afd895724640e785d42b8bc621a",
-    "templates/front-page.default.erb": "84893d0b74daceb040f836ba496e9cc5",
-    "manifests/init.pp": "1ef6a7dc6bfbf031f46464c05dd82eeb",
-    "manifests/definitions/instance.pp": "0fe4299227606e29a7adcc1e88e15170",
-    "templates/database.php.erb": "b192c4d2fb8c6ea01e2a24ded0ec60ec",
-    "templates/front-page.erb": "574414a6c9f84801252770c4db978bf5",
-    "manifests/classes/registry.pp": "528429d8d727c76d18d2c67e83122cd1"
-  },
   "dependencies": [
     {
       "name": "puppetlabs/apache",
@@ -25,7 +10,7 @@
       "version_requirement": "\u003e\u003d3.2.0"
     },
     {
-      "name": "garr/garrcommon",
+      "name": "garr/shib2common",
       "version_requirement": "0.1.0"
     },
     {
@@ -37,12 +22,10 @@
       "version_requirement": "\u003e\u003d1.0.0"
     }
   ],
-  "description": "",
   "license": "Apache 2.0",
   "name": "garr-jagger",
   "project_page": "",
-  "source": "",
+  "source": "git://github.com/biancini/Puppet-GARRFaaS.git",
   "summary": "A Shibboleth2 puppet module that installs Jagger resource registry",
-  "types": [],
   "version": "0.1.0"
 }

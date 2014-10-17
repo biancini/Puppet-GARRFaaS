@@ -1,58 +1,11 @@
 {
   "name": "garr-shib2sp",
   "author": "GARR",
-  "description": "",
   "license": "GPLv3",
   "project_page": "",
-  "source": "",
+  "source": "git://github.com/biancini/Puppet-GARRFaaS.git",
   "summary": "A Shibboleth2 puppet module that installs Shibboleth IdP on EL/Debian platforms",
   "version": "0.1.0",
-  "checksums": {
-    "Modulefile": "c8c18a4a2abf6d0b3daab24ef284110b",
-    "files/attribute-map.xml": "6bc69f2994ca40d2543f77a6939743b0",
-    "files/certs/README.txt": "a21a44fda74d13f3b57c67b1e2805c46",
-    "files/index.php": "61a3dc26bafa8da76f5883836109c5b4",
-    "files/pam.php": "8b24371d973a9c6a3d3162107b40300d",
-    "lib/puppet/parser/functions/shib-keygen": "2b1e5267e6069c2632eb9ffebb9a356a",
-    "lib/puppet/parser/functions/shib_keygen.rb": "abeeb1d82d3f008720f347167daa3cb2",
-    "lib/puppet/type/download_file.rb": "673194c6d2d070125f411f9de0d13041",
-    "manifests/classes/prerequisites.pp": "1ebeff586bfeb807d15dab0bb800fb1e",
-    "manifests/classes/sp.pp": "ae974266216a573d074086d8dadeb64a",
-    "manifests/definitions/instance.pp": "a9ec15f706928cbc8a592332cb569a99",
-    "manifests/init.pp": "1ef6a7dc6bfbf031f46464c05dd82eeb",
-    "templates/shibboleth2.xml.default.erb": "8c78dce4a0040b1234c4cab6ea64c7e7",
-    "templates/shibboleth2.xml.erb": "33ba7cdeb54a52c54ba638eae943e73a"
-  },
-  "types": [
-    {
-      "parameters": [
-        {
-          "name": "name",
-          "doc": "The name of the new file to be created"
-        },
-        {
-          "name": "url",
-          "doc": "The file\u0027s URL to be downloaded"
-        },
-        {
-          "name": "extract",
-          "doc": "A flag indicating whether the files should be extracted after download or not"
-        },
-        {
-          "name": "execute_command",
-          "doc": "An array of commands to be executed after download"
-        }
-      ],
-      "properties": [
-        {
-          "name": "ensure",
-          "doc": "Whether the resource is in sync or not."
-        }
-      ],
-      "name": "download_file",
-      "doc": "A new type of resource that downloads a file from an URL and put it on one on the system, existing or not."
-    }
-  ],
   "dependencies": [
     {
       "name": "puppetlabs/apache",

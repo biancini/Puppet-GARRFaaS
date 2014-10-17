@@ -3,7 +3,11 @@
 	<name>garr-jagger</name>
 	<comment></comment>
 	<projects>
-		<project>puppet-jagger</project>
+		<project>garr-shib2common</project>
+		<project>garr-shib2sp</project>
+		<project>puppetlabs-apache</project>
+		<project>puppetlabs-mysql</project>
+		<project>puppetlabs-stdlib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
