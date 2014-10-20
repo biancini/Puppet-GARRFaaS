@@ -8,7 +8,7 @@ class jagger::prerequisites(
   
   # Install mysql-server and set the root's password to access it
   class { 'mysql::server':
-    root_password => $rootpw,
+    	root_password => $rootpw
   }
   
   apache::mod { 'rewrite': }
@@ -223,13 +223,13 @@ class jagger::prerequisites(
 	mysql_user { 'rr3user@localhost':
 	  ensure        => 'present',
 	  password_hash => mysql_password($rr3password),
-    provider      => 'mysql',
+    #provider      => 'mysql',
     require       => Mysql_database['rr3'],
 	}
 	
 	mysql_grant { 'rr3user@localhost/rr3.*':
 	  privileges => 'ALL',
-	  provider   => 'mysql',
+	  #provider   => 'mysql',
 	  user       => 'rr3user@localhost',
 	  table      => 'rr3.*',
 	  require    => Mysql_user['rr3user@localhost'],
